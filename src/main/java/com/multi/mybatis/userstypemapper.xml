@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.multi.mapper.UsersTypeMapper">
+
+	<select id="select" parameterType="int" resultType="usersTypeVo">
+		SELECT * FROM userstype WHERE ID=#{id}
+	</select>
+	
+	<select id="selectAll" resultType="usersTypeVo">
+		SELECT * FROM userstype
+	</select>
+	
+	<insert id="insert" parameterType="usersTypeVo">
+		INSERT INTO userstype VALUES (#{id},#{type})
+	</insert>
+	
+	<update id="update" parameterType="usersTypeVo">
+		UPDATE userstype SET TYPE=#{type} WHERE ID=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM userstype WHERE ID=#{id}
+	</delete>	
+	
+</mapper>
