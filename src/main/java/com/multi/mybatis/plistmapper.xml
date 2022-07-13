@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.multi.mapper.PlistMapper">
+	
+	<insert id="insert" parameterType="plistVo">
+		INSERT INTO plist VALUES (NULL,#{uid},#{hospital},#{pdate},#{days},#{time},#{dtime})
+	</insert>
+	<delete id="delete" parameterType="int">
+		DELETE FROM plist WHERE ID=#{id}
+	</delete>
+	<update id="update" parameterType="plistVo">
+		UPDATE plist SET TIME=#{time},DTIME=#{dtime} WHERE ID=#{id}
+	</update>
+	
+	<select id="select" parameterType="int" resultType="plistVo">
+		SELECT * FROM plist WHERE ID=#{id}
+	</select>
+	<select id="selectall" resultType="plistVo">
+		SELECT * FROM plist
+	</select>
+	
+</mapper>
+
+
+
+
+
+
