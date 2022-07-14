@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!-- Version: 1.0 -->
+<!-- Description: 메인페이지
+
+-------------------------------------------------------------------------
+	Date			 Author							Note
+-------------------------------------------------------------------------
+2022. 7. 6.			noranbear			약 데이터 불러오기 구현 테스트 완료
+
+-------------------------------------------------------------------------
+-->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+	
+	/* 약 데이터 불러오기 */
+	$('#bt').click(function(){
+		var param = $('#param').val();
+		//alert(param);
+		$.ajax({
+			url:'/dataget',
+			data:{'item':param},
+			success:function(data){
+				// test
+				alert(data);
+				//display(data);
+			}
+		});
+		
+	});
+	
+});
+</script>
+</head>
+<body>
+	<h1>Main Page</h1>
+	<input type="text" id="param">
+	<button id="bt">Click</button>
+	<h2 id="result"></h2>
+</body>
+</html>
