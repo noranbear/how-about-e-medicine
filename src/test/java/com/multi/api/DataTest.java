@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.multi.restapi.OCREnvelopeAPI;
+import com.multi.restapi.DataAPI;
 
 /**
  * @author noranbear
- * @date 2022. 7. 14.
+ * @date 2022. 7. 6.
  * @version 2.0
  * @description
  *
@@ -16,21 +16,21 @@ import com.multi.restapi.OCREnvelopeAPI;
  * =======================================================================
  * 	    DATE			 AUTHOR				     	 NOTE
  * -----------------------------------------------------------------------
- *  2022. 7. 14.		noranbear		    	기본 작동 Test 완료										 
- *										  OCREnvelopeAPI 연동 후 Test 완료
- *
+ *  2022. 7. 6.			noranbear		    	기본 작동 Test 완료		
+ *  								 
+ *	2022. 7. 14.							DataAPI 연동 후 Test 완료
  * =======================================================================
  */
 
 @SpringBootTest
-class OCREnvelopeTest {
+class DataTest {
 
 	@Autowired
-	OCREnvelopeAPI eapi;
+	DataAPI dapi;
 	
 	@Test
 	void contextLoads() {
-		eapi.envelopeapi("test_envelope3.jpg");
-		
-	}	
+		dapi.dataapi("판콜");
+	}
+
 }

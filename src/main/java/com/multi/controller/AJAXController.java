@@ -4,25 +4,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.multi.restapi.DataAPI;
 import com.multi.restapi.OCRBoxAPI;
 import com.multi.restapi.OCREnvelopeAPI;
 
 /**
  * @author noranbear
- * @date 2022. 7. 14.
- * @version 1.0
+ * @date 2022. 7. 6.
+ * @version 2.0
  * @description
  *
  *
- * =========================================================
+ * ===========================================================
  * 	    DATE			 AUTHOR				    NOTE
- * ---------------------------------------------------------
- *  2022. 7. 14.		noranbear		   evelopescan 생성
- *											boxscan 생성
- * =========================================================
+ * -----------------------------------------------------------
+ *  2022. 7. 6.		    noranbear		     getdata 생성
+ *  
+ *  2022. 7. 14.				   			evelopescan 생성
+ *											 boxscan 생성
+ * ===========================================================
  */
 @RestController
 public class AJAXController {
+	
+	@Autowired
+	DataAPI dapi;
 	
 	@Autowired
 	OCREnvelopeAPI eapi;
@@ -31,12 +37,34 @@ public class AJAXController {
 	OCRBoxAPI bapi;
 	
 	
+	/**
+	 * 공공 데이터 포털에 있는 약 데이터를 가져온다.
+	 * @param item
+	 * @return Json item info
+	 * @throws Exception
+	 */
+	@RequestMapping("dataget")
+	public Object dataget(String item) throws Exception {
+		Object obj = dapi.dataapi(item);
+		return obj;
+	}
+	
+	/**
+	 * 약봉투에서 스캔한 텍스트 데이터를 보내준다.
+	 * @param imgname
+	 * @return Json text of photo of envelope
+	 */
 	@RequestMapping("envelopescan")
 	public Object envelopescan(String imgname) {
 		Object result = eapi.envelopeapi(imgname);
 		return result;
 	}
 	
+	/**
+	 * 약곽에서 스캔한 텍스트 데이터를 보내준다.
+	 * @param imgname
+	 * @return Json text of photo of box
+	 */
 	@RequestMapping("boxscan")
 	public Object boxscan(String imgname) {
 		Object result = bapi.boxapi(imgname);
