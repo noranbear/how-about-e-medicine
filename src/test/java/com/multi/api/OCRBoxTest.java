@@ -17,7 +17,7 @@ import com.multi.restapi.OCRBoxAPI;
  * 	    DATE			 AUTHOR				     	 NOTE
  * -----------------------------------------------------------------------
  *  2022. 7. 14.		noranbear		    	기본 작동 Test 완료							
- *										 OCREnvelopeAPI 연동 후 Test 완료
+ *										 	OCRBoxAPI 연동 후 Test 완료
  *
  * =======================================================================
  */
