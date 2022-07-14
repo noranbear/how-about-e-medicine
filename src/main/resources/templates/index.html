@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 1.0 -->
+<!-- Version: 3.1 -->
 <!-- Description: 메인페이지
 
 -------------------------------------------------------------------------
@@ -7,13 +7,25 @@
 -------------------------------------------------------------------------
 2022. 7. 6.			noranbear			약 데이터 불러오기 구현 테스트 완료
 
+2022. 7. 14.	noranbear / najune				Bootstrap 연결
+
+					noranbear		     Bootstrap 필요한 페이지만 남기기
+					
+												  검색창 추가
 -------------------------------------------------------------------------
 -->
+
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- 1. 메인 페이지 Bootstrap import STARTS -->
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<link rel="stylesheet" href="assets/css/main.css" />
+<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+<!-- 1. ENDS -->
 
 <script>
 $(document).ready(function(){
@@ -37,10 +49,58 @@ $(document).ready(function(){
 });
 </script>
 </head>
-<body>
-	<h1>Main Page</h1>
-	<input type="text" id="param">
-	<button id="bt">Click</button>
-	<h2 id="result"></h2>
+<body class="is-preload">
+
+	<!-- Sidebar -->
+	<section id="sidebar">
+		<div class="inner">
+			<nav>
+				<ul>
+					<li><a href="#intro">Welcome</a></li>
+					<li><a href="#one">Who we are</a></li>
+					<li><a href="#two">What we do</a></li>
+					<li><a href="#three">Get in touch</a></li>
+				</ul>
+			</nav>
+		</div>
+	</section>
+
+
+	<!-- Wrapper -->
+	<div id="wrapper">
+
+		<!-- Intro -->
+		<section id="intro" class="wrapper style1 fullscreen fade-up">
+			<div class="inner">
+				<h1>LOGO</h1>
+				<input type="text" id="param">
+				<button id="bt">Click</button>
+				<h2 id="result"></h2>
+			</div>
+		</section>
+		
+	</div>
+			
+
+	<!-- Footer (봉인) --><!--  
+	<footer id="footer" class="wrapper style1-alt">
+		<div class="inner">
+			<ul class="menu">
+				<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+			</ul>
+		</div>
+	</footer>
+	<!-- Footer Ends -->
+
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+
 </body>
 </html>
