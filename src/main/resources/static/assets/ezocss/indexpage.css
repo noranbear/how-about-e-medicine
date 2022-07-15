@@ -1,0 +1,321 @@
+@charset "UTF-8";
+
+/******************************************************************
+  Description: index.html css
+  Created: noranbear
+  Reference URL: Google image's main page
+  Version: 1.0
+******************************************************************/
+
+/* 기본 */
+body, html {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	display: block;
+	background:#5e42a6;
+}
+
+#wrapper {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+/* Top 시작 -------- */
+.top {
+	display: flex;
+	align-items: center;
+	padding: 6px;
+	height: 60px;
+	flex-shrink: 0;
+	box-sizing: border-box;
+	
+}
+
+.top_in {
+	display: inline-block;
+	flex-grow: 1;
+}
+
+/* Top 오른쪽 로고들 */
+.top_right {
+	float: right;
+	position: relative;
+}
+
+.med_txt {
+	display: inline;
+}
+
+.med_box {
+	padding: 4px;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.med_sbox {
+	position: relative;
+	display: inline-block;
+}
+
+.med_sbox_padding {
+	cursor: pointer;
+	text-decoration: none;
+	background-position: -64px -20px;
+	padding: 8px;
+	
+	display: inline-block;
+	outline: none;
+	vertical-align: middle;
+	border-radius: 2px;
+	box-sizing: border-box;
+	font-size: 25px;
+	
+}
+
+.user_box {
+	flex: 0 1 auto;
+	padding: 4px;
+	display: inline-block;
+	vertical-align: middle;
+	font: 27px;
+}
+
+.user_sbox {
+	flex: 0 1 auto;
+	position: relative;
+	
+}
+
+.user_logo {
+	cursor: pointer;
+	text-decoration: none;
+	padding: 4px;
+	
+	flex: 0 1 auto;
+	display: inline-block;
+	outline: none;
+	vertical-align: middle;
+	border-radius: 2px;
+	box-sizing: border-box;
+	font-size: 30px;
+	
+}
+/* Top 끝 -----------------*/
+
+/* 중간 화면 top 시작 -------- */
+.int_t {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-height: 92px;
+	max-height: 290px;
+	height: calc(100% - 560px);
+	flex-shrink: 0;
+	box-sizing: border-box;
+}
+
+.int_tc {
+	max-height: 92px;
+	position: relative;
+	height: 100%;
+	margin-top: auto;
+}
+
+.logo_img {
+	max-height: 100%;
+	max-width: 100%;
+	object-fit: contain;
+	object-position: center bottom;
+	width: auto;
+	height: 92px;
+	aspect-ratio: auto 272 / 92;
+}
+/* 중간 화면 top 끝 -------- */
+
+/* 중간화면 middle(검색창) 시작 -------- */
+.int_m {
+	padding: 20px;
+	max-height: 160px;
+	flex-shrink: 0;
+	box-sizing: border-box;
+}
+
+form {
+	display: block;
+	margin-top: 0em;
+}
+
+.int_mc {
+	margin: 0 auto;
+	padding-top: 6px;
+	width: auto;
+	max-width: 584px;
+	position: relative;
+}
+
+/* 검색창 시작 */
+.search_box {
+	display: flex;
+	z-index: 3;
+	height: 44px;
+	/*background:*/
+	border: 1px solid #5f6368;
+	box-shadow: none;
+	border-radius: 24px;
+	margin: 0 auto;
+	max-width: 584px;
+}
+
+.search_fbox {
+	flex: 1;
+	display: flex;
+	padding: 5px 8px 0 14px;
+}
+
+.search_select {
+	display: flex;
+	align-items: center;
+	padding-right: 13px;
+	margin-top: -5px;
+}
+
+
+
+.search_empty {
+	display: flex;
+	flex: 1;
+	flex-wrap: wrap;
+}
+
+.search_sempty {
+	color: transparent;
+	flex: 100%;
+	white-space: pre;
+	height: 34px;
+	font-size: 16px;
+}
+
+#param {
+	background-color: transparent;
+	border: none;
+	margin: 0;
+	padding: 0;
+	color: #e8eaed;
+	word-wrap: break-word;
+	outline: none;
+	display: flex;
+	flex: 100%;
+	-webkit-tap-highlight-color: transparent;
+	margin-top: -55px;
+	height: 34px;
+	font-size: 16px;
+}
+
+
+.icon_div {
+	display: flex;
+	flex: 0 0 auto;
+	margin-top: -5px;
+	align-items: stretch;
+	flex-direction: row;
+}
+
+.camera_div {
+	flex: 1 0 auto;
+	display: flex;
+	cursor: pointer;
+	align-items: center;
+	background: transparent;
+	outline: none;
+	padding: 0 8px;
+}
+
+.camera_icon {
+	height: 24px;
+	width: 24px;
+	background: url(https://www.gstatic.com/images/icons/material/system/2x/photo_camera_grey600_24dp.png) 0 0 no-repeat;
+	background-size: 24px;
+	
+}
+
+.sbt {
+	flex: 0 0 auto;
+	padding-right: 13px;
+	height: 44px;
+	width: 44px;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+	display: inline;
+}
+
+.sbt_div {
+	background: none;
+	color: #8ab4f8;
+	height: 24px;
+	width: 24px;
+	margin: auto;
+}
+
+.sbt_sdiv {
+	display: inline-block;
+	fill: currentColer;
+	height: 24px;
+	line-height: 24px;
+	position: relative;
+	width: 24px;
+}
+
+#search_icon {
+	display: block;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	fill: currentColer;
+	line-height: 24px;
+	font-size: 24px;
+}
+/* 검색창 끝 */
+/* 중간화면 middle(검색창) 끝 -------- */
+
+/* 중간화면 bottom 시작 ------------ */
+.int_b {
+	flex-grow: 1;
+	flex-shrink: 0;
+	box-sizing: border-box;
+}
+/* 중간화면 bottom 끝 ------------ */
+
+/* footer 시작 ------------*/
+.foot {
+	background: #171717;
+	flex-shrink: 0;
+	box-sizing: border-box;
+}
+
+.foot_front {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0 20px;
+}
+
+.link_box {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.link {
+	color: #999da2;
+	display: block;
+	padding: 15px;
+	white-space: nowrap;
+	text-decoration: none;
+	
+}
+/* footer 끝 -------------- */
