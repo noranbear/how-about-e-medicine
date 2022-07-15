@@ -1,6 +1,7 @@
 package com.multi.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *	2022. 7. 15								dashboard 생성
  *											sign in 생성
  *											sign up 생성
+ *
+ *	2022. 7. 16							   medidetail 생성
  * =========================================================
  */
 
@@ -38,8 +41,9 @@ public class MainController {
 	 * @return dashboard.html
 	 */
 	@RequestMapping("/dashboard")
-	public String dashboard() {
-		return "dashboard";
+	public String dashboard(Model m) {
+		m.addAttribute("center", "dashboard");
+		return "index";
 	}
 	
 	/**
@@ -58,5 +62,15 @@ public class MainController {
 	@RequestMapping("/signup")
 	public String signup() {
 		return "signup";
+	}
+	
+	/**
+	 * 회원가입 페이지 연결
+	 * @return signup.page
+	 */
+	@RequestMapping("/medidetail")
+	public String mdetail(Model m) {
+		m.addAttribute("center", "medidetail");
+		return "index";
 	}
 }
