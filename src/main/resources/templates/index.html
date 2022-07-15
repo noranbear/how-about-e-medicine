@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 3.2 -->
+<!-- Version: 4.0 -->
 <!-- Description: 메인페이지
 
 -------------------------------------------------------------------------
@@ -13,6 +13,11 @@
 												  검색창 추가
 												  
 											side bar에 유저 로고 추가
+												side bar 없애기
+									    메인 페이지 헤더 아이콘과 검색창 구현
+									    
+2022. 7. 15							 foot 제작 및 검색창의 select list 구현
+
 -------------------------------------------------------------------------
 -->
 
@@ -22,17 +27,25 @@
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-<!-- 1. 메인 페이지 Bootstrap import STARTS -->
+<!-- 1. 메인 페이지 Bootstrap import -->
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 <link rel="stylesheet" href="assets/css/main.css" />
 <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 <!-- 1. ENDS -->
 
+<!-- 2. Google Fonts -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!-- 3. Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- 4. EZO index.html css -->
+<link rel="stylesheet" href="assets/ezocss/indexpage.css" />
+
 <script>
 $(document).ready(function(){
 	
-	/* 약 데이터 불러오기 */
-	$('#bt').click(function(){
+	/* 약 데이터 불러오기 - product 조회(form으로 바꿔서 가져와야 함) */
+	$('#search_bt').click(function(){
 		var param = $('#param').val();
 		//alert(param);
 		$.ajax({
@@ -51,49 +64,104 @@ $(document).ready(function(){
 </script>
 </head>
 <body class="is-preload">
-
-	<!-- Sidebar -->
-	<section id="sidebar">
-		<div class="inner">
-			<nav>
-				<ul>
-					<li><a href="#"><i class='fas fa-user-circle' style='font-size:36px'></i></a></li>
-					<li><a href="#intro">Welcome</a></li>
-					<li><a href="#one">Who we are</a></li>
-					<li><a href="#two">What we do</a></li>
-					<li><a href="#three">Get in touch</a></li>
-				</ul>
-			</nav>
-		</div>
-	</section>
-
-
+	
 	<!-- Wrapper -->
 	<div id="wrapper">
 
-		<!-- Intro -->
-		<section id="intro" class="wrapper style1 fullscreen fade-up">
-			<div class="inner">
-				<h1>LOGO</h1>
-				<input type="text" id="param">
-				<button id="bt">Click</button>
-				<h2 id="result"></h2>
+		<!-- Top -->
+		<div class="top" id="intro">
+			<div class="top_in">
+				<div class="top_right">
+					<!-- 내약리스트 로고 -->
+					<div class="med_txt">
+						<div class="med_box">
+							<div class="med_sbox">
+								<a class="med_sbox_padding"><i class="fa fa-plus-square"></i></a>
+							</div>
+						</div>
+					</div>
+					<!-- 유저 로고 -->
+					<div class="user_box">
+						<div class="user_sbox">
+							<a class="user_logo"><i class='fas fa-user-circle'></i></a>
+						</div>
+					</div>
+				</div>
 			</div>
-		</section>
-		
-	</div>
-			
-
-	<!-- Footer (봉인) --><!--  
-	<footer id="footer" class="wrapper style1-alt">
-		<div class="inner">
-			<ul class="menu">
-				<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-			</ul>
 		</div>
-	</footer>
-	<!-- Footer Ends -->
-
+		
+		<!-- Intro-top -->
+		<div class="int_t" id="intro">
+			<div class="int_tc">
+				<img class="logo_img" alt="e약저약 이미지" height="92" src="img/fake_logo.png" width="272">
+			</div>
+		</div>
+		
+		<!-- Intro-middle -->
+		<div class="int_m" id="intro">
+			<form>
+				<div>
+					<div class="int_mc">
+						<div class="search_box">
+							<!-- 검색창 -->
+							<div class="search_fbox">
+								<!-- 검색 분류 -->
+								<div class="search_select">
+									<select class="form-control" id="sel1">
+									  <option>전체</option>
+									  <option>제품명</option>
+									  <option>업체명</option>
+									  <option>효능</option>
+									</select>
+								</div>
+								<!-- 검색창 빈 공간 -->
+								<div class="search_empty">
+									<div class="search_sempty">
+										<input type="text" id="param" placeholder="어떤 약을 찾으시나요?">
+									</div>
+								</div>
+								<!-- 카메라 아이콘 -->
+								<div class="icon_div">
+									<div class="camera_div">
+										<span class="camera_icon"></span>
+									</div>
+								</div>
+							</div>
+							<!-- 버튼 -->
+							<button class="sbt" id="search_bt">
+								<div class="sbt_div">
+									<span class="sbt_sdiv">
+										<i id="search_icon" class="material-icons">search</i>
+									</span>
+								</div>
+							</button>
+						</div>
+						
+					</div>
+				</div>
+			</form>
+		</div>
+		
+		<!-- 검색창 밑 박스 -->
+		<div class="int_b" id="intro"></div>
+		
+		<!-- Footer -->
+		<div class="foot">
+			<div class="foot_front">
+				<div class="link_box">
+					<a class="link">개인정보 처리방침</a>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Intro (참고용) --><!--
+		<div id="intro" class="wrapper style1 fullscreen fade-up">
+			<div class="inner">
+			</div>
+		</div>
+		<!-- Intro Ends -->
+	</div>
+	
 
 	<!-- Scripts -->
 	<script src="assets/js/jquery.min.js"></script>
