@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.multi.mapper.AlarmMapper">
+
+	<insert id="insert" parameterType="alarmVo">
+	    INSERT INTO alarm(mad, apm, hr, min, pid) VALUES (#{mad},#{apm},#{hr},#{min},#{pid})
+	</insert>
+	<update id="update" parameterType="alarmVo">
+	    UPDATE alarm SET MAD=#{mad},APM=#{apm},HR=#{hr},MIN=#{min},COMPLETE=#{complete} WHERE ID=#{id}
+	</update>
+	<delete id="delete" parameterType="int">
+	    DELETE FROM alarm WHERE ID=#{id}
+	</delete>
+	
+	<select id="select" parameterType="int" resultType="alarmVo">
+	    SELECT * FROM alarm WHERE ID=#{id}
+	</select>
+	<select id="selectall" resultType="alarmVo">
+	    SELECT * FROM alarm
+	</select>
+	
+</mapper>
