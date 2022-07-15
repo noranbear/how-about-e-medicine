@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  *	2022. 7. 15								dashboard 생성
  *											sign in 생성
+ *											sign up 생성
  * =========================================================
  */
 
