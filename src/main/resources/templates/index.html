@@ -14,7 +14,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 
-<!-- Version: 6.0 -->
+<!-- Version: 6.1 -->
 <!-- Description: 메인페이지
 
 -------------------------------------------------------------------------
@@ -38,6 +38,8 @@
 										   side bar와 헤더 유지시키기
 
 2022. 7. 16							Bootstrap Dashboard page 템플릿으로 바꿈
+
+2022. 7. 16			qwaszx357					로그인 전 후 헤더 변경
 					
 -------------------------------------------------------------------------
 -->
@@ -214,10 +216,20 @@ $(document).ready(function(){
 					</div>
 					<ul class="navbar-nav  justify-content-end">
 						<li class="nav-item d-flex align-items-center">
-							<a href="../pages/sign-in.html" class="nav-link text-body font-weight-bold px-0">
+						
+							<!-- 로그인 전 후 헤더 -->
+							<div th:if="${session.signinusers == null}">
 								<i class="fa fa-user me-sm-1"></i>
-								<span class="d-sm-inline d-none">Sign In</span>
-							</a>
+								<a href="/signin"><span class="d-sm-inline d-none">로그인</span>
+								</a>
+							</div>
+							<div th:unless="${session.signinusers == null}">
+								<span id="uname" th:text="${session.signinusers.name}"></span>
+								<i class="fa fa-user me-sm-1"></i>
+								<a href="/signout"><span class="d-sm-inline d-none">로그아웃</span>
+								</a>
+							</div>
+							
 						</li>
 						<li class="nav-item d-xl-none ps-3 d-flex align-items-center">
 							<a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
