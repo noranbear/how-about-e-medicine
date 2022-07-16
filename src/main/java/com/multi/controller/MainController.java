@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 2.0
+ * @version 3.0
  * @description
  *
  *
@@ -20,7 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *											sign in 생성
  *											sign up 생성
  *
- *	2022. 7. 16							   medidetail 생성
+ *	2022. 7. 16							   	 mdetail 생성
+ *											 mymlist 생성
  * =========================================================
  */
 
@@ -57,7 +58,7 @@ public class MainController {
 	
 	/**
 	 * 회원가입 페이지 연결
-	 * @return signup.page
+	 * @return signup.html
 	 */
 	@RequestMapping("/signup")
 	public String signup() {
@@ -65,12 +66,22 @@ public class MainController {
 	}
 	
 	/**
-	 * 회원가입 페이지 연결
-	 * @return signup.page
+	 * 약 디테일 페이지 연결
+	 * @return medidetail.html
 	 */
 	@RequestMapping("/medidetail")
 	public String mdetail(Model m) {
 		m.addAttribute("center", "medidetail");
+		return "index";
+	}
+	
+	/**
+	 * 내 약 리스트 페이지 연결
+	 * @return mymedilist.html
+	 */
+	@RequestMapping("/mymedi")
+	public String mymedi(Model m) {
+		m.addAttribute("center", "mymedi");
 		return "index";
 	}
 }
