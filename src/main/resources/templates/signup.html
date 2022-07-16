@@ -22,7 +22,8 @@
 2022. 7. 15			noranbear			  Bootstrap singup 페이지 생성
 
 					qwaszx357					  code 정리
-					
+		
+2022. 7. 16			najune						회원가입 페이지 구현					
 -------------------------------------------------------------------------
 -->
 
@@ -65,7 +66,7 @@
 				<nav class="navbar navbar-expand-lg blur border-radius-xl top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
 					<div class="container-fluid ps-2 pe-0">
 						<a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href="../pages/dashboard.html">
-						Material Dashboard 2
+						e약어때
 						</a>
 						<button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
 							<span class="navbar-toggler-icon mt-2">
@@ -101,11 +102,7 @@
 									</a>
 								</li>
 							</ul>
-							<ul class="navbar-nav d-lg-block d-none">
-								<li class="nav-item">
-									<a href="https://www.creative-tim.com/product/material-dashboard" class="btn btn-sm mb-0 me-1 bg-gradient-dark">Free download</a>
-								</li>
-							</ul>
+							
 						</div>
 					</div>
 				</nav>
@@ -124,47 +121,52 @@
 						<div class="card z-index-0 fadeIn3 fadeInBottom">
 							<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 								<div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-									<h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Sign in</h4>
-									<div class="row mt-3">
-										<div class="col-2 text-center ms-auto">
-											<a class="btn btn-link px-3" href="javascript:;">
-												<i class="fa fa-facebook text-white text-lg"></i>
-											</a>
-										</div>
-										<div class="col-2 text-center px-1">
-											<a class="btn btn-link px-3" href="javascript:;">
-												<i class="fa fa-github text-white text-lg"></i>
-											</a>
-										</div>
-										<div class="col-2 text-center me-auto">
-											<a class="btn btn-link px-3" href="javascript:;">
-												<i class="fa fa-google text-white text-lg"></i>
-											</a>
-										</div>
-									</div>
+									<h4 class="text-white font-weight-bolder text-center mt-2 mb-0">회원가입</h4>
+								
+									
 								</div>
 							</div>
+							<!-- 회원가입 -->
 							<div class="card-body">
-								<form role="form" class="text-start">
+								<form id="signup_form" class="text-start" action="#">
 									<div class="input-group input-group-outline my-3">
-										<label class="form-label">Email</label>
-										<input type="email" class="form-control">
+										<label class="form-label">name</label>
+										<input id="name" class="form-control">
 									</div>
 									<div class="input-group input-group-outline mb-3">
-										<label class="form-label">Password</label>
-										<input type="password" class="form-control">
+										<label class="form-label">birth</label>
+										<input id="birth" class="form-control">
 									</div>
-									<div class="form-check form-switch d-flex align-items-center mb-3">
-										<input class="form-check-input" type="checkbox" id="rememberMe" checked>
-										<label class="form-check-label mb-0 ms-3" for="rememberMe">Remember me</label>
+									 
+									<div class="input-group input-group-outline mb-3">
+										<label class="form-label">id</label>
+										<input id="id" class="form-control">
 									</div>
+									
+									<div class="input-group input-group-outline mb-3">
+										<label class="form-label">password</label>
+										<input id="pwd" name="pwd" type="password"  class="form-control">
+									</div>
+									<div class="input-group input-group-outline mb-3">
+										<label class="form-label">email</label>
+										<input id="mail" name="email" type="email" class="form-control">
+									</div>
+									<h3><span>성별</span></h3>
+		                            <div>							  
+		                              <label for="male">남성</label>
+									  <input id="male" type="radio"  value="남성" name="ss">							
+									  <label for="female">여성</label>
+									  <input id="female" type="radio" checked value="여성" name="ss">
+		                   			 </div>
+									
+									
+									
+									
+									
 									<div class="text-center">
-										<button type="button" class="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button>
+										<button type="button" class="btn bg-gradient-primary w-100 my-4 mb-2">회원가입</button>
 									</div>
-									<p class="mt-4 text-sm text-center">
-										Don't have an account?
-										<a href="../pages/sign-up.html" class="text-primary text-gradient font-weight-bold">Sign up</a>
-									</p>
+									
 								</form>
 							</div>
 						</div>
@@ -172,40 +174,7 @@
 				</div>
 			</div>
 			
-			<!-- Footer Start -->
-			<footer class="footer position-absolute bottom-2 py-2 w-100">
-				<div class="container">
-					<div class="row align-items-center justify-content-lg-between">
-						<div class="col-12 col-md-6 my-auto">
-							<div class="copyright text-center text-sm text-white text-lg-start">
-							© <script>
-								document.write(new Date().getFullYear())
-							</script>,
-							made with <i class="fa fa-heart" aria-hidden="true"></i> by
-							<a href="https://www.creative-tim.com" class="font-weight-bold text-white" target="_blank">Creative Tim</a>
-							for a better web.
-							</div>
-						</div>
-						<div class="col-12 col-md-6">
-							<ul class="nav nav-footer justify-content-center justify-content-lg-end">
-								<li class="nav-item">
-									<a href="https://www.creative-tim.com" class="nav-link text-white" target="_blank">Creative Tim</a>
-								</li>
-								<li class="nav-item">
-									<a href="https://www.creative-tim.com/presentation" class="nav-link text-white" target="_blank">About Us</a>
-								</li>
-								<li class="nav-item">
-									<a href="https://www.creative-tim.com/blog" class="nav-link text-white" target="_blank">Blog</a>
-								</li>
-								<li class="nav-item">
-									<a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-white" target="_blank">License</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</footer>
-			<!-- End Footer -->
+			
 			
 		</div>
 	</main>
