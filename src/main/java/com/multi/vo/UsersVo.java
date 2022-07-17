@@ -11,17 +11,19 @@ import lombok.ToString;
 /**
  * @author najune
  * @date 2022. 7. 11.
- * @version 1.0
+ * @version 2.0
  * @description
  *
  *
- * =========================================================
+ * ===========================================================
  * 	    DATE			 AUTHOR				    NOTE
- * ---------------------------------------------------------
+ * -----------------------------------------------------------
  *  2022. 7. 11.		 najune		  	   First Creation
  *
- *  2022. 7. 13.						  DB 변경으로 인한 수정
- * =========================================================
+ *  2022. 7. 13.						 DB V3 변경으로 인한 수정
+ *  
+ *  2022. 7. 17.	    noranbear		 DB V5 변경으로 인한 수정
+ * ===========================================================
  */
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,39 +35,30 @@ public class UsersVo {
 	private String pwd;
 	private String name;
 	private String email;
-	private String phone;
 	private String birth;
 	private String sex;
-	private String photo;
+	private String photo;	// 프로필사진: Null 가능
 	private Date regdate;
-	private int utype;
+	private int utype;		// 유저타입: 관리자 10, 유저 20
+	private int status;		// 회원상태: 가입 1, 탈퇴 2
+	private Date qdate;		// 탈퇴날짜: Null 가능
 	
 	
-	// Constructor for insert
-	public UsersVo(String id, String pwd, String name, String email, String phone, String birth, String sex, String photo, int utype) {
+	/**
+	 * Constructor for insert and update
+	 * 제외: regdate, status, qdate
+	 */
+	public UsersVo(String id, String pwd, String name, String email, String birth, String sex, String photo,
+			int utype) {
 		this.id = id;
 		this.pwd = pwd;
 		this.name = name;
 		this.email = email;
-		this.phone = phone;
 		this.birth = birth;
 		this.sex = sex;
 		this.photo = photo;
 		this.utype = utype;
 	}
-	
-	// Constructor for update
-	public UsersVo(String id, String pwd, String name, String email, String phone, String birth, String sex, String photo) {
-		this.id = id;
-		this.pwd = pwd;
-		this.name = name;
-		this.email = email;
-		this.phone = phone;
-		this.birth = birth;
-		this.sex = sex;
-		this.photo = photo;
-	}
 
-	
-	
+
 }

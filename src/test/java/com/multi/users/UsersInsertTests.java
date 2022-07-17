@@ -18,6 +18,7 @@ import com.multi.vo.UsersVo;
  * ---------------------------------------------------------
  *  2022. 7. 12.		 najune		  		First Creation
  *
+ *  2022. 7. 17.		noranbear		  DB V5 변경 내용 적용
  * =========================================================
  */
 @SpringBootTest
@@ -28,7 +29,7 @@ class UsersInsertTests {
 
 	@Test
 	void contextLoads() {
-		UsersVo u = new UsersVo("id23", "pwd22", "kee" ,"rlawnsrn@naver.com","010-8343-2567","2020-06-06","m","a.jpg",20);
+		UsersVo u = new UsersVo("id23", "pwd22", "kee", "rlawnsrn@naver.com", "2020-06-06", "M", "a.jpg",20);
 		try {
 			biz.register(u);
 			System.out.println("Registered OK");
