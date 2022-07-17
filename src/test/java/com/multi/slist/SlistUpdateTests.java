@@ -1,38 +1,38 @@
-package com.multi.users;
+package com.multi.slist;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.multi.biz.UsersBiz;
-import com.multi.vo.UsersVo;
+import com.multi.biz.SlistBiz;
+import com.multi.vo.SlistVo;
 /**
- * @author najune
- * @date 2022. 7. 11.
- * @version 2.0
+ * @author noranbear
+ * @date 2022. 7. 17.
+ * @version 1.0
  * @description
  *
  *
  * =========================================================
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
- *  2022. 7. 12.		 najune		  		First Creation
+ *	2022. 7. 17.		noranbear			First Creation
  *
- *  2022. 7. 17.		noranbear		  DB V5 변경 내용 적용
  * =========================================================
  */
 @SpringBootTest
-class UsersInsertTests {
+class SlistUpdateTests {
 	
 	@Autowired
-	UsersBiz biz;
+	SlistBiz biz;
 
 	@Test
 	void contextLoads() {
-		UsersVo u = new UsersVo("id23", "pwd22", "kee", "rlawnsrn@naver.com", "2020-06-06", "M", "a.jpg",20);
+		
+		SlistVo li = new SlistVo(4, "image123", "2022-06-06");
 		try {
-			biz.register(u);
-			System.out.println("Registered OK");
+			biz.modify(li);
+			System.out.println("Update OK");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
