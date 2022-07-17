@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.multi.mapper.SmediMapper">
+	
+	<insert id="insert" parameterType="smediVo">
+		INSERT INTO smedi VALUES (NULL,#{name},#{sid})
+	</insert>
+	<update id="update" parameterType="smediVo">
+		UPDATE smedi SET NAME=#{name} WHERE ID=#{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		DELETE FROM smedi WHERE ID=#{id}
+	</delete>
+	
+	<select id="select" parameterType="int" resultType="smediVo">
+		SELECT * FROM smedi WHERE ID=#{id}
+	</select>
+	<select id="selectall" resultType="smediVo">
+		SELECT * FROM smedi
+	</select>
+	
+</mapper>
+
+
+
+
+
+
