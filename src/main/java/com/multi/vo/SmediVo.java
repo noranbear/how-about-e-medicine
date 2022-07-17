@@ -43,9 +43,10 @@ public class SmediVo {
 
 	/**
 	 * Constructor for update
-	 * 제외: id, sid
+	 * 제외: sid
 	 */
-	public SmediVo(String name) {
+	public SmediVo(int id, String name) {
+		this.id = id;
 		this.name = name;
 	}
 	
