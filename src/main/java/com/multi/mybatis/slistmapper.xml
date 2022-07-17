@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.multi.mapper.SlistMapper">
+	
+	<insert id="insert" parameterType="slistVo">
+		INSERT INTO slist VALUES (NULL,#{uid},#{imgname},#{pdate},CURDATE())
+	</insert>
+	<update id="update" parameterType="slistVo">
+		UPDATE slist SET IMGNAME=#{imgname},PDATE=#{pdate} WHERE ID=#{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		DELETE FROM slist WHERE ID=#{id}
+	</delete>
+	
+	<select id="select" parameterType="int" resultType="slistVo">
+		SELECT * FROM slist WHERE ID=#{id}
+	</select>
+	<select id="selectall" resultType="slistVo">
+		SELECT * FROM slist
+	</select>
+	
+</mapper>
+
+
+
+
+
+
