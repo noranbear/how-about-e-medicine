@@ -123,8 +123,28 @@ public class MainController {
 	 * @return signup.html
 	 */
 	@RequestMapping("/signup")
-	public String signup() {
-		return "signup";
+	public String signup(Model m) {
+		m.addAttribute("center", "signup");
+		return "index";
+	}
+	
+	@RequestMapping("/signupimpl")
+	public String signupimpl(Model m, UsersVo users, HttpSession session) {
+		
+		if (users.getId().equals("") || users.getId() == null) {
+			return "redirect:/signup?msg=f";
+		}
+		if (users.getPwd().equals("") || users.getPwd() == null) {
+			return "redirect:/signup?msg=f";
+		}
+		try {
+			ubiz.register(users);
+			session.setAttribute("loginuser", users);
+			System.out.println(users);
+		} catch (Exception e) {
+			return "redirect:/signup";
+		}
+		return "index";
 	}
 	
 	/**

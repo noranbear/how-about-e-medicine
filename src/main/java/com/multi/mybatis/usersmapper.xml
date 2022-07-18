@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 <mapper namespace="com.multi.mapper.UsersMapper">
 	
 	<insert id="insert" parameterType="usersVo">
-		INSERT INTO users VALUES (#{id},#{pwd},#{name},#{email},#{birth},#{sex},NULL,CURDATE(),#{utype},1,NULL)
+		INSERT INTO users VALUES (#{id},#{pwd},#{name},#{email},#{birth},#{sex},NULL,CURDATE(),20,1,NULL)
 	</insert>
 	<update id="update" parameterType="usersVo">
 		UPDATE users SET PWD=#{pwd},NAME=#{name},EMAIL=#{email},BIRTH=#{birth},SEX=#{sex},PHOTO=#{photo},STATUS=#{status},QDATE=#{qdate} WHERE ID=#{id}
