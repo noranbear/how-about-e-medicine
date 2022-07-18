@@ -14,12 +14,12 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 
-<!-- Version: 6.2 -->
+<!-- Version: 7.0 -->
 <!-- Description: 메인페이지
 
--------------------------------------------------------------------------
+----------------------------------------------------------------------------
 	Date			 Author							Note
--------------------------------------------------------------------------
+----------------------------------------------------------------------------
 2022. 7. 6.			noranbear			약 데이터 불러오기 구현 테스트 완료
 
 2022. 7. 14.	noranbear / najune				Bootstrap 연결
@@ -41,11 +41,14 @@
 
 2022. 7. 16			qwaszx357				 로그인 전 후 헤더 변경
 
-2022. 7. 18										navbar에 처방 내역 추가
+2022. 7. 18									navbar에 처방 내역 추가
 
 2022. 7. 18			noranbear			 Bootstrap Kit import 코드 추가
 					
--------------------------------------------------------------------------
+									   헤더에 로그인 버튼 및 프로필 사진 나오게 수정	
+												 마이페이지 연결				
+									side bar 하단 버튼 로그인/로그아웃 버튼으로 수정
+----------------------------------------------------------------------------
 -->
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
@@ -155,11 +158,11 @@
 					<h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link text-white " href="../pages/profile.html">
+					<a class="nav-link text-white " th:href="@{/profile}">
 						<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
 							<i class="material-icons opacity-10">person</i>
 						</div>
-						<span class="nav-link-text ms-1">Profile</span>
+						<span class="nav-link-text ms-1">마이페이지</span>
 					</a>
 				</li>
 				<li class="nav-item">
@@ -180,9 +183,14 @@
 				</li>
 			</ul>
 		</div>
+		<!-- 로그인/로그아웃 버튼 -->
 		<div class="sidenav-footer position-absolute w-100 bottom-0 ">
-			<div class="mx-3">
-				<a class="btn bg-gradient-primary mt-4 w-100" href="https://www.creative-tim.com/product/material-dashboard-pro?ref=sidebarfree" type="button">Upgrade to pro</a>
+			<div class="mx-3" th:if="${session.signinusers == null}">
+				<a class="btn bg-gradient-primary mt-4 w-100" th:href="@{/signin}" type="button">로그인</a>
+			</div>
+			
+			<div class="mx-3" th:unless="${session.signinusers == null}">
+				<a class="btn bg-gradient-primary mt-4 w-100" th:href="@{/signout}" type="button">로그아웃</a>
 			</div>
 		</div>
 	</aside>
@@ -211,18 +219,22 @@
 					<ul class="navbar-nav  justify-content-end">
 						<li class="nav-item d-flex align-items-center">
 						
-							<!-- 로그인 전 후 헤더 -->
+							<!-- 로그인 전 후 헤더 시작 -->
 							<div th:if="${session.signinusers == null}">
-								<i class="fa fa-user me-sm-1"></i>
-								<a href="/signin"><span class="d-sm-inline d-none">로그인</span>
+								<a th:href="@{/signin}" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+								title="로그인" data-container="body" data-animation="true">
+									<span class="d-sm-inline d-none"><i class="fa fa-user me-sm-1"></i></span>
 								</a>
 							</div>
 							<div th:unless="${session.signinusers == null}">
-								<span id="uname" th:text="${session.signinusers.name}"></span>
-								<i class="fa fa-user me-sm-1"></i>
-								<a href="/signout"><span class="d-sm-inline d-none">로그아웃</span>
-								</a>
+								<span id="uname"></span>
+								<a th:href="@{/profile}" class="avatar avatar-sm rounded-circle"
+								data-bs-toggle="tooltip" data-bs-placement="bottom" 
+								th:title="${session.signinusers.name}" data-container="body" data-animation="true">
+							        <img alt="프로필 사진" th:src="'../../img/'+${session.signinusers.photo}">
+							    </a>
 							</div>
+							<!-- 로그인 전 후 헤더 끝 -->
 							
 						</li>
 						<li class="nav-item d-xl-none ps-3 d-flex align-items-center">
