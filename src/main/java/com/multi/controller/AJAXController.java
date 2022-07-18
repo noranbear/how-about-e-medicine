@@ -25,6 +25,7 @@ import com.multi.restapi.OCREnvelopeAPI;
  * ===========================================================
  */
 @RestController
+
 public class AJAXController {
 	
 	@Autowired
@@ -35,6 +36,9 @@ public class AJAXController {
 	
 	@Autowired
 	OCRBoxAPI bapi;
+	
+	
+	
 	
 	
 	/**
@@ -70,5 +74,30 @@ public class AJAXController {
 		Object result = bapi.boxapi(imgname);
 		return result;
 	}
+	
+	
+/*	// ID 중복 확인
+	@RequestMapping("/checkid")
+	
+	public String checkid(String id) {
+		String result = "";
+		UsersVo user = null;
 
+		if (id.equals("") || id == null) {
+			return "1";
+		}
+		try {
+			user = ubiz.getId();
+			if (user == null) {
+				result = "0";
+			} else {
+				result = "1";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+
+	}
+*/
 }

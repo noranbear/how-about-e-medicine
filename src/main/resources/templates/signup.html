@@ -23,7 +23,8 @@
 
 					qwaszx357					  code 정리
 		
-2022. 7. 16			najune						회원가입 페이지 구현					
+2022. 7. 16			najune						회원가입 페이지 구현			
+2022. 7. 18			najune						회원가입 기능 구현		
 -------------------------------------------------------------------------
 -->
 
@@ -33,6 +34,7 @@
 
 <!-- 1. Bootstrap import 시작 -->
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 
 <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
 <link rel="icon" type="image/png" href="../assets/img/favicon.png">
@@ -56,7 +58,75 @@
 <!-- 2. 끝 -->
 
 </head>
+<script>
+$(document).ready(function(){
 
+	// ID 중복 확인
+	$('#id').keyup(function(){
+		var inputid = $(this).val();
+		$.ajax({
+			url:'/checkid',
+			data:{id:inputid},
+			success:function(result){
+				if (result == '1') {
+					$('#id_msg').text('사용 불가능한 ID 입니다.');
+				} else {
+					$('#id_msg').text('사용 가능한 ID 입니다.');
+				}
+			}
+		});
+	});
+	
+	// pwd 글자 수 확인
+	$('#pwd').blur(function(){
+		var pwd = $(this).val();
+		if (pwd.length < 4){
+			$('#id_msg').text("Password는 4글자 이상 입력해주세요.");
+		} else {
+			$('#id_msg').text('');
+		}
+	});
+
+	// 데이터 전송
+	$('#signup_btn').click(function(){
+		$('#signup_form').attr({
+			'method':'post',
+			'action':'signupimpl'
+		});
+		$('#signup_form').submit();
+	})
+
+});
+	
+		
+</script>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+<style>
+.span{
+font-size:1em;
+}
+.sinup_form.input{
+  height : 30px;
+  width : 200px;
+  border : 1px solid #515151;
+  box-sizing : border-box;
+  vertical-align: top;
+  border-radius: 20px;
+  text-indent : 10px;
+  outline : none;
+}
+
+.sinup_form.input{
+  height : 30px;
+  width : 50px;
+  border-radius: 20px;
+  border : 1px solid #515151;
+  box-sizing : border-box;
+  vertical-align: top;
+  outline : none;
+}
+</style>
 <body class="bg-gray-200">
 	<div class="container position-sticky z-index-sticky top-0">
 		<div class="row">
@@ -90,7 +160,7 @@
 									</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link me-2" href="../pages/sign-up.html">
+									<a class="nav-link me-2" href="sign-up.html">
 										<i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
 										Sign Up
 									</a>
@@ -128,43 +198,48 @@
 							</div>
 							<!-- 회원가입 -->
 							<div class="card-body">
-								<form role="form" class="text-start" >
+								<form id="signup_form" action="#" class="text-start" >
 									<div class="input-group input-group-outline my-3">
 										<label class="form-label">name</label>
-										<input id="name" class="form-control">
+										<input id="name"  name="name" class="form-control">
 									</div>
 									<div class="input-group input-group-outline mb-3">
-										<label class="form-label">birth</label>
-										<input id="birth" class="form-control">
+										<label class="form-label"></label>
+										<input type="date" id="birth" name="birth" class="form-control">
 									</div>
+									
+									<div>
+                            			<span id="id_msg" th:text="${msg}"></span>
+                            		</div>
 									 
 									<div class="input-group input-group-outline mb-3">
 										<label class="form-label">id</label>
-										<input id="id" class="form-control">
-									</div>
+										<input id="id" name="id" type="text" class="form-control">
+									</div>	
 									
 									<div class="input-group input-group-outline mb-3">
 										<label class="form-label">password</label>
 										<input id="pwd" name="pwd" type="password"  class="form-control">
 									</div>
+									
+									<div>
+                            			<span id="id_msg" th:text="${msg}"></span>
+                            		</div>
+                            		
 									<div class="input-group input-group-outline mb-3">
 										<label class="form-label">email</label>
 										<input id="mail" name="email" type="email" class="form-control">
 									</div>
-									<h3><span>성별</span></h3>
+									<h4><span>성별</span></h4>
 		                            <div>							  
 		                              <label for="male">남성</label>
-									  <input id="male" type="radio"  value="남성" name="ss">							
+									  <input id="male" type="radio"  value="남성" name="sex">							
 									  <label for="female">여성</label>
-									  <input id="female" type="radio" checked value="여성" name="ss">
+									  <input id="female" type="radio" checked value="여성" name="sex">
 		                   			 </div>
-									
-									
-									
-									
-									
+
 									<div class="text-center">
-										<button type="button" class="btn bg-gradient-primary w-100 my-4 mb-2">회원가입</button>
+										<button id="signup_btn" type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2" >회원가입</button>
 									</div>
 									
 								</form>
