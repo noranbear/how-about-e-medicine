@@ -13,7 +13,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 4.0
+ * @version 5.0
  * @description
  *
  *
@@ -32,6 +32,8 @@ import com.multi.vo.UsersVo;
  *	2022. 7. 16			qwaszx357			signinimpl 생성
  *											   msg 생성
  *											 signout 생성
+ *
+ *	2022. 7. 18								  plist 생성
  * =========================================================
  */
 
@@ -144,6 +146,16 @@ public class MainController {
 	@RequestMapping("/mymedi")
 	public String mymedi(Model m) {
 		m.addAttribute("center", "mymedi");
+		return "index";
+	}
+	
+	/**
+	 * 처방내역 페이지 연결
+	 * @return plist.html
+	 */
+	@RequestMapping("/plist")
+	public String plist(Model m) {
+		m.addAttribute("center", "plist");
 		return "index";
 	}
 }
