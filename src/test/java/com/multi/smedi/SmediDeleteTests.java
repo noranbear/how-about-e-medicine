@@ -1,38 +1,36 @@
-package com.multi.users;
+package com.multi.smedi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.multi.biz.UsersBiz;
-import com.multi.vo.UsersVo;
+import com.multi.biz.SmediBiz;
 /**
- * @author najune
- * @date 2022. 7. 11.
- * @version 2.0
+ * @author noranbear
+ * @date 2022. 7. 17.
+ * @version 1.0
  * @description
  *
  *
  * =========================================================
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
- *  2022. 7. 12.		 najune		  		First Creation
+ *  2022. 7. 17.		noranbear			First Creation
  *
- *  2022. 7. 17.		noranbear		  DB V5 변경 내용 적용
  * =========================================================
  */
+
 @SpringBootTest
-class UsersInsertTests {
+class SmediDeleteTests {
 	
 	@Autowired
-	UsersBiz biz;
+	SmediBiz biz;
 
 	@Test
 	void contextLoads() {
-		UsersVo u = new UsersVo("id23", "pwd22", "kee", "rlawnsrn@naver.com", "2020-06-06", "M", "a.jpg",20);
 		try {
-			biz.register(u);
-			System.out.println("Registered OK");
+			biz.remove(4);
+			System.out.println("Delete OK");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
