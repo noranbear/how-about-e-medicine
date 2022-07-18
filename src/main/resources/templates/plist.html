@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<!--
+=========================================================
+* Material Dashboard 2 - v3.0.4
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/material-dashboard
+* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://www.creative-tim.com/license)
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!-- Version: 1.0 -->
+<!-- Description: 처방내역 페이지
+
+-------------------------------------------------------------------------
+	Date			 Author							Note
+-------------------------------------------------------------------------								    
+2022. 7. 18		   qwaszx357				  tables.html 가져옴
+					
+-------------------------------------------------------------------------
+-->
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+  
+<title>Material Dashboard 2 by Creative Tim</title>
+
+<!-- CSS Files -->
+<link href="./assets/ezocss/plistcss.css" rel="stylesheet" />
+
+</head>
+
+<!-- 복용 중 -->
+<div class="row col-6" id="row1">
+	<div class="col-12">
+		<div class="card my-4">
+			<div id="pname" class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+					<h6 class="text-white text-capitalize ps-3">처방 내역 1</h6>
+				</div>
+			</div>
+			<div class="card-body px-0 pb-2">
+				<div class="table-responsive p-0">
+					<table class="table align-items-center mb-0">
+						<thead>
+							<tr>
+								<th class="align-middle text-center">병원명</th>
+								<th class="align-middle text-center">남은 복용일</th>
+								<th class="align-middle text-center">복용 상태</th>
+								<th class="align-middle text-center">처방일자</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="align-middle text-center">
+									00병원
+								</td>
+								<td class="align-middle text-center">
+									5일
+								</td>
+								<td class="align-middle text-center">
+									<span class="badge bg-gradient-secondary">복용중</span>
+								</td>
+								<td class="align-middle text-center">
+									22/07/18
+								</td>
+							</tr>
+							
+						</tbody>
+					</table>
+					<!-- 순응도바 -->
+					
+					<div class="progress" id="bar_div">
+						<div id="bar" class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
+					  		순응도 : 70%
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 복용 완료 -->
+<div class="row col-6" id="row2">
+	<div class="col-12">
+		<div class="card my-4 complete">
+			<div id="pname" class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+					<h6 class="text-white text-capitalize ps-3">처방 내역 2</h6>
+				</div>
+			</div>
+			<div class="card-body px-0 pb-2">
+				<div class="table-responsive p-0">
+					<table class="table align-items-center mb-0">
+						<thead>
+							<tr>
+								<th class="align-middle text-center">병원명</th>
+								<th class="align-middle text-center">남은 복용일</th>
+								<th class="align-middle text-center">복용 상태</th>
+								<th class="align-middle text-center">처방일자</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="align-middle text-center">
+									00병원
+								</td>
+								<td class="align-middle text-center">
+									0일
+								</td>
+								<td class="align-middle text-center">
+									<span class="badge bg-gradient-secondary">복용 완료</span>
+								</td>
+								<td class="align-middle text-center">
+									22/07/13
+								</td>
+							</tr>
+							
+						</tbody>
+					</table>
+					<!-- 순응도바 -->
+					
+					<div class="progress" id="bar_div">
+						<div id="bar" class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+					  		순응도 : 100%
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 풋더 시작 -->
+<footer class="footer py-4  ">
+	<div class="container-fluid">
+		<div class="row align-items-center justify-content-lg-between">
+			<div class="col-lg-6 mb-lg-0 mb-4">
+				<div class="copyright text-center text-sm text-muted text-lg-start">
+					© <script>
+					document.write(new Date().getFullYear())
+					</script>,
+					made with <i class="fa fa-heart"></i> by
+					<a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
+					for a better web.
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<ul class="nav nav-footer justify-content-center justify-content-lg-end">
+					<li class="nav-item">
+						<a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
+					</li>
+					<li class="nav-item">
+						<a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
+					</li>
+					<li class="nav-item">
+						<a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
+					</li>
+					<li class="nav-item">
+						<a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</footer>
+<!-- 풋터 끝 -->
