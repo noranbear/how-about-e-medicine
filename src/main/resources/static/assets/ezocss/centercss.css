@@ -1,0 +1,89 @@
+@charset "UTF-8";
+
+/******************************************************************
+  Description: center.html style
+  Created: noranbear
+  Reference URL:
+  Version: 1.0
+******************************************************************/
+
+/* 1. 로고 시작 -------- */
+.int_t {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-height: 120px;
+	max-height: 290px;
+	height: calc(100% - 560px);
+	flex-shrink: 0;
+	box-sizing: border-box;
+	margin-top: 100px;
+}
+
+.int_tc {
+	max-height: 120px;
+	position: relative;
+	height: 100%;
+	margin-top: auto;
+}
+
+.logo_img {
+	max-height: 100%;
+	max-width: 100%;
+	object-fit: contain;
+	object-position: center bottom;
+	width: auto;
+	height: 100px;
+	aspect-ratio: auto 272 / 92;
+	margin: 10px;
+}
+/* 1. 로고 끝 -------- */
+
+/* 2. 검색창 시작 ------- */
+.search-div {
+	padding-top: 2em;
+	padding-bottom: 6rem !important;
+	margin-bottom: 3em;
+}
+
+.search_box {
+	display: flex;
+	z-index: 3;
+	height: 44px;
+	box-shadow: none;
+	border-radius: 24px;
+	margin: 0 auto;
+	max-width: 584px;
+}
+
+/* select list */
+.select-control {
+	position: relative;
+	cursor: pointer;
+	border-radius: 5px;
+	border: 1px solid lightgrey;
+	padding: 10px;
+	margin: 0 2px;
+}
+
+/* 검색창 배경색 */
+#param{
+	background: white;
+	margin-top: -16px;
+}
+
+/* 검색버튼 */
+#search_bt {
+	margin: 0 2px;
+	text-align: center;
+}
+
+/* 스캔버튼 */
+#scan_bt {
+	margin-left: -5px;
+	padding-top: 12px;
+	padding-bottom: 32px;
+	text-align: center;
+}
+/* 2. 검색창 끝 ---------- */
+
