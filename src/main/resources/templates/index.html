@@ -39,8 +39,9 @@
 
 2022. 7. 16							Bootstrap Dashboard page 템플릿으로 바꿈
 
-2022. 7. 16			qwaszx357					로그인 전 후 헤더 변경
-					
+2022. 7. 16			qwaszx357				 로그인 전 후 헤더 변경
+				
+2022. 7. 18			noranbear			 Bootstrap Kit import 코드 추가
 -------------------------------------------------------------------------
 -->
 
@@ -70,29 +71,11 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 <!-- CSS Files -->
 <link id="pagestyle" href="./assets/css/material-dashboard.css?v=3.0.4" rel="stylesheet" />
+
+<!-- Theme CSS -->
+<link type="text/css" href="./assets/css/material-kit-pro.min.css" rel="stylesheet">
 <!-- 2. 끝 -->
 
-<script>
-$(document).ready(function(){
-	
-	/* 약 데이터 불러오기 - product 조회(form으로 바꿔서 가져와야 함) */
-	$('#search_bt').click(function(){
-		var param = $('#param').val();
-		//alert(param);
-		$.ajax({
-			url:'/dataget',
-			data:{'item':param},
-			success:function(data){
-				// test
-				alert(data);
-				//display(data);
-			}
-		});
-		
-	});
-	
-});
-</script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -444,6 +427,16 @@ $(document).ready(function(){
 	<script async defer src="https://buttons.github.io/buttons.js"></script>
 	<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 	<script src="../assets/js/material-dashboard.min.js?v=3.0.4"></script>
+	<!-- Theme JS -->
+	<script src="./assets/js/material-kit-pro.min.js" type="text/javascript"></script>
+	<!-- Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+	<script src="./assets/js/plugins/nouislider.min.js"></script>
+	
+	<!--  Plugin for the Carousel, full documentation here: http://jedrzejchalubek.com/  -->
+	<script src="./assets/js/plugins/glidejs.min.js"></script>
+	
+	<!--	Plugin for Select, full documentation here: https://joshuajohnson.co.uk/Choices/ -->
+	<script src="./assets/js/plugins/choices.min.js" type="text/javascript"></script>
 
 </body>
 </html>
