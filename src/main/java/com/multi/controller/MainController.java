@@ -1,5 +1,7 @@
 package com.multi.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,13 +9,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.multi.biz.PlistBiz;
 import com.multi.biz.UsersBiz;
+import com.multi.vo.PlistVo;
 import com.multi.vo.UsersVo;
 
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 6.0
+ * @version 6.1
  * @description
  *
  *
@@ -37,6 +41,8 @@ import com.multi.vo.UsersVo;
  *
  *	2022. 7. 18			 noranbear			 profile 생성
  *
+ *	2022. 7. 19			 qwaszx357			  plist 수정
+ *
  * =========================================================
  */
 
@@ -45,6 +51,9 @@ public class MainController {
 	
 	@Autowired
 	UsersBiz ubiz;
+	
+	@Autowired
+	PlistBiz plistbiz;
 	
 	/**
 	 * 메인 페이지 연결
@@ -186,9 +195,26 @@ public class MainController {
 	 * 처방내역 페이지 연결
 	 * @return plist.html
 	 */
-	@RequestMapping("/plist")
-	public String plist(Model m) {
-		m.addAttribute("center", "plist");
-		return "index";
-	}
+    @RequestMapping("/plist")
+    public String plist(Model m, HttpSession session) {
+        List<PlistVo> inglist = null;
+        List<PlistVo> endlist = null;
+        UsersVo users = null;
+        
+        if(session.getAttribute("signinusers") != null){
+            users = (UsersVo) session.getAttribute("signinusers");
+            
+            try {
+                inglist = plistbiz.get_ing(users.getId());
+                m.addAttribute("ilist", inglist);
+                endlist = plistbiz.get_end(users.getId());
+                m.addAttribute("elist", endlist);
+                m.addAttribute("center", "plist");
+            } catch (Exception e) {    
+                e.printStackTrace();
+            }
+            
+        }
+         return "index";
+    }
 }

@@ -17,6 +17,8 @@ import lombok.ToString;
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
  *  2022. 7. 13.		 najune		  		First Creation
+ *  
+ *  2022. 7. 19.		qwaszx357			  dday 생성
  *
  * =========================================================
  */
@@ -33,6 +35,8 @@ public class PlistVo {
 	private int days;
 	private int time;
 	private String dtime;
+	
+	private int dday;	// 남은 복용일
 
 	// Constructor for insert
 	public PlistVo(String uid, String hospital, String pdate, int days, int time, String dtime) {

@@ -12,7 +12,7 @@ import com.multi.vo.PlistVo;
 /**
  * @author najune
  * @date 2022. 7. 13.
- * @version 1.0
+ * @version 2.0
  * @description
  *
  *
@@ -20,6 +20,9 @@ import com.multi.vo.PlistVo;
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
  *  2022. 7. 13.		 najune		  		First Creation
+ *  
+ *  2022. 7. 19.		qwaszx357			get_ing 생성
+ *  										get_end 생성
  *
  * =========================================================
  */
@@ -57,5 +60,23 @@ public class PlistBiz implements Biz<Integer, PlistVo>{
 		return dao.selectall();
 	}
 
-
+	/**
+	 * 처방내역에 복용중인 약 출력
+	 * @param k
+	 * @return
+	 * @throws Exception
+	 */
+	public List<PlistVo> get_ing(String k) throws Exception {
+		return dao.select_ing(k);
+	}
+	
+	/**
+	 * 처방내역에 복용 완료된 약 출력
+	 * @param k
+	 * @return
+	 * @throws Exception
+	 */
+	public List<PlistVo> get_end(String k) throws Exception {
+		return dao.select_end(k);
+	}
 }
