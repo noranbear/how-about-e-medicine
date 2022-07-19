@@ -17,7 +17,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 6.1
+ * @version 7.0
  * @description
  *
  *
@@ -26,20 +26,22 @@ import com.multi.vo.UsersVo;
  * ---------------------------------------------------------
  *  2022. 7. 6.			noranbear			  main 생성
  *
- *	2022. 7. 15								dashboard 생성
+ *	2022. 7. 15.							dashboard 생성
  *											sign in 생성
  *											sign up 생성
  *
- *	2022. 7. 16							   	 mdetail 생성
+ *	2022. 7. 16.							 mdetail 생성
  *											 mymlist 생성
  *
- *	2022. 7. 16			qwaszx357			signinimpl 생성
+ *	2022. 7. 16.		qwaszx357			signinimpl 생성
  *											   msg 생성
  *											 signout 생성
  *
- *	2022. 7. 18								  plist 생성
+ *	2022. 7. 18.							  plist 생성
  *
- *	2022. 7. 18			 noranbear			 profile 생성
+ *	2022. 7. 18.		noranbear			 profile 생성
+ *
+ *	2022. 7. 19.							 pdetail 생성
  *
  *	2022. 7. 19			 qwaszx357			  plist 수정
  *
@@ -162,7 +164,7 @@ public class MainController {
 	}
 	
 	/**
-	 * 마이 페이지 연결
+	 * 마이페이지 연결
 	 * @return profile.html
 	 */
 	@RequestMapping("/profile")
@@ -217,4 +219,15 @@ public class MainController {
         }
          return "index";
     }
+	
+	/**
+	 * 복약내역상세 페이지 연결
+	 * @return pdetail.html
+	 */
+	@RequestMapping("/pdetail")
+	public String pdetail(Model m) {
+		m.addAttribute("center", "pdetail");
+		return "index";
+	}
+
 }
