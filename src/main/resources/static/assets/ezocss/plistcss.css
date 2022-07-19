@@ -4,8 +4,25 @@
   Description:
   Created: qwaszx357
   Reference URI:
-  Version: 1.0
+  Version: 2.0
 ******************************************************************/
+
+/* 카드 스타일 */
+#row1,  #row2 {
+	cursor: pointer;	/* 마우스 손가락 */
+	padding: 1%;
+	display: inline-flex;
+}
+
+/* 카드 호버 효과 시작 */ 
+.cardup {
+	transition: 0.2s ease;
+	
+}
+.cardup:hover {
+	transform: scale(1.05);
+}
+/* 카드 호버 효과 끝 */
 
 #bar {
 	height: 100%;
@@ -16,17 +33,10 @@
 	height: 25px;
 }
 
-.card:hover {
-	transform: scale(1.05);
-}
+
 
 .complete{
 	opacity: 0.5;
-}
-
-#row1,  #row2 {
-	padding: 1%;
-	display: inline-flex;
 }
 
 #pname > div > h6 {

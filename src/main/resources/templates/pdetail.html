@@ -13,17 +13,13 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 1.2 -->
-<!-- Description: 약 디테일 페이지
+<!-- Version: 1.0 -->
+<!-- Description: 처방상세내역 및 복약관리 페이지
 
 -------------------------------------------------------------------------
 	Date			 Author							Note
 -------------------------------------------------------------------------								    
-2022. 7. 15			qwaszx357					  code 정리
-
-2022. 7. 16			noranbear				  side bar와 헤더 분리
-
-2022. 7. 16			 ynr1734					 화면 구성 변경
+2022. 7. 19.		noranbear			  처방상세내역 부분 화면 구성 완료
 					
 -------------------------------------------------------------------------
 -->
@@ -32,65 +28,91 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+<style>
+/* 처방약 이미지 크기 조절 */
+.mpic {
+	width: 182px;
+	height: 98px;
+	object-fit: contain;
+}
+
+/* 처방약 카드 호버 스타일 시작 */
+.cpoint {
+	transition: 0.2s ease;
+}
+
+.cpoint:hover {
+	transform: scale(1.02);
+}
+/* 처방약 카드 호버 스타일 끝 */
+
+</style>
+
 <div class="row">
-	<div class="col-lg-8">
-		<div class="row">
-			<div class="col-xl-6 mb-xl-0 mb-4">
-				<div class="card bg-transparent shadow-xl">
-					<div class="overflow-hidden position-relative border-radius-xl">
-						<img src="../assets/img/illustrations/pattern-tree.svg" class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100" alt="pattern-tree">
-						<span class="mask bg-gradient-dark opacity-10"></span>
-						<div class="card-body position-relative z-index-1 p-3">
-							<h5 class="text-white mt-9 mb-5 pb-2"></h5>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xl-6">
+
+	<!-- 1. 복약상세내역 Top 시작 -->
+	<!-- 왼쪽: 처방내역 정보 -->
+	<div class="col-lg-6">
+          <div class="row">
+          	<div class="col-xl-8 mb-xl-0 mb-4">
+              <div class="card bg-transparent shadow-xl">
+                <div class="overflow-hidden position-relative border-radius-xl">
+                  <img src="../assets/img/illustrations/pattern-tree.svg" class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100" alt="pattern-tree">
+                  <span class="mask bg-gradient-dark opacity-10"></span>
+                  <div class="card-body position-relative z-index-1 p-3">
+                    <h4 class="text-white mb-3 pb-2">
+                    	<i class="fa fa-file-text-o text-white p-2" style="font-size:24px"></i>
+                    	 처방내역 상세
+                    </h4>
+                    <h5 class="text-white mt-4 mb-5 pb-2">2021.05.26 - 2021.06.08</h5>
+                    <div class="d-flex">
+                      <div class="d-flex">
+                        <div class="me-4">
+                          <p class="text-white text-sm opacity-8 mb-0">복약일</p>
+                          <h6 class="text-white mb-0">(9일째/15일)</h6>
+                        </div>
+                        <div>
+                          <p class="text-white text-sm opacity-8 mb-0">약국</p>
+                          <h6 class="text-white mb-0">전능의원</h6>
+                        </div>
+                      </div>
+                      <div class="ms-auto w-20 d-flex align-items-end justify-content-end">
+                        <img class="w-60 z-index-0 opacity-9" src="../img/qrcode.png" alt="QRcode">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+			<!-- 오른쪽: 지도 -->
+			<div class="col-xl-4">
 				<div class="row">
-					<div class="col-md-6 col-6">
+					<div class="col-md-12 col-12">
 						<div class="card">
 							<div class="card-header mx-4 p-3 text-center">
 								<div class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
-									<i class="material-icons opacity-10">account_balance</i>
+									<i class="fas fa-poll opacity-10"></i>
 								</div>
 							</div>
-							<div class="card-body pt-0 p-3 text-center">
-								<h6 class="text-center mb-0">같이 먹으면<br>
-								좋은 음식</h6>
-								<span class="text-xs">good to eat together</span>
+							<div class="card-body pt-0 p-3 py-4 text-center">
+								<h6 class="text-center mb-0">복약 순응도</h6>
 								<hr class="horizontal dark my-3">
-								<h5 class="mb-0">OOO</h5>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6 col-6">
-						<div class="card">
-							<div class="card-header mx-4 p-3 text-center">
-								<div class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
-									<i class="material-icons opacity-10">account_balance_wallet</i>
-								</div>
-							</div>
-							<div class="card-body pt-0 p-3 text-center">
-								<h6 class="text-center mb-0">같이 먹으면<br>
-								안 좋은 음식</h6>
-								<span class="text-xs">not good to eat together</span>
-								<hr class="horizontal dark my-3">
-								<h5 class="mb-0">OOO</h5>
+								<h2 class="mb-0">60%</h2>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<!-- 밑: 병원 정보 -->
 			<div class="col-md-12 mb-lg-0 mb-4">
 				<div class="card mt-4">
 					<div class="card-header pb-0 p-3">
 						<div class="row">
 							<div class="col-6 d-flex align-items-center">
-								<h6 class="mb-0">효능·효과</h6>
+								<h6 class="mb-0">병원 정보</h6>
 							</div>
 							<div class="col-6 text-end">
-								<a class="btn bg-gradient-dark mb-0" href="javascript:;"><i class="material-icons text-sm">add</i>&nbsp;&nbsp;내 약 리스트에 담기</a>
+								<a class="btn bg-gradient-dark mb-0" href="javascript:;"><i class="fas fa-map-marker-alt text-sm"></i>&nbsp;&nbsp;지도로 보기</a>
 							</div>
 						</div>
 					</div>
@@ -98,14 +120,17 @@
 						<div class="row">
 							<div class="col-md-6 mb-md-0 mb-4">
 								<div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-									<img class="w-10 me-3 mb-0">
-									
-								</div>
+                        			<i class='fas fa-hospital me-sm-3 text-dark' style='font-size:24px'></i>
+                        			<h6 class="ms-3 mb-0">어쩌구 병원</h6>
+                        			<i class="fa fa-copy ms-auto text-dark cursor-pointer" style="font-size:18px" data-bs-toggle="tooltip" data-bs-placement="top" title="복사"></i>
+                      			</div>
 							</div>
 							<div class="col-md-6">
 								<div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-									<img class="w-10 me-3 mb-0">
-									
+									<i class='fas fa-mobile-alt text-dark me-sm-3' style='font-size:24px'></i>
+                        			<h6 class="ms-3 mb-0">02-1234-5678</h6>
+                        			<i class="fa fa-copy ms-auto text-dark cursor-pointer" style="font-size:18px" 
+                        			data-bs-toggle="tooltip" data-bs-placement="top" title="복사"></i>					
 								</div>
 							</div>
 						</div>
@@ -114,12 +139,15 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-lg-4">
+	<!-- 1. 복약상세내역 Top 끝 -->
+	
+	<!-- 2. 복약알림캘린더 시작 -->
+	<div class="col-lg-6">
 		<div class="card h-100">
 			<div class="card-header pb-0 p-3">
 				<div class="row">
 					<div class="col-6 d-flex align-items-center">
-						<h6 class="mb-0">Invoices</h6>
+						<h6 class="mb-0">복약 캘린더</h6>
 					</div>
 					<div class="col-6 text-end">
 						<button class="btn btn-outline-primary btn-sm mb-0">View All</button>
@@ -182,61 +210,67 @@
 			</div>
 		</div>
 	</div>
+	<!-- 2. 복약알림캘린더 끝 -->
+	
 </div>
+
+
 <div class="row">
-	<div class="col-md-7 mt-4">
+
+	<!-- 3. 복약내역상세: 처방약 시작 -->
+	<div class="col-md-6 mt-4">
 		<div class="card">
 			<div class="card-header pb-0 px-3">
-				<h6 class="mb-0">사용상의 주의사항</h6>
+				<h6 class="mb-0">처방약</h6>
 			</div>
 			<div class="card-body pt-4 p-3">
 				<ul class="list-group">
-					<li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+					<li class="cpoint list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
 						<div class="d-flex flex-column">
-							<h6 class="mb-3 text-sm">주의사항 경고</h6>
-							<span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2">Viking Burrito</span></span>
-							<span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">oliver@burrito.com</span></span>
-							<span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
+							<h6 class="mb-3 text-sm"><a th:href="@{/medidetail}">약이름 1</a></h6>
+							<span class="mb-2 text-xs">복약갯수: <span class="text-dark font-weight-bold ms-sm-2">1회 3.0정</span></span>
+							<span class="mb-2 text-xs">복약횟수: <span class="text-dark ms-sm-2 font-weight-bold">1일 1회</span></span>
+							<span class="text-xs">복약일수: <span class="text-dark ms-sm-2 font-weight-bold">15일</span></span>
 						</div>
 						<div class="ms-auto text-end">
-							<a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="material-icons text-sm me-2">delete</i>Delete</a>
-							<a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="material-icons text-sm me-2">edit</i>Edit</a>
+							<img class="mpic" src="../img/main-logo.png">
 						</div>
 					</li>
-					<li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
+					<li class="cpoint list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
 						<div class="d-flex flex-column">
-							<h6 class="mb-3 text-sm">주의사항</h6>
-							<span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2">Stone Tech Zone</span></span>
-							<span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">lucas@stone-tech.com</span></span>
-							<span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
+							<h6 class="mb-3 text-sm"><a th:href="@{/medidetail}">약이름 1</a></h6>
+							<span class="mb-2 text-xs">복약갯수: <span class="text-dark font-weight-bold ms-sm-2">1회 3.0정</span></span>
+							<span class="mb-2 text-xs">복약횟수: <span class="text-dark ms-sm-2 font-weight-bold">1일 1회</span></span>
+							<span class="text-xs">복약일수: <span class="text-dark ms-sm-2 font-weight-bold">15일</span></span>
 						</div>
 						<div class="ms-auto text-end">
-							<a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="material-icons text-sm me-2">delete</i>Delete</a>
-							<a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="material-icons text-sm me-2">edit</i>Edit</a>
+							<img class="mpic" src="../img/main-logo.png">
 						</div>
 					</li>
-					<li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
+					<li class="cpoint list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
 						<div class="d-flex flex-column">
-							<h6 class="mb-3 text-sm">상호작용</h6>
-							<span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2">Fiber Notion</span></span>
-							<span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">ethan@fiber.com</span></span>
-							<span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
+							<h6 class="mb-3 text-sm"><a th:href="@{/medidetail}">약이름 1</a></h6>
+							<span class="mb-2 text-xs">복약갯수: <span class="text-dark font-weight-bold ms-sm-2">1회 3.0정</span></span>
+							<span class="mb-2 text-xs">복약횟수: <span class="text-dark ms-sm-2 font-weight-bold">1일 1회</span></span>
+							<span class="text-xs">복약일수: <span class="text-dark ms-sm-2 font-weight-bold">15일</span></span>
 						</div>
 						<div class="ms-auto text-end">
-							<a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="material-icons text-sm me-2">delete</i>Delete</a>
-							<a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="material-icons text-sm me-2">edit</i>Edit</a>
+							<img class="mpic" src="../img/main-logo.png">
 						</div>
 					</li>
 				</ul>
 			</div>
 		</div>
 	</div>
-	<div class="col-md-5 mt-4">
+	<!-- 3. 복약내역상세: 처방약 끝 -->
+	
+	<!-- 4. 복약내역 알람리스트 시작 -->
+	<div class="col-md-6 mt-4">
 		<div class="card h-100 mb-4">
 			<div class="card-header pb-0 px-3">
 				<div class="row">
 					<div class="col-md-6">
-						<h6 class="mb-0">Your Transaction's</h6>
+						<h6 class="mb-0">복약알람</h6>
 					</div>
 					<div class="col-md-6 d-flex justify-content-start justify-content-md-end align-items-center">
 						<i class="material-icons me-2 text-lg">date_range</i>
@@ -326,10 +360,13 @@
 			</div>
 		</div>
 	</div>
+	<!-- 4. 복약내역 알람리스트 끝 -->
+	
 </div>
 
-<!-- 풋터 시작 -->
-<footer class="footer py-4  ">
+
+<!-- footer 시작 -->
+<footer class="footer py-4">
 	<div class="container-fluid">
 		<div class="row align-items-center justify-content-lg-between">
 			<div class="col-lg-6 mb-lg-0 mb-4">

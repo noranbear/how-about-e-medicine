@@ -13,32 +13,31 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 1.0 -->
+<!-- Version: 1.1 -->
 <!-- Description: 처방내역 페이지
 
 -------------------------------------------------------------------------
 	Date			 Author							Note
 -------------------------------------------------------------------------								    
-2022. 7. 18		   qwaszx357				  tables.html 가져옴
+2022. 7. 18.		qwaszx357				  tables.html 가져옴
 					
+2022. 7. 19.		noranbear			  카드에 링크 걸기 및 스타일 수정
+
 -------------------------------------------------------------------------
 -->
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
 <meta charset="utf-8">
-  
 <title>Material Dashboard 2 by Creative Tim</title>
 
 <!-- CSS Files -->
 <link href="./assets/ezocss/plistcss.css" rel="stylesheet" />
 
-</head>
 
 <!-- 복용 중 -->
 <div class="row col-6" id="row1">
 	<div class="col-12">
-		<div class="card my-4">
+		<div class="cardup card my-4" th:onclick="|location.href='@{/pdetail}'|">
 			<div id="pname" class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
 					<h6 class="text-white text-capitalize ps-3">처방 내역 1</h6>
@@ -89,7 +88,7 @@
 <!-- 복용 완료 -->
 <div class="row col-6" id="row2">
 	<div class="col-12">
-		<div class="card my-4 complete">
+		<div class="cardup card my-4 complete">
 			<div id="pname" class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
 					<h6 class="text-white text-capitalize ps-3">처방 내역 2</h6>
