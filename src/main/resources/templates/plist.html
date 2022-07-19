@@ -13,13 +13,15 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 1.0 -->
+<!-- Version: 2.0 -->
 <!-- Description: 처방내역 페이지
 
 -------------------------------------------------------------------------
 	Date			 Author							Note
 -------------------------------------------------------------------------								    
 2022. 7. 18		   qwaszx357				  tables.html 가져옴
+
+2022. 7. 19										출력 기능 구현
 					
 -------------------------------------------------------------------------
 -->
@@ -35,13 +37,20 @@
 
 </head>
 
+<!-- 추가 버튼 -->
+<div class="btn-div">
+	<button type="button" class="btn bg-gradient-primary" th:onclick="|location.href='@{/padd}'|">
+		<i class='fas fa-plus' style='font-size:18px'></i>
+	</button>
+</div>
+
 <!-- 복용 중 -->
-<div class="row col-6" id="row1">
+<div class="row col-6" id="row1" th:each="i:${ilist}">
 	<div class="col-12">
 		<div class="card my-4">
 			<div id="pname" class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-					<h6 class="text-white text-capitalize ps-3">처방 내역 1</h6>
+					<h6 class="text-white text-capitalize ps-3" th:text="${i.hospital} + ' / ' + ${i.pdate}">처방 내역</h6>
 				</div>
 			</div>
 			<div class="card-body px-0 pb-2">
@@ -57,16 +66,16 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td class="align-middle text-center">
+								<td class="align-middle text-center" th:text="${i.hospital}">
 									00병원
 								</td>
-								<td class="align-middle text-center">
+								<td class="align-middle text-center" th:text="${i.dday} + '일'">
 									5일
 								</td>
 								<td class="align-middle text-center">
 									<span class="badge bg-gradient-secondary">복용중</span>
 								</td>
-								<td class="align-middle text-center">
+								<td class="align-middle text-center" th:text="${i.pdate}">
 									22/07/18
 								</td>
 							</tr>
@@ -87,12 +96,12 @@
 </div>
 
 <!-- 복용 완료 -->
-<div class="row col-6" id="row2">
+<div class="row col-6" id="row2" th:each="e:${elist}">
 	<div class="col-12">
 		<div class="card my-4 complete">
 			<div id="pname" class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-					<h6 class="text-white text-capitalize ps-3">처방 내역 2</h6>
+					<h6 class="text-white text-capitalize ps-3" th:text="${e.hospital} + ' / ' + ${e.pdate}">처방 내역</h6>
 				</div>
 			</div>
 			<div class="card-body px-0 pb-2">
@@ -108,7 +117,7 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td class="align-middle text-center">
+								<td class="align-middle text-center" th:text="${e.hospital}">
 									00병원
 								</td>
 								<td class="align-middle text-center">
@@ -117,7 +126,7 @@
 								<td class="align-middle text-center">
 									<span class="badge bg-gradient-secondary">복용 완료</span>
 								</td>
-								<td class="align-middle text-center">
+								<td class="align-middle text-center" th:text="${e.pdate}">
 									22/07/13
 								</td>
 							</tr>

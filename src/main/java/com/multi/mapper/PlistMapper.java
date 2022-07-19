@@ -11,7 +11,7 @@ import com.multi.vo.PlistVo;
 /**
  * @author najune
  * @date 2022. 7. 13.
- * @version 1.0
+ * @version 2.0
  * @description
  *
  *
@@ -19,6 +19,9 @@ import com.multi.vo.PlistVo;
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
  *  2022. 7. 13.		 najune		  		First Creation
+ *  
+ *  2022. 7. 19.		qwaszx357		    select_ing 생성
+ *  										select_end 생성
  *
  * =========================================================
  */
@@ -33,4 +36,7 @@ public interface PlistMapper {
 	public PlistVo select(int id) throws Exception;
 	public List<PlistVo> selectall() throws Exception;
 
+	// 처방내역에 출력
+	public List<PlistVo> select_ing(String k) throws Exception;
+	public List<PlistVo> select_end(String k) throws Exception;
 }
