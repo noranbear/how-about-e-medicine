@@ -14,7 +14,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 
-<!-- Version: 7.0 -->
+<!-- Version: 7.2 -->
 <!-- Description: 메인페이지
 
 ----------------------------------------------------------------------------
@@ -48,6 +48,10 @@
 									   헤더에 로그인 버튼 및 프로필 사진 나오게 수정	
 												 마이페이지 연결				
 									side bar 하단 버튼 로그인/로그아웃 버튼으로 수정
+
+2022. 7. 18			qwaszx357					한글로 수정
+												
+											  plist 링크 수정
 ----------------------------------------------------------------------------
 -->
 
@@ -131,7 +135,7 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link text-white " href="/plist">
+					<a class="nav-link text-white " th:href="@{/plist}">
 						<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
 							<i class="material-icons opacity-10">table_view</i>
 						</div>
@@ -170,7 +174,7 @@
 						<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
 							<i class="material-icons opacity-10">login</i>
 						</div>
-						<span class="nav-link-text ms-1">Sign In</span>
+						<span class="nav-link-text ms-1">로그인</span>
 					</a>
 				</li>
 				<li class="nav-item">
@@ -178,7 +182,7 @@
 						<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
 							<i class="material-icons opacity-10">assignment</i>
 						</div>
-						<span class="nav-link-text ms-1">Sign Up</span>
+						<span class="nav-link-text ms-1">회원가입</span>
 					</a>
 				</li>
 			</ul>

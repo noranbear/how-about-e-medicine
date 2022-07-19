@@ -54,3 +54,8 @@ table > thead > tr > th {
 		width: 100%;
 	}
 }
+
+.btn-div {
+	text-align: right;
+	margin-right: 60px;
+}
