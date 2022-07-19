@@ -61,4 +61,20 @@ public class UsersVo {
 	}
 
 
+	public UsersVo(String id, String pwd, String name, String email, String birth, String sex) {
+		
+		this.id = id;
+		this.pwd = pwd;
+		this.name = name;
+		this.email = email;
+		this.birth = birth;
+		this.sex = sex;
+		
+	}
+	
+	
+
+	
+
+
 }
