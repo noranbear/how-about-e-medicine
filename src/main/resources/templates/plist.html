@@ -13,13 +13,13 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 2.1 -->
+<!-- Version: 2.2 -->
 <!-- Description: 처방내역 페이지
 
 -------------------------------------------------------------------------
 	Date			 Author							Note
 -------------------------------------------------------------------------								    
-2022. 7. 18.		   qwaszx357				  tables.html 가져옴
+2022. 7. 18.		qwaszx357				  tables.html 가져옴
 
 2022. 7. 19.									출력 기능 구현
 					
@@ -97,7 +97,7 @@
 <!-- 복용 완료 -->
 <div class="row col-6" id="row2" th:each="e:${elist}">
 	<div class="col-12">
-		<div class="cardup card my-4 complete">
+		<div class="cardup card my-4 complete" th:onclick="|location.href='@{/pdetail}'|">
 			<div id="pname" class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
 					<h6 class="text-white text-capitalize ps-3" th:text="${e.hospital} + ' / ' + ${e.pdate}">처방 내역</h6>
