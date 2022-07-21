@@ -43,7 +43,9 @@ import com.multi.vo.UsersVo;
  *
  *	2022. 7. 19.							 pdetail 생성
  *
- *	2022. 7. 19			 qwaszx357			  plist 수정
+ *	2022. 7. 19.		qwaszx357			  plist 수정
+ *
+ *	2022. 7. 19.		noranbear			datatest 생성
  *
  * =========================================================
  */
@@ -228,6 +230,15 @@ public class MainController {
 	public String pdetail(Model m) {
 		m.addAttribute("center", "pdetail");
 		return "index";
+	}
+	
+	/**
+	 * 약디테일 화면 출력 테스트 페이지 연결
+	 * @return datatest.html
+	 */
+	@RequestMapping("/datatest")
+	public String datatest() {
+		return "datatest";
 	}
 
 }
