@@ -17,7 +17,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 7.0
+ * @version 8.0
  * @description
  *
  *
@@ -46,6 +46,8 @@ import com.multi.vo.UsersVo;
  *	2022. 7. 19.		qwaszx357			  plist 수정
  *
  *	2022. 7. 19.		noranbear			datatest 생성
+ *
+ *	2022. 7. 21.		noranbear			datatest 이동
  *
  * =========================================================
  */
@@ -232,13 +234,5 @@ public class MainController {
 		return "index";
 	}
 	
-	/**
-	 * 약디테일 화면 출력 테스트 페이지 연결
-	 * @return datatest.html
-	 */
-	@RequestMapping("/datatest")
-	public String datatest() {
-		return "datatest";
-	}
 
 }
