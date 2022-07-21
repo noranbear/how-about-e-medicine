@@ -9,8 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.multi.biz.MymediBiz;
 import com.multi.biz.PlistBiz;
 import com.multi.biz.UsersBiz;
+import com.multi.vo.MymediVo;
 import com.multi.vo.PlistVo;
 import com.multi.vo.UsersVo;
 
@@ -45,6 +47,8 @@ import com.multi.vo.UsersVo;
  *
  *	2022. 7. 19			 qwaszx357			  plist 수정
  *
+ *	2022. 7. 20.		najune				 mymedi	수정
+ *
  * =========================================================
  */
 
@@ -56,6 +60,9 @@ public class MainController {
 	
 	@Autowired
 	PlistBiz plistbiz;
+	
+	@Autowired
+	MymediBiz mbiz;
 	
 	/**
 	 * 메인 페이지 연결
@@ -188,10 +195,23 @@ public class MainController {
 	 * @return mymedilist.html
 	 */
 	@RequestMapping("/mymedi")
-	public String mymedi(Model m) {
+	public String mymedi(Model m, HttpSession session) {
+		List<MymediVo> list = null;	
+		UsersVo users = null;
+        
+        if(session.getAttribute("signinusers") != null){
+            users = (UsersVo) session.getAttribute("signinusers");
+			try {
+				list = mbiz.get(users.getId());
+				m.addAttribute("mymedi", list);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+        }
 		m.addAttribute("center", "mymedi");
 		return "index";
 	}
+	
 	
 	/**
 	 * 처방내역 페이지 연결

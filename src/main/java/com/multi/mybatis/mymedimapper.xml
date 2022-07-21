@@ -21,4 +21,11 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	    SELECT * FROM mymedi
 	</select>
 	
+	
+	<!-- search  -->
+	
+	<select id="get" parameterType="String" resultType="mymediVo">
+		SELECT m.name, m.usedate, m.image FROM mymedi m WHERE m.uid=#{uid} 
+	</select>
+	
 </mapper>

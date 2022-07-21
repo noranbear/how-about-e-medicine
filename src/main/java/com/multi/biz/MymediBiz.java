@@ -20,6 +20,8 @@ import com.multi.vo.MymediVo;
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
  *  2022. 7. 11.		qwaszx357		  First Creation
+ *  
+ *	2022. 7. 20.		najune			  get 추가
  *
  * =========================================================
  */
@@ -53,6 +55,13 @@ public class MymediBiz implements Biz<Integer, MymediVo> {
 	public List<MymediVo> get() throws Exception {
 		return dao.selectall();
 	}
-
+	
+	// Mymedi
+		
+	public List<MymediVo> get(String txt) throws Exception {
+		return dao.get(txt);
+	}
+		
+	
 	
 }
