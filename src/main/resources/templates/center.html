@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 4.0 -->
+<!-- Version: 5.0 -->
 <!-- Description: 메인 페이지의 기본 중간 화면 (검색창)
 
 -------------------------------------------------------------------------------
@@ -13,6 +13,9 @@
                               main-logo path 변경
 
 2022. 7. 19.		qwaszx357				  검색 결과 출력 화면 구성
+
+2022. 7. 21.								  검색 결과 출력 화면 삭제
+											검색창과 풋터 사이 div 추가
 											 
 -------------------------------------------------------------------------------
 -->
@@ -102,63 +105,12 @@ $(document).ready(function(){
 </div>
 <!-- 2. 검색창 끝 -->
 
-<!-- 검색 결과 출력 시작 -->
-<div class="search_card col-lg-8 col-10 mb-md-0 mb-4 mx-auto">
-	<div class="card">
-		<div class="card-body px-0 pb-2">
-			<div class="table-responsive">
-				<table class="table-fixed table align-items-center mb-0">
-					<thead>
-						<tr>
-							<th class="th-width1 text-center text-uppercase text-secondary font-weight-bolder">이미지</th>
-							<th class="th-width2 text-center text-uppercase text-secondary font-weight-bolder">제품명</th>
-							<th class="th-width3 text-center text-uppercase text-secondary font-weight-bolder">업체명</th>
-							<th class="th-width4 text-center text-uppercase text-secondary font-weight-bolder">효능 효과</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr class="tr-height">
-							<td>
-								<div id="img_div">
-									<img class="img-size" src="../img/search_img1.jpg">
-								</div>
-							</td>
-							<td class="align-middle text-center">
-								아스피린01
-							</td>
-							<td class="align-middle text-center">
-								00회사
-							</td>
-							<td class="td-height align-middle text-center">
-								이 약은...
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div id="img_div">
-									<img class="img-size" src="../img/search_img2.jpg">
-								</div>
-							</td>
-							<td class="align-middle text-center">
-								아스피린02
-							</td>
-							<td class="align-middle text-center">
-								ㅁㅁ회사
-							</td>
-							<td class="align-middle text-center">
-								이 약은...
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
+<!-- 검색창과 풋터 사이의 여백 -->
+<div class="bottom-div">
 </div>
-<!-- 검색 결과 출력 끝 -->
-			
+
 <!-- Footer Start -->
-<footer class="footer py-4  ">
+<footer class="footer pt-4 pb-sm-2">
 	<div class="container-fluid">
 		<div class="row align-items-center justify-content-lg-between">
 			<div class="col-lg-6 mb-lg-0 mb-4">
