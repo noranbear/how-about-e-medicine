@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<!--
+=========================================================
+* Material Dashboard 2 - v3.0.4
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/material-dashboard
+* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://www.creative-tim.com/license)
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!-- Version: 1.0 -->
+<!-- Description: 검색 결과 페이지
+
+-------------------------------------------------------------------------
+	Date			 Author							Note
+-------------------------------------------------------------------------								    
+2022. 7. 21.		qwaszx357				  tables.html 가져옴
+
+-------------------------------------------------------------------------
+-->
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<title>Material Dashboard 2 by Creative Tim</title>
+
+<!-- CSS Files -->
+<link id="pagestyle" href="../assets/ezocss/searchresult.css" rel="stylesheet" />
+
+<!-- 검색 결과 테이블 시작 -->
+<div class="container-fluid py-4">
+	<div class="row">
+		<div class="col-12">
+			<div class="card my-4">
+				<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+					<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+						<h6 class="text-white text-capitalize ps-3">Search table</h6>
+					</div>
+				</div>
+				<div class="card-body px-0 pb-2">
+					<div class="table-responsive p-0">
+						<table class="table-fixed table align-items-center mb-0">
+							<thead>
+								<tr>
+									<th class="th-width1 text-center text-uppercase text-secondary font-weight-bolder">이미지</th>
+									<th class="th-width2 text-center text-uppercase text-secondary font-weight-bolder">제품명</th>
+									<th class="th-width3 text-center text-uppercase text-secondary font-weight-bolder">업체명</th>
+									<th class="th-width4 text-center text-uppercase text-secondary font-weight-bolder">효능효과</th>
+								</tr>
+							</thead>
+							<tbody>
+								<!-- 검색 결과 반복할 부분 -->
+								<tr>
+									<td>
+										<div class="text-md-center">
+											<img src="../img/search_img1.jpg" class="img-size">
+										</div>
+									</td>
+									<td class="align-middle text-center">
+										아스피린01
+									</td>
+									<td class="align-middle text-center">
+										00회사
+									</td>
+									<td class="td-height align-middle text-center">
+										이 약은...
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="text-md-center">
+											<img src="../img/search_img2.jpg" class="img-size">
+										</div>
+									</td>
+									<td class="align-middle text-center">
+										아스피린02
+									</td>
+									<td class="align-middle text-center">
+										ㅁㅁ회사
+									</td>
+									<td class="td-height align-middle text-center">
+										이 약은...
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 검색 결과 테이블 끝 -->
+			
+<!-- 풋더 시작 -->
+<footer class="footer py-4  ">
+	<div class="container-fluid">
+		<div class="row align-items-center justify-content-lg-between">
+			<div class="col-lg-6 mb-lg-0 mb-4">
+				<div class="copyright text-center text-sm text-muted text-lg-start">
+					© <script>
+					document.write(new Date().getFullYear())
+					</script>,
+					made with <i class="fa fa-heart"></i> by
+					<a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
+					for a better web.
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<ul class="nav nav-footer justify-content-center justify-content-lg-end">
+					<li class="nav-item">
+						<a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
+					</li>
+					<li class="nav-item">
+						<a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
+					</li>
+					<li class="nav-item">
+						<a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
+					</li>
+					<li class="nav-item">
+						<a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</footer>
+<!-- 풋터 끝 -->

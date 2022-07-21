@@ -74,6 +74,16 @@ public class MainController {
 	}
 	
 	/**
+	 * 검색 결과 페이지 연결
+	 * @return searchresult.html
+	 */
+	@RequestMapping("/searchresult")
+	public String searchresult(Model m) {
+		m.addAttribute("center", "searchresult");
+		return "index";
+	}
+	
+	/**
 	 * 대시보드 페이지 연결
 	 * @return dashboard.html
 	 */
