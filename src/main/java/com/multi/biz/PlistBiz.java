@@ -79,4 +79,21 @@ public class PlistBiz implements Biz<Integer, PlistVo>{
 	public List<PlistVo> get_end(String k) throws Exception {
 		return dao.select_end(k);
 	}
+	
+	
+	/**
+	 * 
+	 * @param k
+	 * @return
+	 * @throws Exception
+	 */
+	public List<PlistVo> get_detail(String k) throws Exception {
+		return dao.get_detail(k);
+	}
+
+	
+
+	
+	
+	
 }

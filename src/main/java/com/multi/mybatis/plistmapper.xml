@@ -32,6 +32,11 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		SELECT p.uid, p.hospital, p.pdate, p.days, (p.days - (curdate() - p.pdate)) AS dday FROM plist p
 		INNER JOIN users u ON p.uid = u.id WHERE p.uid=#{uid} AND (p.days - (curdate() - p.pdate)) <![CDATA[<=]]> 0 
 	</select>
+	<select id="get_detail" parameterType="String" resultType="plistVo">
+		SELECT p.uid, p.hospital, p.pdate, p.days, (p.days - (curdate() - p.pdate)) AS dday FROM plist p
+		
+	</select>
+	
 </mapper>
 
 

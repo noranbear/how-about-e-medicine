@@ -39,4 +39,7 @@ public interface PlistMapper {
 	// 처방내역에 출력
 	public List<PlistVo> select_ing(String k) throws Exception;
 	public List<PlistVo> select_end(String k) throws Exception;
+	
+	//디테일
+	public List<PlistVo> get_detail(String k) throws Exception;
 }

@@ -45,10 +45,12 @@ import com.multi.vo.UsersVo;
  *
  *	2022. 7. 19.							 pdetail 생성
  *
- *	2022. 7. 19			 qwaszx357			  plist 수정
+ *	2022. 7. 19			qwaszx357			  plist 수정
  *
  *	2022. 7. 20.		najune				 mymedi	수정
  *
+ *	2022. 7. 22.						 	 profile 수정
+ *	
  * =========================================================
  */
 
@@ -63,6 +65,11 @@ public class MainController {
 	
 	@Autowired
 	MymediBiz mbiz;
+	
+	@Autowired
+	PlistBiz pbiz;
+	
+	
 	
 	/**
 	 * 메인 페이지 연결
@@ -175,11 +182,18 @@ public class MainController {
 	 * @return profile.html
 	 */
 	@RequestMapping("/profile")
-	public String profile(Model m) {
+	public String profile(Model m, HttpSession session) {
+		UsersVo users = null;
+        
+        if(session.getAttribute("signinusers") != null){
+            users = (UsersVo) session.getAttribute("signinusers");
 		m.addAttribute("center", "profile");
+        }
 		return "index";
 	}
 	
+	
+  	
 	/**
 	 * 약 디테일 페이지 연결
 	 * @return medidetail.html
@@ -245,9 +259,23 @@ public class MainController {
 	 * @return pdetail.html
 	 */
 	@RequestMapping("/pdetail")
-	public String pdetail(Model m) {
+	public String pdetail(Model m, HttpSession session) {
+		List<PlistVo> list = null;
+		UsersVo users = null;
+		
+		if(session.getAttribute("signinusers") != null){
+            users = (UsersVo) session.getAttribute("signinusers");
+            
+			try {
+				list = pbiz.get_detail(users.getId());
+				m.addAttribute("pdetail", list);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+        }
 		m.addAttribute("center", "pdetail");
 		return "index";
 	}
+	
 
 }
