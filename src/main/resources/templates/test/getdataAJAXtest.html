@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<!-- Version: 2.0 -->
+<!-- Description: data 화면 출력 Test 페이지
+첫 번째 시도: 실패
+문제점:
+1. 검색을 다시 할 시, 기존에 출력되어 있던 결과가 없어지지 않고 그 밑에 출력됨.
+2. center.html에는 적용 불가 - 데이터가 아예 안 들어옴
+   - <form></form>
+   - button type: submit
+
+해결방법: -> datatest2.html로 이동
+1. 독립적인 검색 결과 페이지를 만들어야 한다.
+2. ajax를 사용하지 않고 controller로 그냥 데이터를 뿌리자.
+3. 참고: 해왔던 admin 프로젝트등의 select 페이지
+
+-------------------------------------------------------------------------
+	Date			 Author							Note
+-------------------------------------------------------------------------
+2022. 7. 20.	noranbear, qwaszx357		ajax를 사용한 데이터 출력 실험
+
+2022. 7. 21.	   qwaszx357					  데이터 시험
+
+-------------------------------------------------------------------------
+-->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<title>Insert title here</title>
+
+<script>
+/* 예시
+function display(data){
+    var htmlstr = "";
+    htmlstr += "<table>";
+    
+    htmlStr += "<tr>";
+    htmlStr += "<td>"+ data"</td>";
+    htmlStr += "</tr>";
+
+    htmlStr += "</table>";
+
+    // 결과 HTML을 FORM의 결과 출력 DIV에 삽입
+    $("#table_form").html(htmlStr);
+};*/
+
+/**
+ * Json 약 데이터를 받아 테이블의 각 부분에 출력
+ */
+function display(data) {
+	
+	 var myObj = JSON.stringfy(data);
+	 console.log(myObj);
+     //document.getElementById("#this_div").innerHTML = myObj.header; 안됨 1
+	 // $("#this_div").text(data); 안됨 2
+}
+
+$(document).ready(function(){
+	
+	/* 약 데이터 불러오기 - product 조회(form으로 바꿔서 가져와야 함) */
+	$('#search_bt').click(function(){
+		var param = $('#param').val();
+		//alert(param);
+		$.ajax({
+			method: 'GET',
+			url:'/datatestget',
+			data:{'item':param},
+			dataType: 'json',
+			success:function(data){
+				// test
+				//alert(data);
+				// display(data);
+				console.log(data);
+				
+				/*
+				$.each(data["header"], function(key, value) {
+                    $("#head").append("<li>" + key + ": " + value + "</li>\n");
+                });
+				
+				$.each(data["body"], function(key, value) {
+                    $("#body_list").append("<li>" + key + ": " + value + "</li>\n");
+                });*/
+				
+
+				$.each(data, function (i, item){
+					$('#this_div2').append(`${item.itemName}<br>${item.itemSeq}<br>${item.itemImage}`)
+				});
+                
+                $.each(data, function (i, item){
+                    $('#this_div2').append(`<tbody><tr><td>${item.itemName}</td><td>${item.entpName}</td></tr></tbody>`)
+                    var imgurl = `${item.itemImage}`
+                    var itemimg = new Image();
+                    itemimg.src = imgurl;
+                    $('#this_div2').append(itemimg);
+                    
+                });
+				
+				
+			}
+		});
+		
+	});
+	
+	/* div 출력 실험용 */
+	$('#s_bt').click(function(){
+		//var param = $('#param').val();
+		//alert(param);
+		// $("#total_cost").text($("#total_cost_value").val()); 
+		$("#this_div").text($("#param").val()); 
+		
+	});
+	
+});
+</script>
+
+</head>
+<body>
+
+	<input id="param">
+	<button id="search_bt" type="submit" class="btn">hi</button>
+	<button id="s_bt" type="button" class="btn">출력실험</button>
+
+	<div id="this_div">
+		<ul id="head">
+		</ul>
+		<hr>
+		<ul id="body_list">
+		</ul>
+	</div>
+	<div id="this_div2"></div>
+</body>
+</html>

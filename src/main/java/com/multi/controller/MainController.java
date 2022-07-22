@@ -19,7 +19,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 7.0
+ * @version 8.0
  * @description
  *
  *
@@ -45,7 +45,7 @@ import com.multi.vo.UsersVo;
  *
  *	2022. 7. 19.							 pdetail 생성
  *
- *	2022. 7. 19			qwaszx357			  plist 수정
+
  *
  *	2022. 7. 20.		najune				 mymedi	수정
  *

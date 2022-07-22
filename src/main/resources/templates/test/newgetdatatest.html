@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!-- Version: 1.0 -->
+<!-- Description: Submit 버튼 type으로 TestController에 item을 보내고
+TestController에서 약 데이터 가져오기 테스트 페이지.
+
+좌절~~~
+1. 이유: 약 데이터의 형태가 java로 변환하기에 아주 복잡한 형태이다.
+
+2. 해결방법: 그냥 첫 번째 ajax로 데이터를 같은 페이지에 뿌리는 방법으로 가자. -> getdataAJAXtest.html
+
+-------------------------------------------------------------------------
+	Date			 Author							Note
+-------------------------------------------------------------------------
+2022. 7. 21.		noranbear				   First Creation
+
+-------------------------------------------------------------------------
+-->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<title>Insert title here</title>
+
+<script>
+$(document).ready(function(){
+	
+	// form의 내용을 보낸다.
+	$('#search').click(function(){
+		$('.getdata').attr({
+			'method':'get',
+			'action':'newdatatest'
+		});
+		// form(w/class) submit
+		$('.getdata').submit();
+	});
+});
+</script>
+</head>
+
+<body>
+
+	<form class="getdata">
+	    <input type="text" name="item">
+	    <a id="search" href="#" class="btn">검색</a>
+    </form>
+    
+ 	<table class="table" id="datatable">
+	    <thead>
+	        <tr>
+	            <th>이미지</th>
+	            <th>제품명</th>
+	            <th>업체명</th>
+	            <th>효능</th>
+	        </tr>
+	    </thead>
+	    <tfoot>
+	        <tr>
+	            <th>이미지</th>
+	            <th>제품명</th>
+	            <th>업체명</th>
+	            <th>효능</th>
+	        </tr>
+	    </tfoot>
+	    <tbody>
+	    	<!-- clist에서 c를 끄집어낸다. -->
+	        <tr th:each="c:${clist}">
+	        	<!-- /cust/detail?id=id01 --- 링크 예시
+	        	<td><a href="" th:text="${c.id}" th:href="@{detail(id=${c.id})}">id01</a></td>-->
+	        	
+	            <td><a href="" th:text="${c.id}">id01</a></td>
+	            <td th:text="${c.pwd}">pwd01</td>
+	            <td th:text="${c.name}">Name</td>
+	            <td th:text="${c.addr}">Address</td>
+	            <td th:text="${#dates.format(c.regdate,'yyyy/MM/dd')}">0000/00/00</td>
+	        </tr>
+	    </tbody>
+	</table>
+</body>
+</html>

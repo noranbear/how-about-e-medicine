@@ -11,18 +11,23 @@ import com.multi.restapi.OCREnvelopeAPI;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 2.0
+ * @version 4.0
  * @description
  *
  *
- * ===========================================================
+ * =================================================================
  * 	    DATE			 AUTHOR				    NOTE
- * -----------------------------------------------------------
+ * -----------------------------------------------------------------
  *  2022. 7. 6.		    noranbear		     getdata 생성
  *  
  *  2022. 7. 14.				   			evelopescan 생성
  *											 boxscan 생성
- * ===========================================================
+ *
+ *  2022. 7. 20.	    qwaszx357		dataget controller 수정
+ * 
+ *  2022. 7. 21.		noranbear	 dataget test controller 옮기기
+ *  
+ * =================================================================
  */
 @RestController
 
@@ -38,20 +43,17 @@ public class AJAXController {
 	OCRBoxAPI bapi;
 	
 	
-	
-	
-	
 	/**
-	 * 공공 데이터 포털에 있는 약 데이터를 가져온다.
-	 * @param item
-	 * @return Json item info
-	 * @throws Exception
-	 */
-	@RequestMapping("dataget")
-	public Object dataget(String item) throws Exception {
-		Object obj = dapi.dataapi(item);
-		return obj;
-	}
+     * 공공 데이터 포털에 있는 약 데이터를 가져온다.
+     * @param item
+     * @return Json item info
+     * @throws Exception
+     */
+    @RequestMapping("dataget")
+    public Object dataget(String item) throws Exception {
+        Object obj = dapi.dataapi(item);
+        return obj;
+    }
 	
 	/**
 	 * 약봉투에서 스캔한 텍스트 데이터를 보내준다.
