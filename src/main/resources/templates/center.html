@@ -14,6 +14,7 @@
 
 2022. 7. 19.		qwaszx357				  검색 결과 출력 화면 구성
 										 
+2022. 7. 22.		ynr1734						OCR 이미지 창 구현	 
 -------------------------------------------------------------------------------
 -->
 
@@ -23,6 +24,44 @@
 
 <!-- stylesheet -->
 <link href="./assets/ezocss/centercss.css" rel="stylesheet" />
+
+<style>
+/* Modal CSS */
+#modal-body{
+	text-align:center;
+}
+
+.btn-upload {
+  width: 150px;
+  height: 30px;
+  background: #e91e63;
+  color:white;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-upload:hover {
+	color:white;
+}
+
+#file {
+  display: none;
+}
+
+#url-search{
+	width:400px;
+	text-align:center;
+}
+
+#preview{
+	width:400px;
+	height:300px;
+}
+</style>
 
 <script>
 $(document).ready(function(){
@@ -44,6 +83,19 @@ $(document).ready(function(){
 	});
 	
 });
+
+/* Modal 창에서 input 이미지 가져오기 - preview */
+function readURL(input) {
+	  if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	    reader.onload = function(e) {
+	      document.getElementById('preview').src = e.target.result;
+	    };
+	    reader.readAsDataURL(input.files[0]);
+	  } else {
+	    document.getElementById('preview').src = "";
+	  }
+	}
 </script>
 
 <!-- 1. 로고 -->
@@ -78,18 +130,26 @@ $(document).ready(function(){
 					<div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h6 class="modal-title" id="modal-title-default">Type your modal title</h6>
+								<h6 class="modal-title" id="modal-title-default">이미지로 검색하기</h6>
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">×</span>
 								</button>
 							</div>
-							<div class="modal-body">
-								<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-								<p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+							<!-- 파일 업로드 -->
+							<div id="modal-body" class="modal-body">
+								<!-- input css 변경 -->
+								<label for="file">
+								  <a class="btn-upload">파일 선택</a>
+								</label>
+								<input type="file" name="file" id="file" onchange="readURL(this);">
+								<img id="preview">
+								<h6>OR</h6>
+								<!-- 이미지 링크 -->
+								<input type="url" id="url-search" name="url-search" placeholder="이미지 링크">
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn bg-gradient-primary">Save changes</button>
-								<button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
+								<button type="button" class="btn bg-gradient-primary">검색</button>
+								<button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">닫기</button>
 							</div>
 						</div>
 					</div>
