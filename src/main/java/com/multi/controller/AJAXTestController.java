@@ -40,21 +40,21 @@ public class AJAXTestController {
     @RequestMapping("datatestget")
     public Object datatestget(String item) throws Exception {
         Object obj = dapi.dataapi(item);
-        System.out.println("result 값 : " + obj);
+        //System.out.println("result 값 : " + obj);
         
         // Object를 JSONObject으로 변환
         JSONObject jo = (JSONObject) JSONValue.parse(obj.toString());
-        System.out.println("JSONObject로 변환 : " + jo);
+        //System.out.println("JSONObject로 변환 : " + jo);
         
         // jo에서 JSONObject으로 body 뽑아내기
         JSONObject jo1 = new  JSONObject();
         jo1 = (JSONObject) jo.get("body");
-        System.out.println("body 뽑아내기 : " + jo1);
+        //System.out.println("body 뽑아내기 : " + jo1);
         
         // body에서 JSONArray로 items 뽑아내기
         JSONArray ja = new JSONArray();
         ja = (JSONArray) jo1.get("items");
-        System.out.println("items 뽑아내기 : " + ja);
+        //System.out.println("items 뽑아내기 : " + ja);
         return ja;
     }
 	
