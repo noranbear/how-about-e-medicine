@@ -13,6 +13,14 @@
 2. ajax를 사용하지 않고 controller로 그냥 데이터를 뿌리자.
 3. 참고: 해왔던 admin 프로젝트등의 select 페이지
 
+그냥 이걸로 하기로 함.
+
+해결 방법 2:
+1. 검색창과 같은 페이지에 검색 결과 창 만들기
+2. ajax 사용
+3. 검색을 할 시, 화면에 뿌리기 전에 empty같은 걸로 기존에 출력되어 있던 결과를 없애줌.
+4. button에 submit 없애줌.
+
 -------------------------------------------------------------------------
 	Date			 Author							Note
 -------------------------------------------------------------------------
@@ -22,6 +30,7 @@
 
 -------------------------------------------------------------------------
 -->
+
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
@@ -117,7 +126,7 @@ $(document).ready(function(){
 <body>
 
 	<input id="param">
-	<button id="search_bt" type="submit" class="btn">hi</button>
+	<button id="search_bt" class="btn">hi</button>
 	<button id="s_bt" type="button" class="btn">출력실험</button>
 
 	<div id="this_div">

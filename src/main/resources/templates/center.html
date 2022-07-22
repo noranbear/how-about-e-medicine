@@ -13,6 +13,8 @@
                               				  main-logo path 변경
 
 2022. 7. 19.		qwaszx357				  검색 결과 출력 화면 구성
+
+2022. 7. 21.		noranbear				검색 결과 화면 출력 테스트 완료
 										 
 -------------------------------------------------------------------------------
 -->
@@ -25,22 +27,37 @@
 <link href="./assets/ezocss/centercss.css" rel="stylesheet" />
 
 <script>
+/**
+ * 검색된 결과를 받아 해당하는 약 데이터를 ajax로 가져오는 함수
+ */
+function getData(param){
+	$.ajax({
+		method: 'GET',
+		url:'/dataget',
+		data:{'item':param},
+		dataType: 'json',
+		success:function(data){
+			// test
+			alert(data);
+			//display(data);
+			console.log(data);
+			
+			$.each(data, function (i, item){
+				// test
+				$('#this_div2').append(`${item.itemName}<br>${item.itemSeq}<br>${item.itemImage}`)
+			});
+		}
+	});
+	
+};
+
 $(document).ready(function(){
 	
-	/* 약 데이터 불러오기 - product 조회(form으로 바꿔서 가져와야 함) */
+	/* 검색버튼 클릭 시, 약 데이터 불러오기 */
 	$('#search_bt').click(function(){
 		var param = $('#param').val();
 		//alert(param);
-		$.ajax({
-			url:'/dataget',
-			data:{'item':param},
-			success:function(data){
-				// test
-				alert(data);
-				//display(data);
-			}
-		});
-		
+		getData(param);
 	});
 	
 });
@@ -69,7 +86,7 @@ $(document).ready(function(){
 				<div class="input-group input-group-lg input-group-outline py-3">
 			  		<input type="text" id="param" class="form-control form-control-lg" placeholder="어떤 약을 찾으시나요?">
 			  	</div>
-			  	<button id="search_bt" type="submit" class="btn bg-gradient-primary w-auto me-2"><i class="fas fa-search" aria-hidden="true"></i></button>
+			  	<a id="search_bt" class="btn bg-gradient-primary w-auto me-2"><i class="fas fa-search" aria-hidden="true"></i></a>
 				
 				<!-- OCR 스캔 시작 -->
 			    <button id="scan_bt" type="button" class="btn btn-block bg-gradient-primary mb-3" data-bs-toggle="modal" data-bs-target="#modal-default"><i class="fa fa-camera"></i></button>
@@ -156,7 +173,10 @@ $(document).ready(function(){
 	</div>
 </div>
 <!-- 검색 결과 출력 끝 -->
-			
+
+<!-- 약 검색 결과 출력 테스트용 div -->
+<div id="this_div2"></div>
+
 <!-- Footer Start -->
 <footer class="footer py-4  ">
 	<div class="container-fluid">
