@@ -16,7 +16,7 @@
 
 2022. 7. 21.		noranbear				검색 결과 화면 출력 테스트 완료
 		
-2022. 7. 22.		noranbear			  getdataAJAXtest.html 내용을 
+2022. 7. 22.							  getdataAJAXtest.html 내용을 
 										  대입해서 테이블 내에 결과 출력하기	
 										  							 
 -------------------------------------------------------------------------------
@@ -36,12 +36,11 @@
  */
 function display(data){
 	var html= "";		// 출력할 html을 담을 변수
-	var th = "text-center text-uppercase text-secondary font-weight-bolder'>";
+	var th = "text-center text-uppercase text-secondary font-weight-bolder'>";	// 반복되는 것 변수로 만들어버리기
 	
-	remove();		// 지우기
+	remove();			// 지우기
 
 	// 1. 테이블 생성
-	// div
 	html += "<div class='card-body px-0 pb-2'>";
 	html += "<div class='table-responsive'>";
 	html += "<table class='table-fixed table align-items-center mb-0'>";
@@ -73,9 +72,10 @@ function display(data){
 	// close
 	html += "<tbody>";
 	html += "</table></div></div>";
-	
+
 	// 2. 생성된 테이블 출력
 	$('#result-div').html(html);
+	
 }
 
 /**
@@ -99,6 +99,21 @@ function getData(param){
 		url:'/dataget',
 		data:{'item':param},
 		dataType: 'json',
+		// [1] 해당 데이터가 없을 때
+		error: function(error) {
+			var html= "";	// 출력할 html을 담을 변수  
+			remove();		// 지우기
+
+			// 1. 검색 결과 없음 메세지 생성
+			html += "<div class='card-body px-0 pb-2' style='text-align:center;'>"; 
+			html += "<h5>''에 대한 검색 결과가 없습니다.</h5>";
+			// close
+			html += "</div>";
+			
+			// 2. 생성된 메세지 출력
+			$('#result-div').html(html);
+		},
+		// [2] 해당 데이터가 있을 때
 		success:function(data){
 			// test
 			//alert(data);
