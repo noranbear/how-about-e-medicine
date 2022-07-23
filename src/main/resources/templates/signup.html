@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 1.1 -->
+<!-- Version: 1.2 -->
 <!-- Description: 메인페이지
 
 -------------------------------------------------------------------------
@@ -23,8 +23,11 @@
 
 					qwaszx357					  code 정리
 		
-2022. 7. 16			najune						회원가입 페이지 구현			
+2022. 7. 16			najune						회원가입 페이지 구현	
+		
 2022. 7. 18			najune						회원가입 기능 구현		
+
+2022. 7. 23.		qwaszx357				   헤더 변경 및 링크 연결
 -------------------------------------------------------------------------
 -->
 
@@ -135,9 +138,9 @@ font-size:1em;
 				<!-- Header Start -->
 				<nav class="navbar navbar-expand-lg blur border-radius-xl top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
 					<div class="container-fluid ps-2 pe-0">
-						<a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href="../pages/dashboard.html">
+						<span class="navbar-brand font-weight-bolder ms-lg-0 ms-3 ">
 						e약어때
-						</a>
+						</span>
 						<button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
 							<span class="navbar-toggler-icon mt-2">
 								<span class="navbar-toggler-bar bar1"></span>
@@ -148,31 +151,29 @@ font-size:1em;
 						<div class="collapse navbar-collapse" id="navigation">
 							<ul class="navbar-nav mx-auto">
 								<li class="nav-item">
-									<a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="../pages/dashboard.html">
+									<a class="nav-link d-flex align-items-center me-2 active" aria-current="page" th:href="@{/dashboard}">
 										<i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>
-										Dashboard
+										대시보드
 									</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link me-2" href="../pages/profile.html">
+									<a class="nav-link me-2" th:href="@{/profile}">
 										<i class="fa fa-user opacity-6 text-dark me-1"></i>
-										Profile
+										마이페이지
 									</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link me-2" href="sign-up.html">
-										<i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
-										Sign Up
-									</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link me-2" href="../pages/sign-in.html">
+									<a class="nav-link me-2" th:href="@{/signin}">
 										<i class="fas fa-key opacity-6 text-dark me-1"></i>
-										Sign In
+										로그인
 									</a>
 								</li>
 							</ul>
-							
+							<ul class="navbar-nav d-lg-block d-none">
+								<li class="nav-item">
+									<a th:href="@{/}" class="btn btn-sm mb-0 me-1 bg-gradient-dark">홈으로 이동</a>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</nav>
