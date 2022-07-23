@@ -51,7 +51,9 @@ import com.multi.vo.UsersVo;
  *
  *	2022. 7. 21.		noranbear			datatest 이동
  *
- *	2022. 7. 20.		najune				 mymedi	수정
+ *	2022. 7. 20.		 najune				 mymedi	수정
+ *
+ *	2022. 7. 22.		 					 profile 수정
  *
  * =========================================================
  */
@@ -174,15 +176,19 @@ public class MainController {
 		return "index";
 	}
 	
-	/**
-	 * 마이페이지 연결
-	 * @return profile.html
-	 */
-	@RequestMapping("/profile")
-	public String profile(Model m) {
-		m.addAttribute("center", "profile");
-		return "index";
-	}
+	/** 마이페이지 연결
+    * @return profile.html
+    */
+   @RequestMapping("/profile")
+   public String profile(Model m, HttpSession session) {
+       UsersVo users = null;
+       
+       if(session.getAttribute("signinusers") != null){
+           users = (UsersVo) session.getAttribute("signinusers");
+       m.addAttribute("center", "profile");
+       }
+       return "index";
+   }
 	
 	/**
 	 * 약 디테일 페이지 연결
