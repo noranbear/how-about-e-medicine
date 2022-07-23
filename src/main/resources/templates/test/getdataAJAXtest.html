@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 2.0 -->
+<!-- Version: 3.0 -->
 <!-- Description: data 화면 출력 Test 페이지
 첫 번째 시도: 실패
 문제점:
@@ -13,6 +13,14 @@
 2. ajax를 사용하지 않고 controller로 그냥 데이터를 뿌리자.
 3. 참고: 해왔던 admin 프로젝트등의 select 페이지
 
+그냥 이걸로 하기로 함.
+
+해결 방법 2:
+1. 검색창과 같은 페이지에 검색 결과 창 만들기
+2. ajax 사용
+3. 검색을 할 시, 화면에 뿌리기 전에 empty같은 걸로 기존에 출력되어 있던 결과를 없애줌.
+4. button에 submit 없애줌.
+
 -------------------------------------------------------------------------
 	Date			 Author							Note
 -------------------------------------------------------------------------
@@ -20,13 +28,22 @@
 
 2022. 7. 21.	   qwaszx357					  데이터 시험
 
+2022. 7. 22.	   noranbear 				1. 데이터 테이블 형식으로 출력완료
+											2. empty 구현
+											3. center.html 형식으로 출력 
+												   테스트 완료
+
 -------------------------------------------------------------------------
 -->
+
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <title>Insert title here</title>
+
+<!-- CSS Files -->
+<link id="pagestyle" href="./assets/css/material-dashboard.css?v=3.0.4" rel="stylesheet" />
 
 <script>
 /* 예시
@@ -72,30 +89,29 @@ $(document).ready(function(){
 				// display(data);
 				console.log(data);
 				
-				/*
-				$.each(data["header"], function(key, value) {
-                    $("#head").append("<li>" + key + ": " + value + "</li>\n");
-                });
-				
-				$.each(data["body"], function(key, value) {
-                    $("#body_list").append("<li>" + key + ": " + value + "</li>\n");
-                });*/
-				
+                $('#this_div2').empty(); // 됨
+  
+    			var html= "";
 
-				$.each(data, function (i, item){
-					$('#this_div2').append(`${item.itemName}<br>${item.itemSeq}<br>${item.itemImage}`)
-				});
-                
+    			//html += "<table><tr>"
+    			//html += "<th>이미지</th><th>제품명</th><th>업체명</th><th>효능</th></tr>";
+
                 $.each(data, function (i, item){
-                    $('#this_div2').append(`<tbody><tr><td>${item.itemName}</td><td>${item.entpName}</td></tr></tbody>`)
-                    var imgurl = `${item.itemImage}`
-                    var itemimg = new Image();
-                    itemimg.src = imgurl;
-                    $('#this_div2').append(itemimg);
+                    var itemname = data[i].itemName;
+        			var imgurl = data[i].itemImage;
+        			var company = data[i].entpName;
+        			var efficacy = data[i].efcyQesitm;
+        			
+        			html += "<tr><td><img style='height:100px; width: 100px;' src='" + imgurl + "'></td>";
+        			html += "<td>"+ itemname +"</td>";
+        			html += "<td>"+ company +"</td>";
+        			html += "<td>"+ efficacy +"</td>";
+        			html += "</tr>";
                     
                 });
-				
-				
+                //html += "</table>";
+    			$('#this_div2').html(html);
+	
 			}
 		});
 		
@@ -117,7 +133,7 @@ $(document).ready(function(){
 <body>
 
 	<input id="param">
-	<button id="search_bt" type="submit" class="btn">hi</button>
+	<button id="search_bt" class="btn">hi</button>
 	<button id="s_bt" type="button" class="btn">출력실험</button>
 
 	<div id="this_div">
@@ -127,6 +143,27 @@ $(document).ready(function(){
 		<ul id="body_list">
 		</ul>
 	</div>
-	<div id="this_div2"></div>
+	<div class="search_card col-lg-8 col-10 mb-md-0 mb-4 mx-auto">
+		<div class="card">
+			<!-- 여기 시작 -->
+			<div class="card-body px-0 pb-2">
+				<div class="table-responsive">
+					<table class="table-fixed table align-items-center mb-0">
+						<thead>
+							<tr>
+								<th class="th-width1 text-center text-uppercase text-secondary font-weight-bolder">이미지</th>
+								<th class="th-width2 text-center text-uppercase text-secondary font-weight-bolder">제품명</th>
+								<th class="th-width3 text-center text-uppercase text-secondary font-weight-bolder">업체명</th>
+								<th class="th-width4 text-center text-uppercase text-secondary font-weight-bolder">효능 효과</th>
+							</tr>
+						</thead>
+						<tbody id="this_div2">
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- 여기 끝 -->
+		</div>
+	</div>
 </body>
 </html>

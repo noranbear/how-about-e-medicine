@@ -4,7 +4,7 @@
   Description: center.html style
   Created: noranbear
   Reference URL:
-  Version: 2.0
+  Version: 3.0
 ******************************************************************/
 
 /* 1. 로고 시작 -------- */
@@ -87,7 +87,15 @@
 }
 /* 2. 검색창 끝 ---------- */
 
-/* 3. 검색 결과 출력 시작 --- */
+/* 3. 검색창, 풋터 사이 여백 시작 */
+.mid-div {
+    padding-top: 9em;
+    padding-bottom: 4rem !important;
+    margin-bottom: 2em;
+}
+/* 3. 검색창, 풋터 사이 여백 끝 */
+
+/* 4. 검색 결과 출력 시작 --- */
 .img-size {
 	width: 150px;
 	height: 100px;
@@ -130,4 +138,4 @@
 .table-fixed .td-height {
 	white-space: normal;
 }
-/* 3. 검색 결과 출력 끝 ---- */
+/* 4. 검색 결과 출력 끝 ---- */
