@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 4.1 -->
+<!-- Version: 5.1 -->
 <!-- Description: 메인 페이지의 기본 중간 화면 (검색창)
 
 -------------------------------------------------------------------------------
@@ -14,8 +14,15 @@
 
 2022. 7. 19.		qwaszx357				  검색 결과 출력 화면 구성
 
-2022. 7. 22.									footer 지우기
-										 
+2022. 7. 21.		noranbear				검색 결과 화면 출력 테스트 완료
+	
+2022. 7. 22.							  getdataAJAXtest.html 내용을 
+										  대입해서 테이블 내에 결과 출력하기	
+
+2022. 7. 22.    qwaszx357									footer 지우기
+
+2022. 7. 23.		noranbear						검색 없음 메세지 출력		
+								  							 
 -------------------------------------------------------------------------------
 -->
 
@@ -26,23 +33,108 @@
 <!-- stylesheet -->
 <link href="./assets/ezocss/centercss.css" rel="stylesheet" />
 
+
 <script>
+/**
+ * 검색된 결과를 '검색 결과 div'에 출력하는 함수
+ */
+function display(data){
+	var html= "";		// 출력할 html을 담을 변수
+	var th = "text-center text-uppercase text-secondary font-weight-bolder'>";	// 반복되는 것 변수로 만들어버리기
+	
+	remove();			// 지우기
+
+	// 1. 테이블 생성
+	html += "<div class='card-body px-0 pb-2'>";
+	html += "<div class='table-responsive'>";
+	html += "<table class='table-fixed table align-items-center mb-0'>";
+	// 헤더
+	html += "<thead><tr>";
+	html += "<th class='th-width1 " + th + "이미지</th>";
+	html += "<th class='th-width2 " + th + "제품명</th>";
+	html += "<th class='th-width3 " + th + "업체명</th>";
+	html += "<th class='th-width4 " + th + "효능</th>";
+	html += "</tr></thead>";
+	
+	// 바디
+	html += "<tbody>";
+	// 데이터 집어넣기
+	$.each(data, function (i, item){
+		var itemname = data[i].itemName;
+		var imgurl = data[i].itemImage;
+		var company = data[i].entpName;
+		var efficacy = data[i].efcyQesitm;
+		
+		html += "<tr class='tr-height'>"
+		html += "<td class='align-middle text-center'><img style='height:100px; width: 100px;' src='" + imgurl + "'></td>";
+		html += "<td class='align-middle text-center'>"+ itemname +"</td>";
+		html += "<td class='align-middle text-center'>"+ company +"</td>";
+		html += "<td class='td-height align-middle text-center'>"+ efficacy +"</td>";
+		html += "</tr>";
+	});
+	
+	// close
+	html += "<tbody>";
+	html += "</table></div></div>";
+
+	// 2. 생성된 테이블 출력
+	$('#result-div').html(html);
+	
+}
+
+/**
+ * 기존에 있던 mid-div와 검색 결과를 지우는 함수
+ */
+function remove(){
+	// 1. 중간 공간을 지워줌
+	$('#remove-div').remove();
+	
+	// 2. 이전 출력 결과가 있다면 지워줌.
+	$('#result-div').empty();
+	// 또는
+	//$('#this_div2').html("");	
+}
+/**
+ * 검색된 결과를 받아 해당하는 약 데이터를 ajax로 가져오는 함수
+ */
+function getData(param){
+	$.ajax({
+		method: 'GET',
+		url:'/dataget',
+		data:{'item':param},
+		dataType: 'json',
+		// [1] 해당 데이터가 없을 때
+		error: function(error) {
+			var html= "";	// 출력할 html을 담을 변수  
+			remove();		// 지우기
+
+			// 1. 검색 결과 없음 메세지 생성
+			html += "<div class='card-body px-0 pb-2' style='text-align:center;'>"; 
+			html += "<h5>''에 대한 검색 결과가 없습니다.</h5>";
+			// close
+			html += "</div>";
+			
+			// 2. 생성된 메세지 출력
+			$('#result-div').html(html);
+		},
+		// [2] 해당 데이터가 있을 때
+		success:function(data){
+			// test
+			//alert(data);
+		 	console.log(data);
+			display(data);
+		}
+	});
+	
+};
+
 $(document).ready(function(){
 	
-	/* 약 데이터 불러오기 - product 조회(form으로 바꿔서 가져와야 함) */
+	/* 검색버튼 클릭 시, 약 데이터 불러오기 */
 	$('#search_bt').click(function(){
 		var param = $('#param').val();
 		//alert(param);
-		$.ajax({
-			url:'/dataget',
-			data:{'item':param},
-			success:function(data){
-				// test
-				alert(data);
-				//display(data);
-			}
-		});
-		
+		getData(param);
 	});
 	
 });
@@ -71,7 +163,7 @@ $(document).ready(function(){
 				<div class="input-group input-group-lg input-group-outline py-3">
 			  		<input type="text" id="param" class="form-control form-control-lg" placeholder="어떤 약을 찾으시나요?">
 			  	</div>
-			  	<button id="search_bt" type="submit" class="btn bg-gradient-primary w-auto me-2"><i class="fas fa-search" aria-hidden="true"></i></button>
+			  	<a id="search_bt" class="btn bg-gradient-primary w-auto me-2"><i class="fas fa-search" aria-hidden="true"></i></a>
 				
 				<!-- OCR 스캔 시작 -->
 			    <button id="scan_bt" type="button" class="btn btn-block bg-gradient-primary mb-3" data-bs-toggle="modal" data-bs-target="#modal-default"><i class="fa fa-camera"></i></button>
@@ -104,57 +196,13 @@ $(document).ready(function(){
 </div>
 <!-- 2. 검색창 끝 -->
 
-<!-- 검색 결과 출력 시작 -->
+<!-- 3-1. 검색창과 풋터 사이의 여백 (검색전) -->
+<div class="mid-div" id="remove-div"></div>
+
+<!-- 3-2. 검색 결과 출력 시작 -->
 <div class="search_card col-lg-8 col-10 mb-md-0 mb-4 mx-auto">
-	<div class="card">
-		<div class="card-body px-0 pb-2">
-			<div class="table-responsive">
-				<table class="table-fixed table align-items-center mb-0">
-					<thead>
-						<tr>
-							<th class="th-width1 text-center text-uppercase text-secondary font-weight-bolder">이미지</th>
-							<th class="th-width2 text-center text-uppercase text-secondary font-weight-bolder">제품명</th>
-							<th class="th-width3 text-center text-uppercase text-secondary font-weight-bolder">업체명</th>
-							<th class="th-width4 text-center text-uppercase text-secondary font-weight-bolder">효능 효과</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr class="tr-height">
-							<td>
-								<div id="img_div">
-									<img class="img-size" src="../img/search_img1.jpg">
-								</div>
-							</td>
-							<td class="align-middle text-center">
-								아스피린01
-							</td>
-							<td class="align-middle text-center">
-								00회사
-							</td>
-							<td class="td-height align-middle text-center">
-								이 약은...
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div id="img_div">
-									<img class="img-size" src="../img/search_img2.jpg">
-								</div>
-							</td>
-							<td class="align-middle text-center">
-								아스피린02
-							</td>
-							<td class="align-middle text-center">
-								ㅁㅁ회사
-							</td>
-							<td class="align-middle text-center">
-								이 약은...
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
+	<div class="card" id="result-div">
+		<!-- 검색 결과가 출력되는 곳 -->
 	</div>
 </div>
 <!-- 검색 결과 출력 끝 -->
