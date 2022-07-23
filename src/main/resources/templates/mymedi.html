@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 1.1 -->
+<!-- Version: 1.2 -->
 <!-- Description: 내 약 리스트 페이지
 
 -------------------------------------------------------------------------
@@ -23,12 +23,25 @@
 
 2022. 7. 18.		najune				  		내약리스트 화면 구현
 
+2022. 7. 20.						  			내약리스트 기능 구현
+
+2022. 7. 22.		qwaszx357					head, html 지우기
+
 -------------------------------------------------------------------------
 -->
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+#right{
+position: absolute;
+top: 0; right: 0;
+float: right;
+}
+
+</style>
+
 
 <!-- 알림창 -->
 <div class="row">
@@ -47,7 +60,7 @@
 	<div class="alert alert-secondary alert-dismissible text-white"
 		role="alert">
 		<span class="text-sm">사용기한이
-		<a href="javascript:;" class="alert-link text-white"></a>.
+		<a href="javascript:;" class="alert-link text-white"></a>
 			13일 남았습니다
 		</span>
 		<button type="button" class="btn-close text-lg py-3 opacity-10"
@@ -57,13 +70,16 @@
 	</div>
 
 <!-- 내약리스트 -->
-	<div class="col-md-12 mt-4">
+	<div class="col-md-4 mt-4" th:each="m:${mymedi}">
 		<div class="card">
+		
 			<div class="card-header pb-0 px-3">
-				<h4 class="mb-0">내약리스트</h4>
-			</div>
+				<h4 class="mb-0" th:text="${m.name}"></h4>	
+				<div class="col-lg-4 col-md-4 col-sm-6" id="right"></div>			
+			</div>			
 			
-			<div class="card-body pt-4 p-3">
+			<div class="card-body pt-4 p-3" >
+			
 				
 					<div class="card-group">
 						<div class="card" data-animation="true">
@@ -86,78 +102,17 @@
 										<i class="material-icons text-lg">edit</i>
 									</button>
 								</div>
-								<h6 class="mb-3 text-sm">약이름1</h6>
+								<h6 class="mb-3 text-sm"></h6>
 								<span class="mb-2 text-xs">병원명: 
 								<span class="text-dark font-weight-bold ms-sm-2">oo병원</span></span> 
 								<div></div>
-								<span class="text-xs">사용기한:2020-12-12</span>
-							</div>
-						</div>
-
-						<div class="card" data-animation="true">
-							<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-								<a class="d-block blur-shadow-image"> <img src="1.jpg"
-									alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-								</a>
-								<div class="colored-shadow"
-									style="background-image: url(&quot;https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg&quot;);"></div>
-							</div>
-							<div class="card-body text-center">
-								<div class="d-flex mt-n6 mx-auto">
-									<a class="btn btn-link text-primary ms-auto border-0"
-										data-bs-toggle="tooltip" data-bs-placement="bottom"
-										title="Refresh"> <i class="material-icons text-lg">delete</i>
-									</a>
-									<button class="btn btn-link text-info me-auto border-0"
-										data-bs-toggle="tooltip" data-bs-placement="bottom"
-										title="Edit">
-										<i class="material-icons text-lg">edit</i>
-									</button>
-								</div>
-								<h6 class="mb-3 text-sm">약이름2</h6>
-								<span class="mb-2 text-xs">병원명: 
-								<span class="text-dark font-weight-bold ms-sm-2">oo병원</span></span> 
-								<div></div>
-								<span class="text-xs">사용기한:2020-12-12</span>
-							</div>
+								<span class="text-xs" th:text="${m.usedate}">사용기한:2020-12-12</span>
+							</div> 
 						</div>
 						
-						
-						<div class="card" data-animation="true">
-							<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-								<a class="d-block blur-shadow-image"> <img src="1.jpg"
-									alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-								</a>
-								<div class="colored-shadow"
-									style="background-image: url(&quot;https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg&quot;);"></div>
-							</div>
-							<div class="card-body text-center">
-								<div class="d-flex mt-n6 mx-auto">
-									<a class="btn btn-link text-primary ms-auto border-0"
-										data-bs-toggle="tooltip" data-bs-placement="bottom"
-										title="Refresh"> <i class="material-icons text-lg">delete</i>
-									</a>
-									<button class="btn btn-link text-info me-auto border-0"
-										data-bs-toggle="tooltip" data-bs-placement="bottom"
-										title="Edit">
-										<i class="material-icons text-lg">edit</i>
-									</button>
-								</div>
-								<h6 class="mb-3 text-sm">약이름3</h6>
-								<span class="mb-2 text-xs">병원명: 
-								<span class="text-dark font-weight-bold ms-sm-2">oo병원</span></span> 
-								<div></div>
-								<span class="text-xs">사용기한:2020-12-12</span>
-							</div>
-						</div>
-					</div>
-					
+					</div>				
+			
 			</div>
 		</div>
 	</div>
 </div>
-
-</head>
-</html>
-
-	

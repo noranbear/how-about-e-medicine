@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.multi.vo.MymediVo;
 
+
 /**
  * @author qwaszx357
  * @date 2022. 7. 11.
@@ -18,7 +19,7 @@ import com.multi.vo.MymediVo;
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
  *  2022. 7. 11.		qwaszx357		  First Creation
- *
+ *	2022. 7. 20.		najune				get 추가 
  * =========================================================
  */
 @Repository
@@ -32,4 +33,8 @@ public interface MymediMapper {
     public MymediVo select(int id) throws Exception;
     public List<MymediVo> selectall() throws Exception;
 
+    
+ // Mymedi
+ 	public List<MymediVo> get(String txt) throws Exception;
+ 	
 }
