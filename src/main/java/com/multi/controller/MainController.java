@@ -5,13 +5,17 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.multi.biz.MymediBiz;
 import com.multi.biz.PlistBiz;
+import com.multi.biz.SlistBiz;
 import com.multi.biz.UsersBiz;
+import com.multi.frame.Util;
+import com.multi.vo.MfVo;
 import com.multi.vo.MymediVo;
 import com.multi.vo.PlistVo;
 import com.multi.vo.UsersVo;
@@ -60,12 +64,18 @@ import com.multi.vo.UsersVo;
  *  					noranbear		medidetail 수정
  *  
  *  2022. 7. 25.						medidetail 수정
+ *  
+ *										ocraddimpl 생성
  *
  * =========================================================
  */
 
 @Controller
 public class MainController {
+	
+	// 이미지 저장 경로
+	@Value("${userdir}")
+	String userdir;
 	
 	@Autowired
 	UsersBiz ubiz;
@@ -75,6 +85,9 @@ public class MainController {
 	
 	@Autowired
 	MymediBiz mbiz;
+	
+	@Autowired
+	SlistBiz slistbiz;
 	
 	/**
 	 * 메인 페이지 연결
@@ -266,5 +279,25 @@ public class MainController {
 		return "index";
 	}
 	
+	/**
+	 * ocr 이미지 저장
+	 * @param mf
+	 */
+	@RequestMapping("/ocraddimpl")
+	public String ocraddimpl(Model m, MfVo mf) {
+		// name, price, cid, mf(imgname 끄집어 내기)
+		//String imgname = mf.getMf().getOriginalFilename();
+		System.out.println(mf.getMf());
+		try {
+			//biz.register(p);
+			//mf.setImgname(imgname);
+			Util.saveFile(mf.getMf(), userdir);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "index";
+
+	}
 
 }

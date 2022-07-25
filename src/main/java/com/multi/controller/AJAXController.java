@@ -93,6 +93,7 @@ public class AJAXController {
 	 */
 	@RequestMapping("boxscan")
 	public Object boxscan(String imgname) {
+		System.out.println(imgname);
 		Object result = bapi.boxapi(imgname);
 		return result;
 	}
