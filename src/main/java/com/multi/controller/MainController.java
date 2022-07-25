@@ -221,7 +221,7 @@ public class MainController {
        // body에서 JSONArray로 items 뽑아내기
        JSONArray ja = new JSONArray();
        ja = (JSONArray) jo1.get("items");
-       System.out.println("items 뽑아내기 : " + ja);
+       // System.out.println("items 뽑아내기 : " + ja);
        
        m.addAttribute("item", ja);
        m.addAttribute("center", "medidetail");
