@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 4.0 -->
+<!-- Version: 6.0 -->
 <!-- Description: 메인 페이지의 기본 중간 화면 (검색창)
 
 -------------------------------------------------------------------------------
@@ -10,10 +10,24 @@
 2022. 7. 16.							Bootstrap Dashboard page 탬플릿으로 바꿈
 
 2022. 7. 18. 								  검색 페이지 화면 구성
-                              main-logo path 변경
+                              				  main-logo path 변경
 
 2022. 7. 19.		qwaszx357				  검색 결과 출력 화면 구성
-											 
+
+2022. 7. 21.		noranbear				검색 결과 화면 출력 테스트 완료
+	
+2022. 7. 22.							  getdataAJAXtest.html 내용을 
+										  대입해서 테이블 내에 결과 출력하기	
+
+2022. 7. 22.		ynr1734						OCR 이미지 창 구현
+
+2022. 7. 22.   		qwaszx357					footer 지우기
+
+2022. 7. 23.		noranbear				  검색 없음 메세지 출력
+										medidetail controller로 item 보내기 시작
+
+2022. 7. 25.							medidetail controller로 item 보내기 성공		
+								  							 
 -------------------------------------------------------------------------------
 -->
 
@@ -25,25 +39,132 @@
 <link href="./assets/ezocss/centercss.css" rel="stylesheet" />
 
 <script>
+/**
+ * 디테일 페이지로 선택된 아이템이름 보내기
+ */
+function getname(item){
+	var text = $(item).text();	
+	//alert(text);
+	
+	location.href="/medidetail?item=" + text;
+}
+
+/**
+ * 검색된 결과를 '검색 결과 div'에 출력하는 함수
+ */
+function display(data){
+	var html= "";		// 출력할 html을 담을 변수
+	var th = "text-center text-uppercase text-secondary font-weight-bolder'>";	// 반복되는 것 변수로 만들어버리기
+	
+	remove();			// 지우기
+
+	// 1. 테이블 생성
+	html += "<div class='card-body px-0 pb-2'>";
+	html += "<div class='table-responsive'>";
+	html += "<table class='table-fixed table align-items-center mb-0'>";
+	// 헤더
+	html += "<thead><tr>";
+	html += "<th class='th-width1 " + th + "이미지</th>";
+	html += "<th class='th-width2 " + th + "제품명</th>";
+	html += "<th class='th-width3 " + th + "업체명</th>";
+	html += "<th class='th-width4 " + th + "효능</th>";
+	html += "</tr></thead>";
+	
+	// 바디
+	html += "<tbody>";
+	// 데이터 집어넣기
+	$.each(data, function (i, item){
+		var itemname = data[i].itemName;
+		var imgurl = data[i].itemImage;
+		var company = data[i].entpName;
+		var efficacy = data[i].efcyQesitm;
+		
+		html += "<tr class='tr-height'>"
+		html += "<td class='align-middle text-center'><img style='height:100px; width: 100px;' src='" + imgurl + "'></td>";
+		html += "<td class='align-middle text-center'><a href='#' onclick='getname(this);'>"+ itemname +"</a></td>";
+		html += "<td class='align-middle text-center'>"+ company +"</td>";
+		html += "<td class='td-height align-middle text-center'>"+ efficacy +"</td>";
+		html += "</tr>";
+	});
+	
+	// close
+	html += "<tbody>";
+	html += "</table></div></div>";
+
+	// 2. 생성된 테이블 출력
+	$('#result-div').html(html);
+	
+}
+
+/**
+ * 기존에 있던 mid-div와 검색 결과를 지우는 함수
+ */
+function remove(){
+	// 1. 중간 공간을 지워줌
+	$('#remove-div').remove();
+	
+	// 2. 이전 출력 결과가 있다면 지워줌.
+	$('#result-div').empty();
+	// 또는
+	//$('#this_div2').html("");	
+}
+/**
+ * 검색된 결과를 받아 해당하는 약 데이터를 ajax로 가져오는 함수
+ */
+function getData(param){
+	$.ajax({
+		method: 'GET',
+		url:'/dataget',
+		data:{'item':param},
+		dataType: 'json',
+		// [1] 해당 데이터가 없을 때
+		error: function(error) {
+			var html= "";	// 출력할 html을 담을 변수  
+			remove();		// 지우기
+
+			// 1. 검색 결과 없음 메세지 생성
+			html += "<div class='card-body px-0 pb-2' style='text-align:center;'>"; 
+			html += "<h5>''에 대한 검색 결과가 없습니다.</h5>";
+			// close
+			html += "</div>";
+			
+			// 2. 생성된 메세지 출력
+			$('#result-div').html(html);
+		},
+		// [2] 해당 데이터가 있을 때
+		success:function(data){
+			// test
+			//alert(data);
+		 	console.log(data);
+			display(data);
+		}
+	});
+	
+};
+
 $(document).ready(function(){
 	
-	/* 약 데이터 불러오기 - product 조회(form으로 바꿔서 가져와야 함) */
+	/* 검색버튼 클릭 시, 약 데이터 불러오기 */
 	$('#search_bt').click(function(){
 		var param = $('#param').val();
 		//alert(param);
-		$.ajax({
-			url:'/dataget',
-			data:{'item':param},
-			success:function(data){
-				// test
-				alert(data);
-				//display(data);
-			}
-		});
-		
+		getData(param);
 	});
 	
 });
+
+/* Modal 창에서 input 이미지 가져오기 - preview */
+function readURL(input) {
+	  if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	    reader.onload = function(e) {
+	      document.getElementById('preview').src = e.target.result;
+	    };
+	    reader.readAsDataURL(input.files[0]);
+	  } else {
+	    document.getElementById('preview').src = "";
+	  }
+	}
 </script>
 
 <!-- 1. 로고 -->
@@ -69,7 +190,7 @@ $(document).ready(function(){
 				<div class="input-group input-group-lg input-group-outline py-3">
 			  		<input type="text" id="param" class="form-control form-control-lg" placeholder="어떤 약을 찾으시나요?">
 			  	</div>
-			  	<button id="search_bt" type="submit" class="btn bg-gradient-primary w-auto me-2"><i class="fas fa-search" aria-hidden="true"></i></button>
+			  	<a id="search_bt" class="btn bg-gradient-primary w-auto me-2"><i class="fas fa-search" aria-hidden="true"></i></a>
 				
 				<!-- OCR 스캔 시작 -->
 			    <button id="scan_bt" type="button" class="btn btn-block bg-gradient-primary mb-3" data-bs-toggle="modal" data-bs-target="#modal-default"><i class="fa fa-camera"></i></button>
@@ -78,18 +199,26 @@ $(document).ready(function(){
 					<div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h6 class="modal-title" id="modal-title-default">Type your modal title</h6>
+								<h6 class="modal-title" id="modal-title-default">이미지로 검색하기</h6>
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">×</span>
 								</button>
 							</div>
-							<div class="modal-body">
-								<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-								<p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+							<!-- 파일 업로드 -->
+							<div id="modal-body" class="modal-body">
+								<!-- input css 변경 -->
+								<label for="file">
+								  <a class="btn-upload">파일 선택</a>
+								</label>
+								<input type="file" name="file" id="file" onchange="readURL(this);">
+								<img id="preview">
+								<h6>OR</h6>
+								<!-- 이미지 링크 -->
+								<input type="url" id="url-search" name="url-search" placeholder="이미지 링크">
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn bg-gradient-primary">Save changes</button>
-								<button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
+								<button type="button" class="btn bg-gradient-primary">검색</button>
+								<button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">닫기</button>
 							</div>
 						</div>
 					</div>
@@ -102,92 +231,13 @@ $(document).ready(function(){
 </div>
 <!-- 2. 검색창 끝 -->
 
-<!-- 검색 결과 출력 시작 -->
+<!-- 3-1. 검색창과 풋터 사이의 여백 (검색전) -->
+<div class="mid-div" id="remove-div"></div>
+
+<!-- 3-2. 검색 결과 출력 시작 -->
 <div class="search_card col-lg-8 col-10 mb-md-0 mb-4 mx-auto">
-	<div class="card">
-		<div class="card-body px-0 pb-2">
-			<div class="table-responsive">
-				<table class="table-fixed table align-items-center mb-0">
-					<thead>
-						<tr>
-							<th class="th-width1 text-center text-uppercase text-secondary font-weight-bolder">이미지</th>
-							<th class="th-width2 text-center text-uppercase text-secondary font-weight-bolder">제품명</th>
-							<th class="th-width3 text-center text-uppercase text-secondary font-weight-bolder">업체명</th>
-							<th class="th-width4 text-center text-uppercase text-secondary font-weight-bolder">효능 효과</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr class="tr-height">
-							<td>
-								<div id="img_div">
-									<img class="img-size" src="../img/search_img1.jpg">
-								</div>
-							</td>
-							<td class="align-middle text-center">
-								아스피린01
-							</td>
-							<td class="align-middle text-center">
-								00회사
-							</td>
-							<td class="td-height align-middle text-center">
-								이 약은...
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div id="img_div">
-									<img class="img-size" src="../img/search_img2.jpg">
-								</div>
-							</td>
-							<td class="align-middle text-center">
-								아스피린02
-							</td>
-							<td class="align-middle text-center">
-								ㅁㅁ회사
-							</td>
-							<td class="align-middle text-center">
-								이 약은...
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
+	<div class="card" id="result-div">
+		<!-- 검색 결과가 출력되는 곳 -->
 	</div>
 </div>
 <!-- 검색 결과 출력 끝 -->
-			
-<!-- Footer Start -->
-<footer class="footer py-4  ">
-	<div class="container-fluid">
-		<div class="row align-items-center justify-content-lg-between">
-			<div class="col-lg-6 mb-lg-0 mb-4">
-				<div class="copyright text-center text-sm text-muted text-lg-start">
-				© <script>
-					document.write(new Date().getFullYear())
-				</script>,
-					made with <i class="fa fa-heart"></i> by
-					<a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
-					for a better web.
-				</div>
-			</div>
-			<div class="col-lg-6">
-				<ul class="nav nav-footer justify-content-center justify-content-lg-end">
-					<li class="nav-item">
-						<a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
-					</li>
-					<li class="nav-item">
-						<a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
-					</li>
-					<li class="nav-item">
-						<a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
-					</li>
-					<li class="nav-item">
-						<a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-</footer>
-<!-- End Footer -->

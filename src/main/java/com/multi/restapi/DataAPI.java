@@ -20,7 +20,9 @@ import org.springframework.stereotype.Component;
  * =========================================================
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
- *  2022. 7. 6.			noranbear		  First Creation
+ *  2022. 7. 6.			noranbear		  	First Creation
+ *
+ *	2022. 7. 22.							Service key 변경
  *
  * =========================================================
  */
@@ -31,9 +33,9 @@ public class DataAPI {
 		
 		String result = "";
 		StringBuilder urlBuilder = new StringBuilder(
-			"http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList"); /* URL */
+				"http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList"); /*URL*/
 		try {
-		urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=fd%2B164GUrt3m%2FZJVFDiV2rcHCHED8UDpOsAzUMje3sbWv7x8PWd1hTj20O1z06OFxFEDujehlhmNq38H1jVYJw%3D%3D"); /* Service Key */
+			urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=HBOe0%2FIi2GsQn1pyrZK2%2B9l73YP5IxXTFDclWJvuo3%2F2FLUMkudWyBOFc0M8KHjeb91a79tPSdD9x0k6Rn1KRQ%3D%3D"); /* Service Key */
 		/*urlBuilder.append("&" + URLEncoder.encode("entpName", "UTF-8") + "="
 				+ URLEncoder.encode("한미약품(주)", "UTF-8")); /* 업체명 */
 		urlBuilder.append("&" + URLEncoder.encode("itemName", "UTF-8") + "="
