@@ -139,3 +139,40 @@
 	white-space: normal;
 }
 /* 4. 검색 결과 출력 끝 ---- */
+
+/* 5. Modal CSS 시작 ---- */
+#modal-body{
+	text-align:center;
+}
+
+.btn-upload {
+  width: 150px;
+  height: 30px;
+  background: #e91e63;
+  color:white;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-upload:hover {
+	color:white;
+}
+
+#file {
+  display: none;
+}
+
+#url-search{
+	width:400px;
+	text-align:center;
+}
+
+#preview{
+	width:400px;
+	height:300px;
+}
+/* 5. Modal CSS 끝 --- */
