@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -14,11 +17,14 @@ import com.multi.biz.MymediBiz;
 import com.multi.biz.PlistBiz;
 import com.multi.biz.SlistBiz;
 import com.multi.biz.UsersBiz;
+import com.multi.biz.PmediBiz;
 import com.multi.frame.Util;
-import com.multi.vo.MfVo;
+import com.multi.restapi.DataAPI;
 import com.multi.vo.MymediVo;
 import com.multi.vo.PlistVo;
+import com.multi.vo.PmediVo;
 import com.multi.vo.UsersVo;
+import com.multi.vo.MfVo;
 
 /**
  * @author noranbear
@@ -51,7 +57,7 @@ import com.multi.vo.UsersVo;
  *
  *	2022. 7. 19.		qwaszx357			  plist 수정
  *
- *	2022. 7. 19.		noranbear			datatest 생성
+*	2022. 7. 19.		noranbear			datatest 생성
  *
  *	2022. 7. 21.		noranbear			datatest 이동
  *
@@ -61,11 +67,12 @@ import com.multi.vo.UsersVo;
  *
  *  2022. 7. 23.		qwaszx357		signin, signup 수정
  *  
+ *  2022. 7. 25.							mdetail 수정
+ *
+ *            najune					pdetail 수정
+ *
  *  					noranbear		medidetail 수정
- *  
- *  2022. 7. 25.						medidetail 수정
- *  
- *										ocraddimpl 생성
+ *                         ocraddimpl 생성
  *
  * =========================================================
  */
@@ -77,6 +84,9 @@ public class MainController {
 	@Value("${userdir}")
 	String userdir;
 	
+  @Autowired
+	DataAPI dapi;
+  
 	@Autowired
 	UsersBiz ubiz;
 	
@@ -88,6 +98,9 @@ public class MainController {
 	
 	@Autowired
 	SlistBiz slistbiz;
+  
+  @Autowired
+	PmediBiz pmedibiz;
 	
 	/**
 	 * 메인 페이지 연결
@@ -207,38 +220,55 @@ public class MainController {
        return "index";
    }
 	
-	/**
-	 * 약 디테일 페이지 연결
-	 * @return medidetail.html
-	 */
-	@RequestMapping("/medidetail")
-	public String mdetail(Model m, String item) {
-		//System.out.println(item);
-
-		m.addAttribute("center", "medidetail");
-		return "index";
-	}
+   /**
+    * 약 디테일 페이지 연결
+    * @return medidetail.html
+    */
+   @RequestMapping("/medidetail")
+   public String mdetail(Model m, String item) {
+       //System.out.println(item);
+	   Object obj = dapi.dataapi(item);
+       System.out.println("result 값 : " + obj);
+       
+       // Object를 JSONObject으로 변환
+       JSONObject jo = (JSONObject) JSONValue.parse(obj.toString());
+       //System.out.println("JSONObject로 변환 : " + jo);
+       
+       // jo에서 JSONObject으로 body 뽑아내기
+       JSONObject jo1 = new  JSONObject();
+       jo1 = (JSONObject) jo.get("body");
+       //System.out.println("body 뽑아내기 : " + jo1);
+       
+       // body에서 JSONArray로 items 뽑아내기
+       JSONArray ja = new JSONArray();
+       ja = (JSONArray) jo1.get("items");
+       // System.out.println("items 뽑아내기 : " + ja);
+       
+       m.addAttribute("item", ja);
+       m.addAttribute("center", "medidetail");
+       return "index";
+   }
 	
 	/**
-	 * 내 약 리스트 페이지 연결
-	 * @return mymedilist.html
-	 */
+	* 내 약 리스트 페이지 연결
+	* @return mymedilist.html
+	*/
 	@RequestMapping("/mymedi")
 	public String mymedi(Model m, HttpSession session) {
-		List<MymediVo> list = null;	
-		UsersVo users = null;
-        
-        if(session.getAttribute("signinusers") != null){
-            users = (UsersVo) session.getAttribute("signinusers");
-			try {
-				list = mbiz.get(users.getId());
-				m.addAttribute("mymedi", list);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-        }
-		m.addAttribute("center", "mymedi");
-		return "index";
+	    List<MymediVo> list = null;    
+	    UsersVo users = null;
+	        
+	        if(session.getAttribute("signinusers") != null){
+	            users = (UsersVo) session.getAttribute("signinusers");
+	        try {
+	            list = mbiz.get(users.getId());
+	            m.addAttribute("mymedi", list);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        }
+	    m.addAttribute("center", "mymedi");
+	    return "index";
 	}
 	
 	
@@ -273,10 +303,26 @@ public class MainController {
 	 * 복약내역상세 페이지 연결
 	 * @return pdetail.html
 	 */
+
 	@RequestMapping("/pdetail")
-	public String pdetail(Model m) {
-		m.addAttribute("center", "pdetail");
-		return "index";
+    public String pdetail(Model m , Integer id) {
+		PlistVo obj = null;
+		List<PmediVo> mlist = null;
+	
+        try {
+            obj = plistbiz.get(id);
+            m.addAttribute("dp", obj);
+            mlist = pmedibiz.get_medi(id);
+            m.addAttribute("medi", mlist);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		
+        m.addAttribute("center", "pdetail"); 
+        return "index";
+    }
+	
 	}
 	
 	/**
@@ -300,4 +346,4 @@ public class MainController {
 
 	}
 
-}
+

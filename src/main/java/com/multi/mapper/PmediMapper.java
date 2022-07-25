@@ -18,7 +18,9 @@ import com.multi.vo.PmediVo;
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
  *  2022. 7. 13.		qwaszx357		  First Creation
- *
+ *  
+ *  2022. 7. 25.		 najune			  select_medi 추가
+ *  
  * =========================================================
  */
 @Repository
@@ -31,5 +33,8 @@ public interface PmediMapper {
     
     public PmediVo select(int id) throws Exception;
     public List<PmediVo> selectall() throws Exception;
+    
+    public List<PmediVo> select_medi(int id)throws Exception;
+	
 
 }
