@@ -49,7 +49,20 @@ import com.multi.vo.UsersVo;
  *
  *	2022. 7. 19.		qwaszx357			  plist 수정
  *
-
+*	2022. 7. 19.		noranbear			datatest 생성
+ *
+ *	2022. 7. 21.		noranbear			datatest 이동
+ *
+ *	2022. 7. 20.		 najune				 mymedi	수정
+ *
+ *	2022. 7. 22.		 					 profile 수정
+ *
+ *  2022. 7. 23.		qwaszx357		signin, signup 수정
+ *  
+ *  					noranbear		medidetail 수정
+ *  
+ *  2022. 7. 25.			najune					medidetail 수정
+ *	
  *
  * =========================================================
  */
