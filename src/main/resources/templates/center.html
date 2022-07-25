@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 6.0 -->
+<!-- Version: 7.0 -->
 <!-- Description: 메인 페이지의 기본 중간 화면 (검색창)
 
 -------------------------------------------------------------------------------
@@ -26,7 +26,9 @@
 2022. 7. 23.		noranbear				  검색 없음 메세지 출력
 										medidetail controller로 item 보내기 시작
 
-2022. 7. 25.							medidetail controller로 item 보내기 성공		
+2022. 7. 25.							medidetail controller로 item 보내기 성공	
+
+											ocr 이미지 controller로 보내기 성공								
 								  							 
 -------------------------------------------------------------------------------
 -->
@@ -161,20 +163,61 @@ $(document).ready(function(){
 		getData(param);
 	});
 	
+	/* ocr 창에서 검색 버튼 클릭 시, 해당 사진 저장 */
+	$('#ocr_bt').click(function(){
+		var img = $('#file').val();
+		// test
+		alert(img);
+		alert(jQuery.type(img));
+		
+		img = img.substring(12);
+		alert(img);
+		alert(jQuery.type(img));
+		
+		// 1. box 폴더에 ocr 이미지 저장 
+		$('#ocrpic').attr({
+			'enctype':'multipart/form-data',
+			'method':'post',
+			'action':'ocraddimpl'
+		});
+		
+		$('#ocrpic').submit();
+		
+		// 2. OCR 실행
+		$.ajax({
+			method: 'POST',
+			url:'/boxscan',
+			data:{'imgname':img},
+			dataType: 'json',
+			// [1] 해당 데이터가 없을 때
+			error: function(error) {
+				alert("not working");
+			},
+			// [2] 해당 데이터가 있을 때
+			success:function(data){
+				// test
+				alert(data);
+			 	console.log(data);
+			}
+		});
+	
+	});
 });
 
-/* Modal 창에서 input 이미지 가져오기 - preview */
+/*
+ * Modal 창에서 input 이미지 프리뷰 
+ */
 function readURL(input) {
-	  if (input.files && input.files[0]) {
-	    var reader = new FileReader();
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
 	    reader.onload = function(e) {
-	      document.getElementById('preview').src = e.target.result;
+			document.getElementById('preview').src = e.target.result;
 	    };
 	    reader.readAsDataURL(input.files[0]);
-	  } else {
+	} else {
 	    document.getElementById('preview').src = "";
-	  }
 	}
+}
 </script>
 
 <!-- 1. 로고 -->
@@ -184,7 +227,7 @@ function readURL(input) {
 	</div>
 </div>
 
-<!-- 2. 검색창 시작 -->
+<!-- 2-1. 검색창 시작 -->
 <div class="search-div">
 	<form class="form-inline">
 		<div class="col-lg-6 mx-auto">		
@@ -204,42 +247,47 @@ function readURL(input) {
 				
 				<!-- OCR 스캔 시작 -->
 			    <button id="scan_bt" type="button" class="btn btn-block bg-gradient-primary mb-3" data-bs-toggle="modal" data-bs-target="#modal-default"><i class="fa fa-camera"></i></button>
-			    <!-- Modal 창 -->
-			    <div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
-					<div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h6 class="modal-title" id="modal-title-default">이미지로 검색하기</h6>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">×</span>
-								</button>
-							</div>
-							<!-- 파일 업로드 -->
-							<div id="modal-body" class="modal-body">
-								<!-- input css 변경 -->
-								<label for="file">
-								  <a class="btn-upload">파일 선택</a>
-								</label>
-								<input type="file" name="file" id="file" onchange="readURL(this);">
-								<img id="preview">
-								<h6>OR</h6>
-								<!-- 이미지 링크 -->
-								<input type="url" id="url-search" name="url-search" placeholder="이미지 링크">
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn bg-gradient-primary">검색</button>
-								<button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">닫기</button>
-							</div>
-						</div>
-					</div>
-			    </div>
-			    <!-- Modal 끝 -->
-				<!-- OCR 스캔 끝 -->
+				<!-- OCR Modal 창(2-2)으로 연결 -->
 			</div>
 		</div>
 	</form>
 </div>
-<!-- 2. 검색창 끝 -->
+<!-- 2-1. 검색창 끝 -->
+
+<!-- 2-2. OCR Modal 창 -->
+<div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+	<div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h6 class="modal-title" id="modal-title-default">이미지로 검색하기</h6>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<!-- 파일 업로드 -->
+			<form id="ocrpic">
+				<div id="modal-body" class="modal-body">
+					<!-- input css 변경 -->
+					<label for="file">
+					  <a class="btn-upload">파일 선택</a>
+					</label>
+					<div class="form-group">
+						<input type="file" name="mf" id="file" accept="image/*" onchange="readURL(this);">
+					</div>
+					<img id="preview">
+					<h6>OR</h6>
+					<!-- 이미지 링크 -->
+					<input type="url" id="url-search" placeholder="이미지 링크"><!-- name 없애놓음 -->
+				</div>
+				<div class="modal-footer">
+					<a id="ocr_bt" href="#" class="btn bg-gradient-primary">검색</a>
+					<button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">닫기</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- 2-2. OCR Modal 끝 -->
 
 <!-- 3-1. 검색창과 풋터 사이의 여백 (검색전) -->
 <div class="mid-div" id="remove-div"></div>

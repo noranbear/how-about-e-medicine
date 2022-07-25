@@ -8,19 +8,23 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.multi.biz.MymediBiz;
 import com.multi.biz.PlistBiz;
-import com.multi.biz.PmediBiz;
+import com.multi.biz.SlistBiz;
 import com.multi.biz.UsersBiz;
+import com.multi.biz.PmediBiz;
+import com.multi.frame.Util;
 import com.multi.restapi.DataAPI;
 import com.multi.vo.MymediVo;
 import com.multi.vo.PlistVo;
 import com.multi.vo.PmediVo;
 import com.multi.vo.UsersVo;
+import com.multi.vo.MfVo;
 
 /**
  * @author noranbear
@@ -63,17 +67,22 @@ import com.multi.vo.UsersVo;
  *
  *  2022. 7. 23.		qwaszx357		signin, signup 수정
  *  
- *  2022. 7. 25.							mditail 수정
+ *  2022. 7. 25.							mdetail 수정
+ *
+ *            najune					pdetail 수정
  *
  *  					noranbear		medidetail 수정
- *  
- *            najune					medidetail 수정
+ *                         ocraddimpl 생성
  *
  * =========================================================
  */
 
 @Controller
 public class MainController {
+	
+	// 이미지 저장 경로
+	@Value("${userdir}")
+	String userdir;
 	
   @Autowired
 	DataAPI dapi;
@@ -87,6 +96,9 @@ public class MainController {
 	@Autowired
 	MymediBiz mbiz;
 	
+	@Autowired
+	SlistBiz slistbiz;
+  
   @Autowired
 	PmediBiz pmedibiz;
 	
@@ -313,5 +325,25 @@ public class MainController {
 	
 	}
 	
+	/**
+	 * ocr 이미지 저장
+	 * @param mf
+	 */
+	@RequestMapping("/ocraddimpl")
+	public String ocraddimpl(Model m, MfVo mf) {
+		// name, price, cid, mf(imgname 끄집어 내기)
+		//String imgname = mf.getMf().getOriginalFilename();
+		System.out.println(mf.getMf());
+		try {
+			//biz.register(p);
+			//mf.setImgname(imgname);
+			Util.saveFile(mf.getMf(), userdir);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "index";
+
+	}
 
 
