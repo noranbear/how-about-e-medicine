@@ -19,7 +19,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 8.1
+ * @version 9.0
  * @description
  *
  *
@@ -56,6 +56,10 @@ import com.multi.vo.UsersVo;
  *	2022. 7. 22.		 					 profile 수정
  *
  *  2022. 7. 23.		qwaszx357		signin, signup 수정
+ *  
+ *  					noranbear		medidetail 수정
+ *  
+ *  2022. 7. 25.						medidetail 수정
  *
  * =========================================================
  */
@@ -195,7 +199,9 @@ public class MainController {
 	 * @return medidetail.html
 	 */
 	@RequestMapping("/medidetail")
-	public String mdetail(Model m) {
+	public String mdetail(Model m, String item) {
+		//System.out.println(item);
+
 		m.addAttribute("center", "medidetail");
 		return "index";
 	}
