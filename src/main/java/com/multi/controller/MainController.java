@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.multi.biz.MymediBiz;
 import com.multi.biz.PlistBiz;
+import com.multi.biz.PmediBiz;
 import com.multi.biz.UsersBiz;
 import com.multi.vo.MymediVo;
 import com.multi.vo.PlistVo;
+import com.multi.vo.PmediVo;
 import com.multi.vo.UsersVo;
 
 /**
@@ -47,8 +49,9 @@ import com.multi.vo.UsersVo;
  *
  *	2022. 7. 19			 qwaszx357			  plist 수정
  *
- *	2022. 7. 20.		najune				 mymedi	수정
+ *	2022. 7. 20.		 najune				 mymedi	수정
  *
+ *	2022. 7. 25.		   			         mymedi 추가
  * =========================================================
  */
 
@@ -63,6 +66,9 @@ public class MainController {
 	
 	@Autowired
 	MymediBiz mbiz;
+	
+	@Autowired
+	PmediBiz pmedibiz;
 	
 	/**
 	 * 메인 페이지 연결
@@ -244,10 +250,26 @@ public class MainController {
 	 * 복약내역상세 페이지 연결
 	 * @return pdetail.html
 	 */
+
 	@RequestMapping("/pdetail")
-	public String pdetail(Model m) {
-		m.addAttribute("center", "pdetail");
-		return "index";
+    public String pdetail(Model m , Integer id) {
+		PlistVo obj = null;
+		List<PmediVo> mlist = null;
+	
+        try {
+            obj = plistbiz.get(id);
+            m.addAttribute("dp", obj);
+            mlist = pmedibiz.get_medi(id);
+            m.addAttribute("medi", mlist);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		
+        m.addAttribute("center", "pdetail"); 
+        return "index";
+    }
+	
 	}
 
-}
+

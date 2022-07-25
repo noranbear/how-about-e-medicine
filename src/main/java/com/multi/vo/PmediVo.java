@@ -1,5 +1,8 @@
 package com.multi.vo;
 
+
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +20,9 @@ import lombok.ToString;
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
  *  2022. 7. 13.		qwaszx357		  First Creation
- *
+ *  
+ *  2022. 7. 25.		 najune			  dday 추가
+ *  
  * =========================================================
  */
 @NoArgsConstructor
@@ -30,6 +35,7 @@ public class PmediVo {
 	private String name;
 	private int pid;
 	
+	private Date endday;
 	
 	// Constructor for insert
 	public PmediVo(String name, int pid) {

@@ -21,4 +21,9 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	    SELECT * FROM pmedi
 	</select>
 	
+	<!-- 처방약 -->
+	<select id="select_medi" parameterType="int" resultType="pmediVo">
+		SELECT m.id, m.name, m.pid, ADDDATE(p.pdate , p.days) AS endday FROM pmedi m
+		INNER JOIN plist p ON m.pid = p.id WHERE m.pid=#{pid}
+	</select>
 </mapper>

@@ -22,6 +22,8 @@
 2022. 7. 19.		noranbear			  처방상세내역 부분 화면 구성 완료
 		
 												  캘린더 추가		
+												  
+2022. 7. 25.		 najune				   기능구현											  
 -------------------------------------------------------------------------
 -->
 
@@ -53,6 +55,11 @@
 }
 /* 처방약 카드 호버 스타일 끝 */
 
+#right{
+text-align: right;
+}
+
+
 </style>
 
 <script>
@@ -64,18 +71,21 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   calendar.render();
 });
-//1. FullCalendar API Js 끝 ----------
 
+
+//1. FullCalendar API Js 끝 ----------
+ 
+ 
 </script>
     
     
-<div class="row">
+<div class="row" th:each="p:${dp}">
 
 	<!-- 1. 복약상세내역 시작 -->
 	<div class="col-lg-6">
     	<div class="row">
     		<!-- 왼쪽: 처방내역 정보 -->
-          	<div class="col-xl-8 mb-xl-0 mb-4">
+          	<div class="col-xl-8 mb-xl-0 mb-4" th:each="m:${medi}">
               <div class="card bg-transparent shadow-xl">
                 <div class="overflow-hidden position-relative border-radius-xl">
                   <img src="../assets/img/illustrations/pattern-tree.svg" class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100" alt="pattern-tree">
@@ -85,12 +95,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     	<i class="fa fa-file-text-o text-white p-2" style="font-size:24px"></i>
                     	 처방내역 상세
                     </h4>
-                    <h5 class="text-white mt-4 mb-5 pb-2">2021.05.26 - 2021.06.08</h5>
-                    <div class="d-flex">
+                    <h5 class="text-white mt-4 mb-5 pb-2" th:text="${p.pdate} + ' ~ ' + ${#dates.format(m.endday,'yyyy-MM-dd')}"></h5>
+                    
+                    <div class="d-flex" >
                       <div class="d-flex">
                         <div class="me-4">
                           <p class="text-white text-sm opacity-8 mb-0">복약일</p>
-                          <h6 class="text-white mb-0">(9일째/15일)</h6>
+                          <h6 class="text-white mb-0" th:text="${p.days} + '일째'">(9일째/</h6>
+               
                         </div>
                         <div>
                           <p class="text-white text-sm opacity-8 mb-0">약국</p>
@@ -125,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				</div>
 			</div>
 			<!-- 중간: 병원 정보 -->
-			<div class="col-md-12 mb-lg-0 mb-2">
+			<div class="col-md-12 mb-lg-0 mb-2" >
 				<div class="card mt-4">
 					<div class="card-header pb-0 p-3">
 						<div class="row">
@@ -142,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
 							<div class="col-md-6 mb-md-0 mb-4">
 								<div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
                         			<i class='fas fa-hospital me-sm-3 text-dark' style='font-size:24px'></i>
-                        			<h6 class="ms-3 mb-0">어쩌구 병원</h6>
+                        			<h6 class="ms-3 mb-0" th:text="${p.hospital}">어쩌구 병원</h6>
                         			<i class="fa fa-copy ms-auto text-dark cursor-pointer" style="font-size:18px" data-bs-toggle="tooltip" data-bs-placement="top" title="복사"></i>
                       			</div>
 							</div>
@@ -159,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				</div>
 			</div>
 			<!-- 밑: 처방약 시작 -->
-			<div class="col-md-12 mt-4 mb-xl-0 mb-4">
+			<div class="col-md-12 mt-4 mb-xl-0 mb-4" th:each="m:${medi}"> 
 				<div class="card">
 					<div class="card-header pb-0 px-3">
 						<h6 class="mb-0">처방약</h6>
@@ -167,38 +179,17 @@ document.addEventListener('DOMContentLoaded', function() {
 					<div class="card-body pt-4 p-3">
 						<ul class="list-group">
 							<li class="cpoint list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
-								<div class="d-flex flex-column">
-									<h6 class="mb-3 text-sm"><a th:href="@{/medidetail}">약이름 1</a></h6>
-									<span class="mb-2 text-xs">복약갯수: <span class="text-dark font-weight-bold ms-sm-2">1회 3.0정</span></span>
-									<span class="mb-2 text-xs">복약횟수: <span class="text-dark ms-sm-2 font-weight-bold">1일 1회</span></span>
-									<span class="text-xs">복약일수: <span class="text-dark ms-sm-2 font-weight-bold">15일</span></span>
+								<div class="d-flex flex-column" th:each="p:${dp}">
+									<h6 class="mb-3 text-sm" th:text="${m.name}">약이름 1</h6>						
+									<span class="mb-2 text-xs">복약횟수: <span class="text-dark ms-sm-2 font-weight-bold" th:text="'1일 ' + ${p.time} + '회'"></span></span>
+									<span class="mb-2 text-xs">복약시간: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${p.dtime}"></span></span>
+									<span class="text-xs">복약일수: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${p.days}  + '일'"></span></span>
 								</div>
 								<div class="ms-auto text-end">
 									<img class="mpic" src="../img/main-logo.png">
 								</div>
 							</li>
-							<li class="cpoint list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
-								<div class="d-flex flex-column">
-									<h6 class="mb-3 text-sm"><a th:href="@{/medidetail}">약이름 1</a></h6>
-									<span class="mb-2 text-xs">복약갯수: <span class="text-dark font-weight-bold ms-sm-2">1회 3.0정</span></span>
-									<span class="mb-2 text-xs">복약횟수: <span class="text-dark ms-sm-2 font-weight-bold">1일 1회</span></span>
-									<span class="text-xs">복약일수: <span class="text-dark ms-sm-2 font-weight-bold">15일</span></span>
-								</div>
-								<div class="ms-auto text-end">
-									<img class="mpic" src="../img/main-logo.png">
-								</div>
-							</li>
-							<li class="cpoint list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
-								<div class="d-flex flex-column">
-									<h6 class="mb-3 text-sm"><a th:href="@{/medidetail}">약이름 1</a></h6>
-									<span class="mb-2 text-xs">복약갯수: <span class="text-dark font-weight-bold ms-sm-2">1회 3.0정</span></span>
-									<span class="mb-2 text-xs">복약횟수: <span class="text-dark ms-sm-2 font-weight-bold">1일 1회</span></span>
-									<span class="text-xs">복약일수: <span class="text-dark ms-sm-2 font-weight-bold">15일</span></span>
-								</div>
-								<div class="ms-auto text-end">
-									<img class="mpic" src="../img/main-logo.png">
-								</div>
-							</li>
+			
 						</ul>
 					</div>
 				</div>
