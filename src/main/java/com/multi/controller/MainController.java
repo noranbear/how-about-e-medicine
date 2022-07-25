@@ -323,7 +323,6 @@ public class MainController {
         return "index";
     }
 	
-	}
 	
 	/**
 	 * ocr 이미지 저장
@@ -346,4 +345,4 @@ public class MainController {
 
 	}
 
-
+}
