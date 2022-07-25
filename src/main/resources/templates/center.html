@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 5.1 -->
+<!-- Version: 6.0 -->
 <!-- Description: 메인 페이지의 기본 중간 화면 (검색창)
 
 -------------------------------------------------------------------------------
@@ -21,9 +21,12 @@
 
 2022. 7. 22.		ynr1734						OCR 이미지 창 구현
 
-2022. 7. 22.    qwaszx357									footer 지우기
+2022. 7. 22.   		qwaszx357					footer 지우기
 
-2022. 7. 23.		noranbear						검색 없음 메세지 출력		
+2022. 7. 23.		noranbear				  검색 없음 메세지 출력
+										medidetail controller로 item 보내기 시작
+
+2022. 7. 25.							medidetail controller로 item 보내기 성공		
 								  							 
 -------------------------------------------------------------------------------
 -->
@@ -35,46 +38,17 @@
 <!-- stylesheet -->
 <link href="./assets/ezocss/centercss.css" rel="stylesheet" />
 
-<style>
-/* Modal CSS 시작 */
-#modal-body{
-	text-align:center;
-}
-
-.btn-upload {
-  width: 150px;
-  height: 30px;
-  background: #e91e63;
-  color:white;
-  border-radius: 10px;
-  font-weight: 500;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn-upload:hover {
-	color:white;
-}
-
-#file {
-  display: none;
-}
-
-#url-search{
-	width:400px;
-	text-align:center;
-}
-
-#preview{
-	width:400px;
-	height:300px;
-}
-/* Modal CSS 끝 */
-</style>
-
 <script>
+/**
+ * 디테일 페이지로 선택된 아이템이름 보내기
+ */
+function getname(item){
+	var text = $(item).text();	
+	//alert(text);
+	
+	location.href="/medidetail?item=" + text;
+}
+
 /**
  * 검색된 결과를 '검색 결과 div'에 출력하는 함수
  */

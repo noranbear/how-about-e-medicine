@@ -14,16 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.multi.biz.MymediBiz;
 import com.multi.biz.PlistBiz;
+import com.multi.biz.PmediBiz;
 import com.multi.biz.UsersBiz;
 import com.multi.restapi.DataAPI;
 import com.multi.vo.MymediVo;
 import com.multi.vo.PlistVo;
+import com.multi.vo.PmediVo;
 import com.multi.vo.UsersVo;
 
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 8.2
+ * @version 9.0
  * @description
  *
  *
@@ -51,7 +53,7 @@ import com.multi.vo.UsersVo;
  *
  *	2022. 7. 19.		qwaszx357			  plist 수정
  *
- *	2022. 7. 19.		noranbear			datatest 생성
+*	2022. 7. 19.		noranbear			datatest 생성
  *
  *	2022. 7. 21.		noranbear			datatest 이동
  *
@@ -63,12 +65,19 @@ import com.multi.vo.UsersVo;
  *  
  *  2022. 7. 25.							mditail 수정
  *
+ *  					noranbear		medidetail 수정
+ *  
+ *            najune					medidetail 수정
+ *
  * =========================================================
  */
 
 @Controller
 public class MainController {
 	
+  @Autowired
+	DataAPI dapi;
+  
 	@Autowired
 	UsersBiz ubiz;
 	
@@ -78,8 +87,8 @@ public class MainController {
 	@Autowired
 	MymediBiz mbiz;
 	
-	@Autowired
-	DataAPI dapi;
+  @Autowired
+	PmediBiz pmedibiz;
 	
 	/**
 	 * 메인 페이지 연결
@@ -282,11 +291,27 @@ public class MainController {
 	 * 복약내역상세 페이지 연결
 	 * @return pdetail.html
 	 */
+
 	@RequestMapping("/pdetail")
-	public String pdetail(Model m) {
-		m.addAttribute("center", "pdetail");
-		return "index";
+    public String pdetail(Model m , Integer id) {
+		PlistVo obj = null;
+		List<PmediVo> mlist = null;
+	
+        try {
+            obj = plistbiz.get(id);
+            m.addAttribute("dp", obj);
+            mlist = pmedibiz.get_medi(id);
+            m.addAttribute("medi", mlist);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		
+        m.addAttribute("center", "pdetail"); 
+        return "index";
+    }
+	
 	}
 	
 
-}
+
