@@ -104,10 +104,10 @@ function display(data){
 		var imgurl = data[i].itemImage;
 		var company = data[i].entpName;
 		var efficacy = data[i].efcyQesitm;
-		
+
 		html += "<tr class='tr-height'>"
 		html += "<td class='align-middle text-center'><img style='height:100px; width: 100px;' src='" + imgurl + "'></td>";
-		html += "<td class='align-middle text-center'>"+ itemname +"</td>";
+		html += "<td class='align-middle text-center'><a href='#' onclick='getname(this);'>"+ itemname +"</a></td>";
 		html += "<td class='align-middle text-center'>"+ company +"</td>";
 		html += "<td class='td-height align-middle text-center'>"+ efficacy +"</td>";
 		html += "</tr>";
@@ -167,6 +167,16 @@ function getData(param){
 	});
 	
 };
+
+/**
+ * 디테일 페이지로 선택된 아이템이름 보내기
+ */
+function getname(item){
+    var text = $(item).text();    
+    alert(text);
+    
+    location.href="/medidetail?item=" + text;
+}
 
 $(document).ready(function(){
 	
