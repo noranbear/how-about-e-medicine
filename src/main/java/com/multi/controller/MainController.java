@@ -21,7 +21,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 7.0
+ * @version 9.0
  * @description
  *
  *
@@ -47,9 +47,9 @@ import com.multi.vo.UsersVo;
  *
  *	2022. 7. 19.							 pdetail 생성
  *
- *	2022. 7. 19			 qwaszx357			  plist 수정
+ *	2022. 7. 19.		qwaszx357			  plist 수정
  *
- *	2022. 7. 20.		 najune				 mymedi	수정
+
  *
  *	2022. 7. 25.		   			         mymedi 추가
  * =========================================================
@@ -98,7 +98,6 @@ public class MainController {
 		if(msg != null && msg.equals("f")) {
 			m.addAttribute("msg", "ID 혹은 PWD가 틀렸습니다.");
 		}
-		m.addAttribute("center", "singin");
 		return "signin";
 	}
 	
@@ -153,8 +152,7 @@ public class MainController {
 	 */
 	@RequestMapping("/signup")
 	public String signup(Model m) {
-		m.addAttribute("center", "signup");
-		return "index";
+		return "signup";
 	}
 	
 	@RequestMapping("/signupimpl")
@@ -176,22 +174,28 @@ public class MainController {
 		return "index";
 	}
 	
-	/**
-	 * 마이페이지 연결
-	 * @return profile.html
-	 */
-	@RequestMapping("/profile")
-	public String profile(Model m) {
-		m.addAttribute("center", "profile");
-		return "index";
-	}
+	/** 마이페이지 연결
+    * @return profile.html
+    */
+   @RequestMapping("/profile")
+   public String profile(Model m, HttpSession session) {
+       UsersVo users = null;
+       
+       if(session.getAttribute("signinusers") != null){
+           users = (UsersVo) session.getAttribute("signinusers");
+       m.addAttribute("center", "profile");
+       }
+       return "index";
+   }
 	
 	/**
 	 * 약 디테일 페이지 연결
 	 * @return medidetail.html
 	 */
 	@RequestMapping("/medidetail")
-	public String mdetail(Model m) {
+	public String mdetail(Model m, String item) {
+		//System.out.println(item);
+
 		m.addAttribute("center", "medidetail");
 		return "index";
 	}
@@ -271,5 +275,6 @@ public class MainController {
     }
 	
 	}
+	
 
 
