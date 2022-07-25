@@ -24,14 +24,18 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<!-- 처방내역 페이지에 출력 -->
 	<!-- 복용중인 약 -->
 	<select id="select_ing" parameterType="String" resultType="plistVo">
-		SELECT p.uid, p.hospital, p.pdate, p.days, (p.days - (curdate() - p.pdate)) AS dday FROM plist p
+		SELECT p.id ,p.uid, p.hospital, p.pdate, p.days, (p.days - (curdate() - p.pdate)) AS dday FROM plist p
 		INNER JOIN users u ON p.uid = u.id WHERE p.uid=#{uid} AND (p.days - (curdate() - p.pdate)) > 0
 	</select>
 	<!-- 복용 완료된 약 -->
 	<select id="select_end" parameterType="String" resultType="plistVo">
-		SELECT p.uid, p.hospital, p.pdate, p.days, (p.days - (curdate() - p.pdate)) AS dday FROM plist p
+		SELECT p.id, p.uid, p.hospital, p.pdate, p.days, (p.days - (curdate() - p.pdate)) AS dday FROM plist p
 		INNER JOIN users u ON p.uid = u.id WHERE p.uid=#{uid} AND (p.days - (curdate() - p.pdate)) <![CDATA[<=]]> 0 
 	</select>
+	
+	
+	
+	
 </mapper>
 
 
