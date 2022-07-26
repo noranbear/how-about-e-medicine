@@ -232,9 +232,9 @@ public class MainController {
     */
    @RequestMapping("/medidetail")
    public String mdetail(Model m, String item) {
-       //System.out.println(item);
+
 	   Object obj = dapi.dataapi(item);
-       System.out.println("result 값 : " + obj);
+       //System.out.println("result 값 : " + obj);
        
        // Object를 JSONObject으로 변환
        JSONObject jo = (JSONObject) JSONValue.parse(obj.toString());
@@ -342,7 +342,18 @@ public class MainController {
 			//mf.setImgname(imgname);
 			Util.saveFile(mf.getMf(), userdir);
 			Object result = bapi.boxapi(imgname);
-			m.addAttribute("result", result);
+			
+			JSONObject jo = (JSONObject) JSONValue.parse(result.toString());
+			JSONArray jo1 = (JSONArray) jo.get("images");
+			//System.out.println("1 : " + jo1);
+			JSONObject obj = (JSONObject) jo1.get(0);
+			//System.out.println("2 : " + obj);
+			JSONObject obj2 = (JSONObject) obj.get("title");
+			//System.out.println("3 : " + obj2);
+			String name = (String) obj2.get("inferText");
+			//System.out.println("4 : " + name);
+			
+			m.addAttribute("resultname", name);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
