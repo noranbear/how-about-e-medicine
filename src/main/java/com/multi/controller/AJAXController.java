@@ -14,7 +14,7 @@ import com.multi.restapi.OCREnvelopeAPI;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 5.0
+ * @version 5.1
  * @description
  *
  *
@@ -93,7 +93,7 @@ public class AJAXController {
 	 */
 	@RequestMapping("boxscan")
 	public Object boxscan(String imgname) {
-		System.out.println(imgname);
+		//System.out.println(imgname);
 		Object result = bapi.boxapi(imgname);
 		return result;
 	}
