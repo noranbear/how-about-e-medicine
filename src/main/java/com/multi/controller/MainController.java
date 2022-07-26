@@ -15,27 +15,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.multi.biz.MymediBiz;
 import com.multi.biz.PlistBiz;
+import com.multi.biz.PmediBiz;
 import com.multi.biz.SlistBiz;
 import com.multi.biz.UsersBiz;
-import com.multi.biz.PmediBiz;
 import com.multi.frame.Util;
 import com.multi.restapi.DataAPI;
+import com.multi.restapi.OCRBoxAPI;
+import com.multi.vo.MfVo;
 import com.multi.vo.MymediVo;
 import com.multi.vo.PlistVo;
 import com.multi.vo.PmediVo;
 import com.multi.vo.UsersVo;
-import com.multi.vo.MfVo;
 
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 9.0
+ * @version 9.1
  * @description
  *
  *
- * =========================================================
+ * ================================================================
  * 	    DATE			 AUTHOR				    NOTE
- * ---------------------------------------------------------
+ * ----------------------------------------------------------------
  *  2022. 7. 6.			noranbear			  main 생성
  *
  *	2022. 7. 15.							dashboard 생성
@@ -69,12 +70,14 @@ import com.multi.vo.MfVo;
  *  
  *  2022. 7. 25.							mdetail 수정
  *
- *            najune					pdetail 수정
+ *            			najune				pdetail 수정
  *
- *  					noranbear		medidetail 수정
- *                         ocraddimpl 생성
+ *  					noranbear		   medidetail 수정
+ *                         				   ocraddimpl 생성
  *
- * =========================================================
+ *	2022. 7. 26.						ocraddimpl에 ocrbox 실행 추가
+ *
+ * ================================================================
  */
 
 @Controller
@@ -84,8 +87,11 @@ public class MainController {
 	@Value("${userdir}")
 	String userdir;
 	
-  @Autowired
+	@Autowired
 	DataAPI dapi;
+  
+  	@Autowired
+	OCRBoxAPI bapi;
   
 	@Autowired
 	UsersBiz ubiz;
@@ -99,7 +105,7 @@ public class MainController {
 	@Autowired
 	SlistBiz slistbiz;
   
-  @Autowired
+	@Autowired
 	PmediBiz pmedibiz;
 	
 	/**
@@ -303,7 +309,6 @@ public class MainController {
 	 * 복약내역상세 페이지 연결
 	 * @return pdetail.html
 	 */
-
 	@RequestMapping("/pdetail")
     public String pdetail(Model m , Integer id) {
 		PlistVo obj = null;
@@ -325,18 +330,20 @@ public class MainController {
 	
 	
 	/**
-	 * ocr 이미지 저장
-	 * @param mf
+	 * 이미지 저장 후 ocrbox 실행
+	 * @param mf image file을 담은 Vo
 	 */
 	@RequestMapping("/ocraddimpl")
 	public String ocraddimpl(Model m, MfVo mf) {
-		// name, price, cid, mf(imgname 끄집어 내기)
-		//String imgname = mf.getMf().getOriginalFilename();
-		System.out.println(mf.getMf());
+		String imgname = mf.getMf().getOriginalFilename();
+		
 		try {
 			//biz.register(p);
 			//mf.setImgname(imgname);
 			Util.saveFile(mf.getMf(), userdir);
+			Object result = bapi.boxapi(imgname);
+			m.addAttribute("result", result);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
