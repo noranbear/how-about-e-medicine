@@ -84,7 +84,7 @@ public class MainController {
 	@Value("${userdir}")
 	String userdir;
 	
-  @Autowired
+   @Autowired
 	DataAPI dapi;
   
 	@Autowired
@@ -99,7 +99,7 @@ public class MainController {
 	@Autowired
 	SlistBiz slistbiz;
   
-  @Autowired
+   @Autowired
 	PmediBiz pmedibiz;
 	
 	/**
