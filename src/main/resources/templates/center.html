@@ -28,9 +28,11 @@
 
 2022. 7. 25.							medidetail controller로 item 보내기 성공	
 
-											ocr 이미지 controller로 보내기 성공								
+											ocr 이미지 controller로 보내기 성공												 
 								  			
 2022. 7. 26.									ocrbox 실행 성공
+
+                najune					분류 검색 기능 추가	
 								  							 
 -------------------------------------------------------------------------------
 -->
@@ -97,7 +99,7 @@ function display(data){
 
 	// 2. 생성된 테이블 출력
 	$('#result-div').html(html);
-	
+			
 }
 
 /**
@@ -146,20 +148,90 @@ function getData(param){
 	
 };
 
+function getData2(param){
+	$.ajax({
+		method: 'GET',
+		url:'/dataget2',
+		data:{'item':param},
+		dataType: 'json',
+		// [1] 해당 데이터가 없을 때
+		error: function(error) {
+			var html= "";	// 출력할 html을 담을 변수  
+			remove();		// 지우기
+
+			// 1. 검색 결과 없음 메세지 생성
+			html += "<div class='card-body px-0 pb-2' style='text-align:center;'>"; 
+			html += "<h5>''에 대한 검색 결과가 없습니다.</h5>";
+			// close
+			html += "</div>";
+			
+			// 2. 생성된 메세지 출력
+			$('#result-div').html(html);
+		},
+		// [2] 해당 데이터가 있을 때
+		success:function(data){
+			// test
+			//alert(data);
+		 	console.log(data);
+			display(data);
+		}
+	});
+	
+};
+
+function getData3(param){
+	$.ajax({
+		method: 'GET',
+		url:'/dataget3',
+		data:{'item':param},
+		dataType: 'json',
+		// [1] 해당 데이터가 없을 때
+		error: function(error) {
+			var html= "";	// 출력할 html을 담을 변수  
+			remove();		// 지우기
+
+			// 1. 검색 결과 없음 메세지 생성
+			html += "<div class='card-body px-0 pb-2' style='text-align:center;'>"; 
+			html += "<h5>''에 대한 검색 결과가 없습니다.</h5>";
+			// close
+			html += "</div>";
+			
+			// 2. 생성된 메세지 출력
+			$('#result-div').html(html);
+		},
+		// [2] 해당 데이터가 있을 때
+		success:function(data){
+			// test
+			//alert(data);
+		 	console.log(data);
+			display(data);
+		}
+	});
+	
+};
 
 $(document).ready(function(){
 	
-	/* 검색버튼 클릭 시, 약 데이터 불러오기 */
+/* 검색버튼 클릭 시, 약 데이터 불러오기 */
 	$('#search_bt').click(function(){
 		var param = $('#param').val();
-		//alert(param);
-		if(param != ""){	// 검색어가 존재하지 않을 때
-			getData(param);
-		}
-		
-	});
-	
-	/* ocr 창에서 검색 버튼 클릭 시, 사진 저장 후 ocrbox 실행 */
+		var a = $("#sort").val(); // The text content of the selected option
+		//alert(param); 	
+    
+    if(param != ""){	// 검색어가 존재하지 않을 때
+        if(a == "dataget3"){									
+          getData3(param);
+        }
+        else if(a == "dataget2"){								
+          getData2(param);
+          }
+        else{								
+          getData(param);			
+        }
+      }
+	});	
+				
+	/* ocr 창에서 검색 버튼 클릭 시, 해당 사진 저장 */
 	$('#ocr_bt').click(function(){
 		var img = $('#file').val();
 		
@@ -204,11 +276,11 @@ function readURL(input) {
 		<div class="col-lg-6 mx-auto">		
 			<div class="search_box">
 				<!-- 검색 분류 -->
-				<select class="select-control">
+				<select class="select-control" id="sort" name="sort">
 					<option>전체</option>
-					<option>제품명</option>
-					<option>업체명</option>
-					<option>효능</option>
+					<option value="dataget">제품명</option>
+					<option value="dataget2">업체명</option>
+					<option value="dataget3">효능</option>
 				</select>
 				<!-- 검색창 -->
 				<div class="input-group input-group-lg input-group-outline py-3">
