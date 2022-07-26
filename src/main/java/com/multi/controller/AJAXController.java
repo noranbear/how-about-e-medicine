@@ -101,13 +101,13 @@ public class AJAXController {
 	 */
 	@RequestMapping("boxscan")
 	public Object boxscan(String imgname) {
-		System.out.println(imgname);
+		//System.out.println(imgname);
 		Object result = bapi.boxapi(imgname);
 		return result;
 	}
 	
 	/**
-	 * mymedi에 추가한다.
+	 * mymedi에 약을 추가한다.
 	 * @param name, usedate, uid, image
 	 * @return
 	 */
