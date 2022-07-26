@@ -78,7 +78,7 @@ import com.multi.vo.UsersVo;
  *
  * 2022. 7. 26.						ocraddimpl에 ocrbox 실행 추가
  *
- *              ynr1734			dashboard 카드 생성
+ *             			 ynr1734		  dashboard 카드 생성
  *
  * ================================================================
  */
@@ -90,7 +90,7 @@ public class MainController {
 	@Value("${userdir}")
 	String userdir;
 	
-   @Autowired
+	@Autowired
 	DataAPI dapi;
   
   	@Autowired
@@ -108,7 +108,7 @@ public class MainController {
 	@Autowired
 	SlistBiz slistbiz;
   
-   @Autowired
+	@Autowired
 	PmediBiz pmedibiz;
   
   	@Autowired
@@ -228,7 +228,8 @@ public class MainController {
 		return "index";
 	}
 	
-	/** 마이페이지 연결
+	/**
+	*  마이페이지 연결
     * @return profile.html
     */
    @RequestMapping("/profile")
