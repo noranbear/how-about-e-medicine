@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 7.0 -->
+<!-- Version: 8.1 -->
 <!-- Description: 메인 페이지의 기본 중간 화면 (검색창)
 
 -------------------------------------------------------------------------------
@@ -19,18 +19,21 @@
 2022. 7. 22.							  getdataAJAXtest.html 내용을 
 										  대입해서 테이블 내에 결과 출력하기	
 
-2022. 7. 22.		ynr1734						OCR 이미지 창 구현
+					ynr1734						OCR 이미지 창 구현
 
-2022. 7. 22.   		qwaszx357					footer 지우기
+					qwaszx357					footer 지우기
 
 2022. 7. 23.		noranbear				  검색 없음 메세지 출력
 										medidetail controller로 item 보내기 시작
 
 2022. 7. 25.							medidetail controller로 item 보내기 성공	
 
-											ocr 이미지 controller로 보내기 성공								
-								  	
-2022. 7. 26.	   	najune					분류 검색 기능 추가					 
+											ocr 이미지 controller로 보내기 성공												 
+								  			
+2022. 7. 26.									ocrbox 실행 성공
+
+                najune					분류 검색 기능 추가	
+								  							 
 -------------------------------------------------------------------------------
 -->
 
@@ -127,7 +130,7 @@ function getData(param){
 
 			// 1. 검색 결과 없음 메세지 생성
 			html += "<div class='card-body px-0 pb-2' style='text-align:center;'>"; 
-			html += "<h5>''에 대한 검색 결과가 없습니다.</h5>";
+			html += "<h5>'"+ param + "'에 대한 검색 결과가 없습니다.</h5>";
 			// close
 			html += "</div>";
 			
@@ -207,16 +210,6 @@ function getData3(param){
 	
 };
 
-/**
- * 디테일 페이지로 선택된 아이템이름 보내기
- */
-function getname(item){
-    var text = $(item).text();    
-    // alert(text);
-    
-    location.href="/medidetail?item=" + text;
-}
-
 $(document).ready(function(){
 	
 /* 검색버튼 클릭 시, 약 데이터 불러오기 */
@@ -224,29 +217,25 @@ $(document).ready(function(){
 		var param = $('#param').val();
 		var a = $("#sort").val(); // The text content of the selected option
 		//alert(param); 	
-			if(a == "dataget3"){									
-				getData3(param);
-			}
-			else if(a == "dataget2"){								
-				getData2(param);
-		  	}
-			else{								
-				getData(param);			
-			}		
+    
+    if(param != ""){	// 검색어가 존재하지 않을 때
+        if(a == "dataget3"){									
+          getData3(param);
+        }
+        else if(a == "dataget2"){								
+          getData2(param);
+          }
+        else{								
+          getData(param);			
+        }
+      }
 	});	
 				
 	/* ocr 창에서 검색 버튼 클릭 시, 해당 사진 저장 */
 	$('#ocr_bt').click(function(){
 		var img = $('#file').val();
-		// test
-		alert(img);
-		alert(jQuery.type(img));
 		
-		img = img.substring(12);
-		alert(img);
-		alert(jQuery.type(img));
-		
-		// 1. box 폴더에 ocr 이미지 저장 
+		// box 폴더에 ocr 이미지 저장 후 ocr 스캔 
 		$('#ocrpic').attr({
 			'enctype':'multipart/form-data',
 			'method':'post',
@@ -254,24 +243,6 @@ $(document).ready(function(){
 		});
 		
 		$('#ocrpic').submit();
-		
-		// 2. OCR 실행
-		$.ajax({
-			method: 'POST',
-			url:'/boxscan',
-			data:{'imgname':img},
-			dataType: 'json',
-			// [1] 해당 데이터가 없을 때
-			error: function(error) {
-				alert("not working");
-			},
-			// [2] 해당 데이터가 있을 때
-			success:function(data){
-				// test
-				alert(data);
-			 	console.log(data);
-			}
-		});
 	
 	});
 });
@@ -313,7 +284,7 @@ function readURL(input) {
 				</select>
 				<!-- 검색창 -->
 				<div class="input-group input-group-lg input-group-outline py-3">
-			  		<input type="text" id="param"  class="form-control form-control-lg" placeholder="어떤 약을 찾으시나요?">			  		
+			  		<input type="text" id="param" class="form-control form-control-lg" th:value="${resultname}" placeholder="어떤 약을 찾으시나요?">
 			  	</div>
 			  	<a id="search_bt" class="btn bg-gradient-primary w-auto me-2"><i class="fas fa-search" aria-hidden="true"></i></a>
 				
@@ -352,7 +323,7 @@ function readURL(input) {
 					<input type="url" id="url-search" placeholder="이미지 링크"><!-- name 없애놓음 -->
 				</div>
 				<div class="modal-footer">
-					<a id="ocr_bt" href="#" class="btn bg-gradient-primary">검색</a>
+					<a id="ocr_bt" class="btn bg-gradient-primary">검색</a>
 					<button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">닫기</button>
 				</div>
 			</form>

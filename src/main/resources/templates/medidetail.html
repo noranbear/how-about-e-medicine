@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 3.0 -->
+<!-- Version: 4.0 -->
 <!-- Description: 약 디테일 페이지
 
 -----------------------------------------------------------------------------
@@ -33,6 +33,8 @@
 
 2022. 7. 25.								디테일 정보 출력 기능 구현
 
+2022. 7. 26.									추가 버튼 기능 구현
+
 -------------------------------------------------------------------------
 -->
 
@@ -45,7 +47,30 @@
 #loginalert{
 	text-align:center;
 }
+
+.image_input {
+	width: 100px;
+	height: 70px;
+	float: right;
+}
 </style>
+<script>
+$(document).ready(function(){
+	$('#addmymedi').click(function(){
+		var uid = $('#uid').val();
+		var name = $('#name').val();
+		var usedate = $('#udate').val();
+		var image = $('#image').val();
+		$.ajax({
+			url:'/addmymedi',
+			data:{'uid':uid,'usedate':usedate,'name':name,'image':image},
+			success:function(data){
+				alert('내 약 리스트에 추가 되었습니다.');	
+			}
+		});
+	});
+});
+</script>
 
 <div class="row" th:each="i:${item}">
 	<div class="col-lg-12">
@@ -81,14 +106,16 @@
 									<div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
 										<div class="modal-content">
 											<div class="modal-header">
-												<h6 class="modal-title" id="modal-title-default">업체명</h6>		
+												<input type="hidden" th:text="${i.itemName}" th:value="${i.itemName}" id="name"></h6>
+												<input type="image" th:src="${i.itemImage}" class="image_input z-index-1" th:value="${i.itemImage}" id="image">
+												<input type="hidden" th:value="${session.signinusers.id}" id="uid">
 											</div>
 											<div class="modal-body">
 												<p align="left">사용기한</p>
-												<input type="date" style="width:470px;">
+												<input id="udate" type="date" style="width:470px;">
 											</div>
 											<div class="modal-footer">
-												<button type="button" class="btn bg-gradient-primary">추가하기</button>
+												<button id="addmymedi" type="button" class="btn bg-gradient-primary">추가하기</button>
 												<button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
 											</div>
 										</div>
