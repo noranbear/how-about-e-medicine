@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.multi.biz.DashBiz;
 import com.multi.biz.MymediBiz;
 import com.multi.biz.PlistBiz;
 import com.multi.biz.SlistBiz;
@@ -73,6 +74,8 @@ import com.multi.vo.MfVo;
  *
  *  					noranbear		medidetail 수정
  *                         ocraddimpl 생성
+ *                         
+ * 2022. 7. 26.			ynr1734			dashboard 카드 생성
  *
  * =========================================================
  */
@@ -101,6 +104,9 @@ public class MainController {
   
   @Autowired
 	PmediBiz pmedibiz;
+  
+  	@Autowired
+  	DashBiz dbiz;
 	
 	/**
 	 * 메인 페이지 연결
@@ -118,6 +124,17 @@ public class MainController {
 	@RequestMapping("/dashboard")
 	public String dashboard(Model m) {
 		m.addAttribute("center", "dashboard");
+		/**
+		 * 총 스캔된 약들의 양 가져오기
+		 * @return dashboard.html
+		 */	
+		int smedicnt = 0;
+		try {
+			smedicnt = dbiz.getSmediCnt();
+			m.addAttribute("smedicnt", smedicnt);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "index";
 	}
 	
@@ -260,17 +277,18 @@ public class MainController {
 	        
 	        if(session.getAttribute("signinusers") != null){
 	            users = (UsersVo) session.getAttribute("signinusers");
-	        try {
-	            list = mbiz.get(users.getId());
-	            m.addAttribute("mymedi", list);
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
+		        try {
+		            list = mbiz.get(users.getId());
+		            m.addAttribute("mymedi", list);
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+	        
 	        }
 	    m.addAttribute("center", "mymedi");
 	    return "index";
-	}
-	
+		
+	}	
 	
 	/**
 	 * 처방내역 페이지 연결
