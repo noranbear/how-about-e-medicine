@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 1.2 -->
+<!-- Version: 1.3 -->
 <!-- Description: 내 약 리스트 페이지
 
 -------------------------------------------------------------------------
@@ -26,6 +26,8 @@
 2022. 7. 20.						  			내약리스트 기능 구현
 
 2022. 7. 22.		qwaszx357					head, html 지우기
+
+2022. 7. 26.									image src 수정
 
 -------------------------------------------------------------------------
 -->
@@ -84,7 +86,7 @@ float: right;
 					<div class="card-group">
 						<div class="card" data-animation="true">
 							<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-								<a class="d-block blur-shadow-image"> <img src="1.jpg"
+								<a class="d-block blur-shadow-image"> <img th:src="${m.image}"
 									alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
 								</a>
 								<div class="colored-shadow"

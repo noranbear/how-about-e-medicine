@@ -1,5 +1,7 @@
 package com.multi.controller;
 
+import java.sql.Date;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -7,14 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.multi.biz.MymediBiz;
 import com.multi.restapi.DataAPI;
 import com.multi.restapi.OCRBoxAPI;
 import com.multi.restapi.OCREnvelopeAPI;
+import com.multi.vo.MymediVo;
 
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 5.0
+ * @version 6.0
  * @description
  *
  *
@@ -32,6 +36,7 @@ import com.multi.restapi.OCREnvelopeAPI;
  *  									dataget을 test controller로 
  *  										  다시 가져오기
  *  
+ *  2022. 7. 26.		qwaszx357			addmymedi 생성
  * =================================================================
  */
 
@@ -46,6 +51,9 @@ public class AJAXController {
 	
 	@Autowired
 	OCRBoxAPI bapi;
+	
+	@Autowired
+	MymediBiz mbiz;
 	
 	
 	/**
@@ -98,6 +106,19 @@ public class AJAXController {
 		return result;
 	}
 	
+	/**
+	 * mymedi에 추가한다.
+	 * @param name, usedate, uid, image
+	 * @return
+	 */
+	@RequestMapping("addmymedi")
+	public void addmymedi(String name, String usedate, String uid, String image) {
+		try {
+			mbiz.register(new MymediVo(name, usedate, uid, image));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 /*	// ID 중복 확인
 	@RequestMapping("/checkid")
