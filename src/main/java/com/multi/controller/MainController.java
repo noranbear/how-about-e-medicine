@@ -85,7 +85,7 @@ import com.multi.vo.UsersVo;
  *
  *				  noranbear, qwaszx357	 ocraddimpl 기능 구현 완성
  *
- *	2022. 7. 27.		noranbear		ocraddimpl에 조건 1, 2 추가
+ *	2022. 7. 27.		noranbear		 ocraddimpl에 조건 1 추가
  *
  * ================================================================
  */
@@ -398,11 +398,8 @@ public class MainController {
 	         
 			try {
 				
-				// 조건 2: 동일한 uid와 imgname의 데이터가 스캔내역 tbl에 존재하는지 확인
-				if(slibiz.gettheone(slist) == null) {
-					// 2-2.스캔내역 tbl에 데이터 넣는다.
-					slibiz.registerbox(slist);
-				}
+				// 2-2.스캔내역 tbl에 데이터 넣는다.
+				slibiz.registerbox(slist);
 				
 				// 1-2. 이미지를 해당 경로에 저장한다.
 				Util.saveFile(mf.getMf(), userdir);
@@ -428,7 +425,8 @@ public class MainController {
 				// 2-3. 스캔약 tbl에 데이터를 넣는다.
 				slist = slibiz.gettheone(slist);	// smedi는 sid를 필요로 하기 때문에 DB에 있는 
 													// (id를 가지고 있는)slist를 다시 꺼내온다.
-				// 조건 1
+
+				// slist tbl에 해당 정보가 존재할 때
 				if(slist.getId() != 0) {		// int id 값이 없는 경우 0 리턴
 					listId = slist.getId();
 				    SmediVo smedi = new SmediVo(name, listId);
