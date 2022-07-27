@@ -18,6 +18,7 @@ import com.multi.biz.MymediBiz;
 import com.multi.biz.PlistBiz;
 import com.multi.biz.PmediBiz;
 import com.multi.biz.SlistBiz;
+import com.multi.biz.SmediBiz;
 import com.multi.biz.UsersBiz;
 import com.multi.frame.Util;
 import com.multi.restapi.DataAPI;
@@ -26,59 +27,65 @@ import com.multi.vo.MfVo;
 import com.multi.vo.MymediVo;
 import com.multi.vo.PlistVo;
 import com.multi.vo.PmediVo;
+import com.multi.vo.SlistVo;
+import com.multi.vo.SmediVo;
 import com.multi.vo.UsersVo;
 
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 9.1
+ * @version 10.1
  * @description
  *
  *
  * ================================================================
- * 	    DATE			 AUTHOR				    NOTE
+ * 	    DATE			 AUTHOR				       NOTE
  * ----------------------------------------------------------------
- *  2022. 7. 6.			noranbear			  main 생성
+ *  2022. 7. 6.			noranbear			     main 생성
  *
- *	2022. 7. 15.							dashboard 생성
- *											sign in 생성
- *											sign up 생성
+ *	2022. 7. 15.							   dashboard 생성
+ *											   sign in 생성
+ *											   sign up 생성
  *
- *	2022. 7. 16.							 mdetail 생성
- *											 mymlist 생성
+ *	2022. 7. 16.							   mdetail 생성
+ *											   mymlist 생성
  *
- *	2022. 7. 16.		qwaszx357			signinimpl 생성
- *											   msg 생성
- *											 signout 생성
+ *						qwaszx357			  signinimpl 생성
+ *											     msg 생성
+ *											   signout 생성
  *
- *	2022. 7. 18.							  plist 생성
+ *	2022. 7. 18.							    plist 생성
  *
- *	2022. 7. 18.		noranbear			 profile 생성
+ *						noranbear			   profile 생성
  *
- *	2022. 7. 19.							 pdetail 생성
+ *	2022. 7. 19.							   pdetail 생성
  *
- *	2022. 7. 19.		qwaszx357			  plist 수정
+ *						qwaszx357			    plist 수정
  *
-*	2022. 7. 19.		noranbear			datatest 생성
+ *						noranbear			  datatest 생성
  *
- *	2022. 7. 21.		noranbear			datatest 이동
+ *	2022. 7. 20.		 najune				   mymedi 수정
  *
- *	2022. 7. 20.		 najune				 mymedi	수정
+ *	2022. 7. 21.		noranbear			  datatest 이동
  *
- *	2022. 7. 22.		 					 profile 수정
+ *	2022. 7. 22.		 					   profile 수정
  *
- *  2022. 7. 23.		qwaszx357		signin, signup 수정
+ *  2022. 7. 23.		qwaszx357		    signin, signup 수정
  *  
- *  2022. 7. 25.							mdetail 수정
+ *  2022. 7. 25.						  	   mdetail 수정
  *
- *            			najune				pdetail 수정
+ *            			najune				   pdetail 수정
  *
- *  					noranbear		   medidetail 수정
- *                         				   ocraddimpl 생성
+ *  					noranbear		      medidetail 수정
+ *                         				      ocraddimpl 생성
  *
- * 2022. 7. 26.						ocraddimpl에 ocrbox 실행 추가
+ *	2022. 7. 26.						ocraddimpl에 ocrbox 실행 추가
  *
- *             			 ynr1734		  dashboard 카드 생성
+ *             			 ynr1734		    dashboard 카드 생성
+ *
+ *				  noranbear, qwaszx357	 ocraddimpl 기능 구현 완성
+ *
+ *	2022. 7. 27.		noranbear		 ocraddimpl에 조건 1 추가
  *
  * ================================================================
  */
@@ -106,7 +113,10 @@ public class MainController {
 	MymediBiz mbiz;
 	
 	@Autowired
-	SlistBiz slistbiz;
+	SlistBiz slibiz;
+	
+	@Autowired
+	SmediBiz smbiz;
   
 	@Autowired
 	PmediBiz pmedibiz;
@@ -238,8 +248,9 @@ public class MainController {
        
        if(session.getAttribute("signinusers") != null){
            users = (UsersVo) session.getAttribute("signinusers");
-       m.addAttribute("center", "profile");
+           m.addAttribute("center", "profile");
        }
+       
        return "index";
    }
 	
@@ -328,7 +339,7 @@ public class MainController {
 	 * @return pdetail.html
 	 */
 	@RequestMapping("/pdetail")
-    public String pdetail(Model m , Integer id) {
+    public String pdetail(Model m, Integer id) {
 		PlistVo obj = null;
 		List<PmediVo> mlist = null;
 	
@@ -348,33 +359,83 @@ public class MainController {
 	
 	
 	/**
-	 * 이미지 저장 후 ocrbox 실행
-	 * @param mf image file을 담은 Vo
+	 * 메인페이지에서 ocr창으로 들어온 1. 이미지 저장, 2. ocrbox search, 
+	 * 3. 해당 내용 DB(slist, smedi)에 저장하는 함수
+	 * @param mf 이미지 파일
+	 * @param session 현재 유저 id를 가져올 HttpSession
 	 */
 	@RequestMapping("/ocraddimpl")
-	public String ocraddimpl(Model m, MfVo mf) {
-		String imgname = mf.getMf().getOriginalFilename();
+	public String ocraddimpl(Model m, MfVo mf, HttpSession session) {
+		int listId = 0;				// 스캔한 약곽 정보를 담은 slistVo의 id를 담음
+		String imgname = null;		// mf의 이미지 이름을 담음
+		String uid = null;			// users에서 받을 유저 id를 담음
+		String name = null;			// 스캔한 약곽 이름을 담음
 		
-		try {
-			//biz.register(p);
-			//mf.setImgname(imgname);
-			Util.saveFile(mf.getMf(), userdir);
-			Object result = bapi.boxapi(imgname);
+		UsersVo users = null;		// HttpSession에서 가져오는 유저 정보를 담음
+		SlistVo slist = null;		// 스캔한 약곽 정보를 slist tbl에 넣을 때 사용
+		
+
+		// [1] 약 이미지 저장
+		// 1-1. 이미지 이름을 가져온다.
+		imgname = mf.getMf().getOriginalFilename();		// mf 앞에 fake path가 붙기 때문에 필요
+
+		// 조건 1: 이미지가 존재할 때 실행
+		if(!(imgname.isEmpty())) { 
 			
-			JSONObject jo = (JSONObject) JSONValue.parse(result.toString());
-			JSONArray jo1 = (JSONArray) jo.get("images");
-			//System.out.println("1 : " + jo1);
-			JSONObject obj = (JSONObject) jo1.get(0);
-			//System.out.println("2 : " + obj);
-			JSONObject obj2 = (JSONObject) obj.get("title");
-			//System.out.println("3 : " + obj2);
-			String name = (String) obj2.get("inferText");
-			//System.out.println("4 : " + name);
-			
-			m.addAttribute("resultname", name);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
+			// [2] DB에 정보 저장
+			// 2-1. (비)회원 ID를 가져온다.
+			// 유저일 때
+	        if(session.getAttribute("signinusers") != null){	
+	        	users = (UsersVo) session.getAttribute("signinusers");		// HttpSession에서 UsersVo 가져옴
+	            uid = users.getId();
+	        
+	        // 비회원일 때
+	        }else {
+	        	uid = "none0";		// DB에 저장되어 있는 비회원 아이디
+	        }
+	        
+	        slist = new SlistVo(uid, imgname);  
+	         
+			try {
+				
+				// 2-2.스캔내역 tbl에 데이터 넣는다.
+				slibiz.registerbox(slist);
+				
+				// 1-2. 이미지를 해당 경로에 저장한다.
+				Util.saveFile(mf.getMf(), userdir);
+				
+				// [3] ocrbox 스캔
+				// 3-1. ocrbox로 스캔한다.
+				Object result = bapi.boxapi(imgname);
+				
+				// 3-2. 리턴된 Object에서 Json parsing해서 약이름만 빼낸다.
+				JSONObject jo = (JSONObject) JSONValue.parse(result.toString());
+				JSONArray images = (JSONArray) jo.get("images");
+				//System.out.println("1 : " + jo1);
+				JSONObject obj = (JSONObject) images.get(0);
+				//System.out.println("2 : " + obj);
+				JSONObject title = (JSONObject) obj.get("title");
+				//System.out.println("3 : " + obj2);
+				name = (String) title.get("inferText");
+				//System.out.println("4 : " + name);
+				
+				// 3-3. 구한 약이름을 화면으로 보낸다.
+				m.addAttribute("resultname", name);
+				
+				// 2-3. 스캔약 tbl에 데이터를 넣는다.
+				slist = slibiz.gettheone(slist);	// smedi는 sid를 필요로 하기 때문에 DB에 있는 
+													// (id를 가지고 있는)slist를 다시 꺼내온다.
+
+				// slist tbl에 해당 정보가 존재할 때
+				if(slist.getId() != 0) {		// int id 값이 없는 경우 0 리턴
+					listId = slist.getId();
+				    SmediVo smedi = new SmediVo(name, listId);
+					smbiz.register(smedi);
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return "index";
