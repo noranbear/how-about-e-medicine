@@ -21,6 +21,10 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		SELECT * FROM users
 	</select>
 	
+	<select id="getid" parameterType="String" resultType="int">
+		SELECT count(*) FROM users WHERE ID=#{id}
+	</select>
+	
 </mapper>
 
 
