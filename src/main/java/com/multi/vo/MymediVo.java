@@ -23,6 +23,9 @@ import lombok.ToString;
  *  2022. 7. 13.						  DB 수정으로 인한 수정
  *  
  *  2022. 7. 26.				   Constructor for insert 수정
+ *  
+ *  2022. 7. 29.				   Constructor for update 수정
+ *  										dday 생성
  * =========================================================
  */
 @NoArgsConstructor
@@ -39,6 +42,8 @@ public class MymediVo {
     private String image;
     private String note;
     
+    private int dday;	// 남은 사용기한
+    
     
     // Constructor for insert
     public MymediVo(String name, String usedate, String uid, String image) {
@@ -49,11 +54,9 @@ public class MymediVo {
 	}
 	
     // Constructor for update
-	public MymediVo(int id, String name, String usedate, String image, String note) {
+	public MymediVo(int id, String usedate, String note) {
 		this.id = id;
-		this.name = name;
 		this.usedate = usedate;
-		this.image = image;
 		this.note = note;
 	}
 

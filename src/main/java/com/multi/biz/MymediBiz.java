@@ -12,7 +12,7 @@ import com.multi.vo.MymediVo;
 /**
  * @author qwaszx357
  * @date 2022. 7. 11.
- * @version 1.0
+ * @version 2.0
  * @description
  *
  *
@@ -22,6 +22,8 @@ import com.multi.vo.MymediVo;
  *  2022. 7. 11.		qwaszx357		  First Creation
  *  
  *	2022. 7. 20.		najune			  get 추가
+ *
+ *	2022. 7. 29.		qwaszx357			getdday 생성
  *
  * =========================================================
  */
@@ -56,9 +58,14 @@ public class MymediBiz implements Biz<Integer, MymediVo> {
 		return dao.selectall();
 	}
 	
+	// 사용기한 안내
+	public List<MymediVo> getdday(String k) throws Exception {
+		return dao.selectdday(k);
+	}
+	
 	// Mymedi
 		
-	public List<MymediVo> get(String txt) throws Exception {
+	public List<MymediVo> getusers(String txt) throws Exception {
 		return dao.get(txt);
 	}
 		
