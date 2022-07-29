@@ -87,6 +87,8 @@ import com.multi.vo.UsersVo;
  *
  *	2022. 7. 27.		noranbear		 ocraddimpl에 조건 1 추가
  *
+ *	2022. 7. 27.		najune		 		profile 업데이트 기능 
+ *
  * ================================================================
  */
 
@@ -249,10 +251,21 @@ public class MainController {
        if(session.getAttribute("signinusers") != null){
            users = (UsersVo) session.getAttribute("signinusers");
            m.addAttribute("center", "profile");
-       }
-       
+           m.addAttribute("u", users);
+       }	
        return "index";
    }
+  
+  	@RequestMapping("/update")
+	public String update(Model m, UsersVo user, HttpSession session) {
+		try {
+			ubiz.modify(user);
+			session.setAttribute("signinusers", user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "index";
+	}
 	
    /**
     * 약 디테일 페이지 연결
