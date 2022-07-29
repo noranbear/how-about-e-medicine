@@ -1,5 +1,7 @@
 package com.multi.mymedi;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,34 +11,33 @@ import com.multi.vo.MymediVo;
 
 /**
  * @author qwaszx357
- * @date 2022. 7. 11.
- * @version 1.1
+ * @date 2022. 7. 29.
+ * @version 1.0
  * @description
  *
  *
  * =========================================================
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
- *  2022. 7. 11.		qwaszx357		  First Creation
+ *  2022. 7. 29.		qwaszx357		   First Creation
  *  
- *  2022. 7. 13.						  DB 수정으로 인한 수정
- *
- *	2022. 7. 29.						  DB 수정으로 인한 수정
  * =========================================================
  */
 @SpringBootTest
-class MymediUpdateTests {
+class MymediSelectDdayTests {
 
 	@Autowired
 	MymediBiz biz;
 
 	@Test
 	void contextLoads() {
-	    MymediVo mymedi = new MymediVo(4,"2022-07-20","note01");
+	    List<MymediVo> list = null;
 
 	    try {
-	        biz.modify(mymedi);
-	        System.out.println("Updated Ok");
+	        list = biz.getdday("id01");
+	        for (MymediVo obj : list) {
+		        System.out.println(obj);
+			}
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }

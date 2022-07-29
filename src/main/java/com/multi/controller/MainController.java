@@ -31,7 +31,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 9.1
+ * @version 10.0
  * @description
  *
  *
@@ -79,6 +79,8 @@ import com.multi.vo.UsersVo;
  * 2022. 7. 26.						ocraddimpl에 ocrbox 실행 추가
  *
  *             			 ynr1734		  dashboard 카드 생성
+ *             
+ * 2022. 7. 29.			qwaszx357	  editmymedi, deletemymedi 생성
  *
  * ================================================================
  */
@@ -278,14 +280,17 @@ public class MainController {
 	*/
 	@RequestMapping("/mymedi")
 	public String mymedi(Model m, HttpSession session) {
-	    List<MymediVo> list = null;    
+	    List<MymediVo> list = null;  
+	    List<MymediVo> dlist = null; 
 	    UsersVo users = null;
 	        
 	        if(session.getAttribute("signinusers") != null){
 	            users = (UsersVo) session.getAttribute("signinusers");
 		        try {
-		            list = mbiz.get(users.getId());
+		            list = mbiz.getusers(users.getId());
 		            m.addAttribute("mymedi", list);
+		            dlist = mbiz.getdday(users.getId());
+		            m.addAttribute("dlist", dlist);
 		        } catch (Exception e) {
 		            e.printStackTrace();
 		        }
@@ -295,6 +300,36 @@ public class MainController {
 	    return "index";
 		
 	}	
+	
+	/**
+	 * mymedi의 약을 수정
+	 * @param m, medi
+	 * @return mymedi.html
+	 */
+	@RequestMapping("/editmymedi")
+	public String editmymedi(Model m, MymediVo medi) {
+		try {
+			mbiz.modify(medi);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:mymedi";
+	}
+	
+	/**
+	 * mymedi의 약을 삭제
+	 * @param id
+	 * @return mymedi.html
+	 */
+	@RequestMapping("/deletemymedi")
+	public String deletemymedi(int id) {
+		try {
+			mbiz.remove(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:mymedi";
+	}
 	
 	/**
 	 * 처방내역 페이지 연결

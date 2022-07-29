@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	    INSERT INTO mymedi VALUES (NULL,#{name},#{usedate},CURDATE(),#{uid},#{image},NULL)
 	</insert>
 	<update id="update" parameterType="mymediVo">
-	    UPDATE mymedi SET NAME=#{name},USEDATE=#{usedate},IMAGE=#{image},NOTE=#{note} WHERE ID=#{id}
+	    UPDATE mymedi SET USEDATE=#{usedate},NOTE=#{note} WHERE ID=#{id}
 	</update>
 	<delete id="delete" parameterType="int">
 	    DELETE FROM mymedi WHERE ID=#{id}
@@ -21,11 +21,16 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	    SELECT * FROM mymedi
 	</select>
 	
+	<!-- 사용기한 5일 이내 안내 -->
+	<select id="selectdday" parameterType="String" resultType="mymediVo">
+		SELECT name, (usedate - curdate()) AS dday FROM mymedi 
+		WHERE UID=#{id01} AND (usedate - curdate()) IN (1,2,3,4,5);
+	</select>
 	
 	<!-- search  -->
 	
 	<select id="get" parameterType="String" resultType="mymediVo">
-		SELECT m.name, m.usedate, m.image FROM mymedi m WHERE m.uid=#{uid} 
+		SELECT * FROM mymedi WHERE UID=#{uid} 
 	</select>
 	
 </mapper>

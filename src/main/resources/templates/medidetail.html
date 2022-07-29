@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 4.0 -->
+<!-- Version: 4.1 -->
 <!-- Description: 약 디테일 페이지
 
 -----------------------------------------------------------------------------
@@ -35,6 +35,9 @@
 
 2022. 7. 26.									추가 버튼 기능 구현
 
+2022. 7. 27.							modal 제품명, 이미지 가운데 정렬
+									추가 완료 modal 지우고 현재 modal에 출력
+
 -------------------------------------------------------------------------
 -->
 
@@ -45,13 +48,17 @@
 <title>Insert title here</title>
 <style>
 #loginalert{
-	text-align:center;
+	text-align: center;
 }
 
 .image_input {
 	width: 100px;
 	height: 70px;
-	float: right;
+}
+
+.modal-header, .modal-body {
+	text-align: center;
+	display: inline;
 }
 </style>
 <script>
@@ -65,7 +72,7 @@ $(document).ready(function(){
 			url:'/addmymedi',
 			data:{'uid':uid,'usedate':usedate,'name':name,'image':image},
 			success:function(data){
-				alert('내 약 리스트에 추가 되었습니다.');	
+				$('.modal-body').text('내 약 리스트에 추가 되었습니다.');
 			}
 		});
 	});
@@ -79,7 +86,7 @@ $(document).ready(function(){
 			<div class="col-xl-5 mb-xl-0 mb-4">
 				<div class="card bg-transparent shadow-xl">
 					<div class="overflow-hidden position-relative border-radius-xl">
-						<img th:src="${i.itemImage}" class="position-absolute start-0 top-0 w-100 z-index-1 h-100" alt="">
+						<img th:src="${i.itemImage}" class="position-absolute start-0 top-0 w-100 z-index-1 h-100" alt="/"  onerror="this.onerror=null; this.src='img/logo.png';">
 						<span class="mask bg-gradient-dark opacity-10"></span>
 						<div class="card-body position-relative z-index-1 p-3">
 							<h5 class="text-white mt-9 mb-5 pb-2"></h5>
@@ -107,7 +114,7 @@ $(document).ready(function(){
 										<div class="modal-content">
 											<div class="modal-header">
 												<input type="hidden" th:text="${i.itemName}" th:value="${i.itemName}" id="name"></h6>
-												<input type="image" th:src="${i.itemImage}" class="image_input z-index-1" th:value="${i.itemImage}" id="image">
+												<input type="hidden" th:value="${i.itemImage}" id="image">
 												<input type="hidden" th:value="${session.signinusers.id}" id="uid">
 											</div>
 											<div class="modal-body">
