@@ -11,16 +11,20 @@ import lombok.ToString;
 /**
  * @author noranbear
  * @date 2022. 7. 17.
- * @version 1.0
+ * @version 2.0
  * @description 스캔내역 Value Object
  *
- * =========================================================
+ * ============================================================
  * 	    DATE			 AUTHOR				    NOTE
- * ---------------------------------------------------------
+ * ------------------------------------------------------------
  *  2022. 7. 17.		noranbear		  First Creation
  *
- * =========================================================
+ *	2022. 7. 26.							 Constructor 
+ *										 for OCRbox insert 추가	
+ *
+ * ============================================================
  */
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
@@ -44,6 +48,16 @@ public class SlistVo {
 		this.imgname = imgname;
 		this.pdate = pdate;
 	}
+	
+	/**
+	 * Constructor for ocrbox insert
+	 * 제외: id, pdate, regdate
+	 * 이유: 약곽은 조제일자 스캔 불가
+	 */
+	public SlistVo(String uid, String imgname) {
+		this.uid = uid;
+		this.imgname = imgname;
+	}
 
 	/**
 	 * Constructor for update
@@ -54,6 +68,6 @@ public class SlistVo {
 		this.imgname = imgname;
 		this.pdate = pdate;
 	}
-	
-	
+
+
 }

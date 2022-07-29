@@ -28,6 +28,9 @@
 2022. 7. 18			najune						회원가입 기능 구현		
 
 2022. 7. 23.		qwaszx357				   헤더 변경 및 링크 연결
+
+2022. 7. 28.		najune				    아이디 중복체크 기능,이메일 @ 유효성 체크 기능
+
 -------------------------------------------------------------------------
 -->
 
@@ -66,27 +69,30 @@ $(document).ready(function(){
 
 	// ID 중복 확인
 	$('#id').keyup(function(){
-		var inputid = $(this).val();
+		let id = $('#id').val();
+		
 		$.ajax({
 			url:'/checkid',
-			data:{id:inputid},
+			type:"post",
+			data:{id: id},
 			success:function(result){
 				if (result == '1') {
-					$('#id_msg').text('사용 불가능한 ID 입니다.');
+					$('#id_msg').text('사용 불가능한 ID 입니다.');						        
 				} else {
 					$('#id_msg').text('사용 가능한 ID 입니다.');
 				}
-			}
-		});
-	});
+			},
+		}
+		);
+	});	
 	
 	// pwd 글자 수 확인
 	$('#pwd').blur(function(){
 		var pwd = $(this).val();
 		if (pwd.length < 4){
-			$('#id_msg').text("Password는 4글자 이상 입력해주세요.");
+			$('#pwd_msg').text("Password는 4글자 이상 입력해주세요.");
 		} else {
-			$('#id_msg').text('');
+			$('#pwd_msg').text('');
 		}
 	});
 
@@ -199,7 +205,7 @@ font-size:1em;
 							</div>
 							<!-- 회원가입 -->
 							<div class="card-body">
-								<form id="signup_form" action="#" class="text-start" >
+								<form id="signup_form" action="#" class="text-start"  onsubmit="return checkz()">
 									<div class="input-group input-group-outline my-3">
 										<label class="form-label">name</label>
 										<input id="name"  name="name" class="form-control">
@@ -208,15 +214,16 @@ font-size:1em;
 										<label class="form-label"></label>
 										<input type="date" id="birth" name="birth" class="form-control">
 									</div>
-									
-									<div>
-                            			<span id="id_msg" th:text="${msg}"></span>
-                            		</div>
+					
 									 
 									<div class="input-group input-group-outline mb-3">
 										<label class="form-label">id</label>
 										<input id="id" name="id" type="text" class="form-control">
 									</div>	
+									
+									<div>
+                            			<span id="id_msg" th:text="${msg}"></span>
+                            		</div>
 									
 									<div class="input-group input-group-outline mb-3">
 										<label class="form-label">password</label>
@@ -224,12 +231,12 @@ font-size:1em;
 									</div>
 									
 									<div>
-                            			<span id="id_msg" th:text="${msg}"></span>
+                            			<span id="pwd_msg" th:text="${msg}"></span>
                             		</div>
                             		
 									<div class="input-group input-group-outline mb-3">
 										<label class="form-label">email</label>
-										<input id="mail" name="email" type="email" class="form-control">
+										<input id="mail" name="email" type="email" class="form-control" required>
 									</div>
 									<h4><span>성별</span></h4>
 		                            <div>							  

@@ -7,6 +7,10 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<insert id="insert" parameterType="slistVo">
 		INSERT INTO slist VALUES (NULL,#{uid},#{imgname},#{pdate},CURDATE())
 	</insert>
+	<insert id="insertbox" parameterType="slistVo">
+		INSERT INTO slist VALUES (NULL,#{uid},#{imgname},NULL,CURDATE())
+	</insert>
+	
 	<update id="update" parameterType="slistVo">
 		UPDATE slist SET IMGNAME=#{imgname},PDATE=#{pdate} WHERE ID=#{id}
 	</update>
@@ -19,6 +23,9 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	</select>
 	<select id="selectall" resultType="slistVo">
 		SELECT * FROM slist
+	</select>
+	<select id="selecttheone" parameterType="slistVo" resultType="slistVo">
+		SELECT * FROM slist WHERE UID=#{uid} AND IMGNAME=#{imgname}
 	</select>
 	
 </mapper>

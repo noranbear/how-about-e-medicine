@@ -1,7 +1,4 @@
 package com.multi.controller;
-
-import java.sql.Date;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -10,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.multi.biz.MymediBiz;
+import com.multi.biz.UsersBiz;
+import com.multi.mapper.UsersMapper;
 import com.multi.restapi.DataAPI;
 import com.multi.restapi.DataAPI2;
 import com.multi.restapi.DataAPI3;
@@ -40,8 +39,10 @@ import com.multi.vo.MymediVo;
  *  
  *  2022. 7. 26.		qwaszx357			addmymedi 생성
  *
- *            	   	najune				dataget2, dataget3 추가
+ *            	   		najune				dataget2, dataget3 추가
  * 
+ *  2022. 7. 28.		najune				id 중복체크 구현
+ *  
  * =================================================================
  */
 
@@ -65,6 +66,12 @@ public class AJAXController {
 	
 	@Autowired
 	MymediBiz mbiz;
+	
+	@Autowired
+	UsersBiz ubiz;
+	
+	@Autowired
+	UsersMapper mapper;
 	
 	
 	/**
@@ -173,28 +180,10 @@ public class AJAXController {
 		}
 	}
 	
-/*	// ID 중복 확인
+	// ID 중복 확인
 	@RequestMapping("/checkid")
-	
-	public String checkid(String id) {
-		String result = "";
-		UsersVo user = null;
-
-		if (id.equals("") || id == null) {
-			return "1";
-		}
-		try {
-			user = ubiz.getId();
-			if (user == null) {
-				result = "0";
-			} else {
-				result = "1";
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public int checkid(String id) {
+		int result = mapper.getid(id);	
 		return result;
-
 	}
-*/
 }
