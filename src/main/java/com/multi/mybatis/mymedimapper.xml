@@ -24,11 +24,10 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<!-- 사용기한 5일 이내 안내 -->
 	<select id="selectdday" parameterType="String" resultType="mymediVo">
 		SELECT name, (usedate - curdate()) AS dday FROM mymedi 
-		WHERE UID=#{id01} AND (usedate - curdate()) IN (1,2,3,4,5);
+		WHERE UID=#{id01} AND (usedate - curdate()) IN (1,2,3,4,5) ORDER BY dday
 	</select>
 	
 	<!-- search  -->
-	
 	<select id="get" parameterType="String" resultType="mymediVo">
 		SELECT * FROM mymedi WHERE UID=#{uid} 
 	</select>

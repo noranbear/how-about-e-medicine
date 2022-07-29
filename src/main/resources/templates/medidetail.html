@@ -62,7 +62,13 @@
 }
 </style>
 <script>
+// mymedi로 이동
+function mymedi(uid){
+	location.href="/mymedi";
+}
+
 $(document).ready(function(){
+	// 내 약 리스트에 추가하기
 	$('#addmymedi').click(function(){
 		var uid = $('#uid').val();
 		var name = $('#name').val();
@@ -73,6 +79,10 @@ $(document).ready(function(){
 			data:{'uid':uid,'usedate':usedate,'name':name,'image':image},
 			success:function(data){
 				$('.modal-body').text('내 약 리스트에 추가 되었습니다.');
+				var footer = '';
+				footer += "<a href='#' onclick='mymedi(uid)' type='button' class='btn bg-gradient-primary'>내 약 리스트로 이동</a>";
+				footer += "<button type='button' class='btn btn-link  ml-auto' data-bs-dismiss='modal'>Close</button>";
+				$('.modal-footer').html(footer);
 			}
 		});
 	});

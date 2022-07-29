@@ -74,10 +74,7 @@ $(document).ready(function(){
 	<!-- 사용기한 알림창 -->
 	<div class="alert alert-primary alert-dismissible text-white"
 		role="alert" th:each="d:${dlist}">
-		<span th:text="${d.name} + '의 사용기한이 ' + ${d.dday} + '일 남았습니다.'">사용기한이
-		<a href="javascript:;" class="alert-link text-white"></a>
-			13일 남았습니다
-		</span>
+		<span th:text="${d.name} + '의 사용기한이 ' + ${d.dday} + '일 남았습니다.'">사용기한이</span>
 		<button type="button" class="btn-close text-lg py-3 opacity-10"
 			data-bs-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">×</span>
