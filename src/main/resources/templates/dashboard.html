@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 2.1 -->
+<!-- Version: 3.0 -->
 <!-- Description: 메인페이지
 
 -------------------------------------------------------------------------
@@ -26,6 +26,8 @@
 					noranbear				side bar와 헤더 지우기
 					
 2022. 7. 22.		qwaszx357					footer 지우기
+
+2022. 7. 29.								   스캔된 약 정보 출력
 
 -------------------------------------------------------------------------
 -->
@@ -41,7 +43,7 @@
      		    <div class="card">
 				<div class="card-header p-3 pt-2">
 					<div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
-						<i class="material-icons opacity-10">weekend</i>
+						<i class="fa fa-capsules"></i>
 					</div>
 					<div class="text-end pt-1">
 						<p class="text-sm mb-0 text-capitalize">총 스캔된 약의 양</p>
@@ -58,11 +60,11 @@
 			<div class="card">
 				<div class="card-header p-3 pt-2">
 					<div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-						<i class="material-icons opacity-10">person</i>
+						<i class="fa fa-tablets"></i>
 					</div>
 					<div class="text-end pt-1">
-						<p class="text-sm mb-0 text-capitalize">Today's Users</p>
-						<h4 class="mb-0">2,300</h4>
+						<p class="text-sm mb-0 text-capitalize">오늘 스캔된 약의 양</p>
+						<h4 class="mb-0" th:text="${smeditoday}">2,300</h4>
 					</div>
 				</div>
 				<hr class="dark horizontal my-0">
@@ -75,11 +77,11 @@
 			<div class="card">
 				<div class="card-header p-3 pt-2">
 					<div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
-						<i class="material-icons opacity-10">person</i>
+						<i class="fa fa-capsules"></i>
 					</div>
 				<div class="text-end pt-1">
-					<p class="text-sm mb-0 text-capitalize">New Clients</p>
-					<h4 class="mb-0">3,462</h4>
+					<p class="text-sm mb-0 text-capitalize">가장 많이 스캔된 제품명</p>
+					<h4 class="mb-0" th:text="${topsmedi.name}">3,462</h4>
 				</div>
 			</div>
 			<hr class="dark horizontal my-0">
@@ -92,11 +94,11 @@
 		<div class="card">
 			<div class="card-header p-3 pt-2">
 				<div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-					<i class="material-icons opacity-10">weekend</i>
+					<i class="fa fa-tablets"></i>
 				</div>
 				<div class="text-end pt-1">
-					<p class="text-sm mb-0 text-capitalize">Sales</p>
-					<h4 class="mb-0">$103,430</h4>
+					<p class="text-sm mb-0 text-capitalize">가장 많이 스캔한 날짜</p>
+					<h4 class="mb-0" th:text="${#dates.format(topday.regdate,'yyyy-MM-dd')}">skfWk</h4>
 				</div>
 			</div>
 			<hr class="dark horizontal my-0">

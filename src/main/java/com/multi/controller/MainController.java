@@ -34,7 +34,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 10.1
+ * @version 10.2
  * @description
  *
  *
@@ -90,6 +90,8 @@ import com.multi.vo.UsersVo;
  *	                najune		 		profile 업데이트 기능 
  *
  *  2022. 7. 29.			qwaszx357	  editmymedi, deletemymedi 생성
+ *  
+ *  										dashboard 수정
  *
  * ================================================================
  */
@@ -143,12 +145,24 @@ public class MainController {
 	 */
 	@RequestMapping("/dashboard")
 	public String dashboard(Model m) {
-		
-		// 총 스캔된 약들의 양 가져오기
 		int smedicnt = 0;
+		int smeditoday = 0;
+		SmediVo topsmedi = null;
+		SlistVo topday = null;
+		
 		try {
+			// 총 스캔된 약들의 양 가져오기
 			smedicnt = dbiz.getSmediCnt();
 			m.addAttribute("smedicnt", smedicnt);
+			// 오늘 스캔된 약들이 양
+			smeditoday = dbiz.getsmeditoday();
+			m.addAttribute("smeditoday", smeditoday);
+			// 가장 많이 스캔된 제품명
+			topsmedi = dbiz.getsmeditop();
+			m.addAttribute("topsmedi", topsmedi);
+			// 가장 많이 스캔한 날짜
+			topday = dbiz.getsmeditopday();
+			m.addAttribute("topday", topday);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

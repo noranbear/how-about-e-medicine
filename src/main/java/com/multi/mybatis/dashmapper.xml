@@ -3,8 +3,28 @@
 PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.multi.mapper.DashMapper">
-
+	
+	<!-- 총 스캔된 약의 양 -->
 	<select id="getsmedicnt" resultType="int">
 		SELECT count(*) FROM smedi
+	</select>
+	
+	<!-- 오늘 스캔된 약의 양 -->
+	<select id="getsmeditoday" resultType="int">
+		SELECT count(sm.name) FROM slist sl
+		INNER JOIN smedi sm ON sm.sid = sl.id
+		WHERE sl.regdate = CURDATE()
+	</select>
+	
+	<!-- 가장 많이 스캔된 제품명 -->
+	<select id="getsmeditop" resultType="smediVo">
+		SELECT name, COUNT(id) AS cnt FROM smedi GROUP BY name ORDER BY cnt DESC LIMIT 1
+	</select>
+	
+	<!-- 가장 많이 스캔한 날짜 -->
+	<select id="getsmeditopday" resultType="slistVo">
+		SELECT sl.regdate, COUNT(sl.id) AS cnt FROM smedi sm
+		RIGHT JOIN slist sl ON sm.sid = sl.id
+		GROUP BY sl.regdate ORDER BY cnt DESC LIMIT 1
 	</select>
 </mapper>
