@@ -9,7 +9,7 @@ import lombok.ToString;
 /**
  * @author qwaszx357
  * @date 2022. 7. 13.
- * @version 1.0
+ * @version 2.0
  * @description
  *
  *
@@ -17,6 +17,9 @@ import lombok.ToString;
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
  *  2022. 7. 13.		qwaszx357		  First Creation
+ *  
+ *  2022. 8. 2.			noranbear		 오전/오후, 시간, 분 없애고 
+ *  										 time으로 통일
  *
  * =========================================================
  */
@@ -28,28 +31,22 @@ import lombok.ToString;
 public class AlarmVo {
 	private int id;
 	private String mad;
-	private String apm;
-	private String hr;
-	private String min;
+	private String time;
 	private String complete;
 	private int pid;
 	
 	// Constructor for insert
-	public AlarmVo(String mad, String apm, String hr, String min, int pid) {
+	public AlarmVo(String mad, String time, int pid) {
 		this.mad = mad;
-		this.apm = apm;
-		this.hr = hr;
-		this.min = min;
+		this.time = time;
 		this.pid = pid;
 	}
 
 	// Constructor for update
-	public AlarmVo(int id, String mad, String apm, String hr, String min, String complete) {
+	public AlarmVo(int id, String mad, String time, String complete) {
 		this.id = id;
 		this.mad = mad;
-		this.apm = apm;
-		this.hr = hr;
-		this.min = min;
+		this.time = time;
 		this.complete = complete;
 	}
 	

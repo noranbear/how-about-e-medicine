@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 8.1 -->
+<!-- Version: 8.2 -->
 <!-- Description: 메인 페이지의 기본 중간 화면 (검색창)
 
 -------------------------------------------------------------------------------
@@ -49,7 +49,7 @@
  * 디테일 페이지로 선택된 아이템이름 보내기
  */
 function getname(item){
-	var text = $(item).text();	
+	var text = $(item).text();
 	//alert(text);
 	
 	location.href="/medidetail?item=" + text;
@@ -212,7 +212,7 @@ function getData3(param){
 
 $(document).ready(function(){
 	
-/* 검색버튼 클릭 시, 약 데이터 불러오기 */
+	/* 검색버튼 클릭 시, 약 데이터 불러오기 */
 	$('#search_bt').click(function(){
 		var param = $('#param').val();
 		var a = $("#sort").val(); // The text content of the selected option

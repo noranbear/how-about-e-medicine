@@ -1,5 +1,7 @@
 package com.multi.alarm;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,35 +11,34 @@ import com.multi.vo.AlarmVo;
 
 /**
  * @author qwaszx357
- * @date 2022. 7. 13.
- * @version 2.0
- * @description
+ * @date 2022. 8. 2.
+ * @version 1.0
+ * @description	AlarmVo의 selectpalarm 함수 테스트
  *
  *
  * =========================================================
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
- *  2022. 7. 13.		qwaszx357		  First Creation
+ *  2022. 8. 2.			noranbear		  First Creation
  *
- *	2022. 8. 2.			noranbear		 AlarmVo fields 변경으로 
- *											   인한 수정
- *	
  * =========================================================
  */
 
 @SpringBootTest
-class AlarmUpdateTests {
+class AlarmSelectPAlarmsTests {
 
 	@Autowired
 	AlarmBiz biz;
 
 	@Test
 	void contextLoads() {
-	    AlarmVo alarm = new AlarmVo(1,"아침","10:00","완료");
-
+		List<AlarmVo> list = null;
+		
 	    try {
-	        biz.modify(alarm);
-	        System.out.println("Updated Ok");
+	        list = biz.getpalarms(1);
+	        for (AlarmVo obj : list) {
+	        	System.out.println(obj);
+			}
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }

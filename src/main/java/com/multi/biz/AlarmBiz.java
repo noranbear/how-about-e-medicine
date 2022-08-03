@@ -12,7 +12,7 @@ import com.multi.vo.AlarmVo;
 /**
  * @author qwaszx357
  * @date 2022. 7. 13.
- * @version 1.0
+ * @version 2.0
  * @description
  *
  *
@@ -21,8 +21,11 @@ import com.multi.vo.AlarmVo;
  * ---------------------------------------------------------
  *  2022. 7. 13.		qwaszx357		  First Creation
  *
+ *	2022. 8. 3.			noranbear			getpalarms 추가
+ *
  * =========================================================
  */
+ 
 @Service
 public class AlarmBiz implements Biz<Integer, AlarmVo> {
 
@@ -52,6 +55,10 @@ public class AlarmBiz implements Biz<Integer, AlarmVo> {
 	@Override
 	public List<AlarmVo> get() throws Exception {
 		return dao.selectall();
+	}
+	
+	public List<AlarmVo> getpalarms(Integer p) throws Exception {
+		return dao.selectpalarms(p);
 	}
 
 }

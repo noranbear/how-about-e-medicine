@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.multi.biz.AlarmBiz;
 import com.multi.biz.DashBiz;
 import com.multi.biz.MymediBiz;
 import com.multi.biz.PlistBiz;
@@ -23,6 +24,7 @@ import com.multi.biz.UsersBiz;
 import com.multi.frame.Util;
 import com.multi.restapi.DataAPI;
 import com.multi.restapi.OCRBoxAPI;
+import com.multi.vo.AlarmVo;
 import com.multi.vo.MfVo;
 import com.multi.vo.MymediVo;
 import com.multi.vo.PlistVo;
@@ -34,7 +36,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 10.1
+ * @version 11.0
  * @description
  *
  *
@@ -87,6 +89,8 @@ import com.multi.vo.UsersVo;
  *
  *	2022. 7. 27.		noranbear		 ocraddimpl에 조건 1 추가
  *
+ *	2022. 7. 30.							alarmaddimpl 생성
+ *
  * ================================================================
  */
 
@@ -123,7 +127,13 @@ public class MainController {
   
   	@Autowired
   	DashBiz dbiz;
+  	
+  	@Autowired
+  	AlarmBiz abiz;
+  	
+  	int plistid = 0;	// 처방내역 id 저장
 	
+  	
 	/**
 	 * 메인 페이지 연결
 	 * @return index
@@ -343,6 +353,8 @@ public class MainController {
 		PlistVo obj = null;
 		List<PmediVo> mlist = null;
 	
+		plistid = id;		// 현재 처방내역 id를 저장
+		
         try {
             obj = plistbiz.get(id);
             m.addAttribute("dp", obj);
@@ -440,6 +452,38 @@ public class MainController {
 		
 		return "index";
 
+	}
+	
+	/**
+	 * Alarm tbl에 알람 데이터를 추가
+	 * @return 처방디테일 페이지로 돌아감
+	 */
+	@RequestMapping("/alarmaddimpl")
+	public String alarmaddimpl(Model m, String morning, String afternoon, String dinner) {
+		AlarmVo al = null;
+		
+		try {
+			// 알람 DB에 추가
+			if(morning != null && !(morning.isEmpty())) {
+				al = new AlarmVo ("아침", morning, plistid);
+					abiz.register(al);
+			}
+			
+			if(afternoon != null && !(afternoon.isEmpty())) {
+				al = new AlarmVo ("점심", afternoon, plistid);
+					abiz.register(al);
+			}
+			
+			if(dinner != null && !(dinner.isEmpty())) {
+				al = new AlarmVo ("저녁", dinner, plistid);
+					abiz.register(al);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/pdetail?id=" + plistid;
 	}
 
 }

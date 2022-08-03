@@ -10,7 +10,7 @@ import com.multi.vo.AlarmVo;
 /**
  * @author qwaszx357
  * @date 2022. 7. 13.
- * @version 1.0
+ * @version 2.0
  * @description
  *
  *
@@ -19,8 +19,11 @@ import com.multi.vo.AlarmVo;
  * ---------------------------------------------------------
  *  2022. 7. 13.		qwaszx357		  First Creation
  *
+ *	2022. 8. 3.			noranbear		 selectpalarms 추가
+ *
  * =========================================================
  */
+
 @Repository
 @Mapper
 public interface AlarmMapper {
@@ -31,5 +34,7 @@ public interface AlarmMapper {
     
     public AlarmVo select(int id) throws Exception;
     public List<AlarmVo> selectall() throws Exception;
+    
+    public List<AlarmVo> selectpalarms(int pid) throws Exception;
 
 }

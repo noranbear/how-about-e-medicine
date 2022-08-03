@@ -12,7 +12,7 @@ import com.multi.vo.PlistVo;
 /**
  * @author najune
  * @date 2022. 7. 13.
- * @version 2.0
+ * @version 3.0
  * @description
  *
  *
@@ -24,8 +24,11 @@ import com.multi.vo.PlistVo;
  *  2022. 7. 19.		qwaszx357			get_ing 생성
  *  										get_end 생성
  *
+ *	2022. 8. 3. 		noranbear			getenddate 생성
+ *
  * =========================================================
  */
+
 @Service
 public class PlistBiz implements Biz<Integer, PlistVo>{
 
@@ -78,6 +81,15 @@ public class PlistBiz implements Biz<Integer, PlistVo>{
 	 */
 	public List<PlistVo> get_end(String k) throws Exception {
 		return dao.select_end(k);
+	}
+	
+	/**
+	 * plistVo의 기본 field 및 복약 마지막 날도 같이 반환하는 함수 
+	 * @param k 처방전 아이디
+	 * @return plistVo (기본 field 및 복약 마지막 날)
+	 */
+	public PlistVo getenddate(Integer k) throws Exception {
+		return dao.selectenddate(k);
 	}
 
 	

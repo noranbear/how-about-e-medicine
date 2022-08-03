@@ -1,6 +1,6 @@
 package com.multi.controller;
 
-import java.sql.Date;
+import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -9,18 +9,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.multi.biz.AlarmBiz;
 import com.multi.biz.MymediBiz;
+import com.multi.biz.PlistBiz;
 import com.multi.restapi.DataAPI;
 import com.multi.restapi.DataAPI2;
 import com.multi.restapi.DataAPI3;
 import com.multi.restapi.OCRBoxAPI;
 import com.multi.restapi.OCREnvelopeAPI;
+import com.multi.vo.AlarmVo;
 import com.multi.vo.MymediVo;
+import com.multi.vo.PlistVo;
 
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 6.0
+ * @version 7.0
  * @description
  *
  *
@@ -40,7 +44,9 @@ import com.multi.vo.MymediVo;
  *  
  *  2022. 7. 26.		qwaszx357			addmymedi 생성
  *
- *            	   	najune				dataget2, dataget3 추가
+ *            	   		najune			ataget2, dataget3 추가
+ *            
+ *  2022. 8. 3.			noranbear			loadalarm 추가
  * 
  * =================================================================
  */
@@ -65,6 +71,12 @@ public class AJAXController {
 	
 	@Autowired
 	MymediBiz mbiz;
+	
+	@Autowired
+	AlarmBiz abiz;
+	
+	@Autowired
+	PlistBiz pbiz;
 	
 	
 	/**
@@ -172,6 +184,53 @@ public class AJAXController {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	/**
+	 * alarm tbl에 있는 데이터를 아래의 형태의 json으로 바꿔서 pdetail.html에 보내는 함수
+	 * [	{	title: '아침',
+	 *			startTime: '02:00',
+	 *			startRecur: '2022-08-01',
+	 *   		endRecur: '2022-08-15'
+	 *   	}, ... ] 
+	 * @param pid	해당 알람 정보의 pid
+	 * @return json화된 알람 데이터
+	 */
+	@RequestMapping("loadalarm")
+	public Object loadalarm(int pid) {
+		JSONArray ja = new JSONArray();		// [ ]
+        List<AlarmVo> list = null;
+        PlistVo pli = null;
+        String startR = "";
+        String endR = "";
+        
+        try {
+        	// 1. StartRecur, endRecur 정보 가져오기
+        	pli = pbiz.getenddate(pid);
+        	startR = pli.getPdate();
+        	endR = pli.getEnddate();
+        	
+        	// 2. title, startTime 정보 가져오기
+			list = abiz.getpalarms(pid);	
+			
+			// 3. Object에 데이터 넣기
+			for (int i=0; i < list.size(); i++) {
+				JSONObject jo = new JSONObject();	// { }
+				jo.put("title", list.get(i).getMad());
+				jo.put("startTime", list.get(i).getTime());
+				jo.put("startRecur", startR);
+				jo.put("endRecur", endR);
+				
+				ja.add(jo);		// Json Array에 넣기
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+        return ja;
+	}
+	
 	
 /*	// ID 중복 확인
 	@RequestMapping("/checkid")

@@ -5,10 +5,10 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 <mapper namespace="com.multi.mapper.AlarmMapper">
 
 	<insert id="insert" parameterType="alarmVo">
-	    INSERT INTO alarm(mad, apm, hr, min, pid) VALUES (#{mad},#{apm},#{hr},#{min},#{pid})
+	    INSERT INTO alarm(mad, time, pid) VALUES (#{mad},#{time},#{pid})
 	</insert>
 	<update id="update" parameterType="alarmVo">
-	    UPDATE alarm SET MAD=#{mad},APM=#{apm},HR=#{hr},MIN=#{min},COMPLETE=#{complete} WHERE ID=#{id}
+	    UPDATE alarm SET MAD=#{mad},TIME=#{time},COMPLETE=#{complete} WHERE ID=#{id}
 	</update>
 	<delete id="delete" parameterType="int">
 	    DELETE FROM alarm WHERE ID=#{id}
@@ -19,6 +19,10 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	</select>
 	<select id="selectall" resultType="alarmVo">
 	    SELECT * FROM alarm
+	</select>
+	
+	<select id="selectpalarms" parameterType="int" resultType="alarmVo">
+	    SELECT * FROM alarm WHERE PID=#{pid}
 	</select>
 	
 </mapper>

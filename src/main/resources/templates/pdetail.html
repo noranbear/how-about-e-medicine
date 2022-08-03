@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 2.1 -->
+<!-- Version: 4.0 -->
 <!-- Description: 처방상세내역 및 복약관리 페이지
 
 -------------------------------------------------------------------------
@@ -25,7 +25,13 @@
 												  
 2022. 7. 22.		qwaszx357					footer 지우기
 
-2022. 7. 25. 		najune					기능구현
+2022. 7. 25. 		najune						    기능구현
+
+2022. 7. 30.		noranbear					알람 추가 창 구현
+
+2022. 8. 2. 								화면 로드될 때, 해당 알람내역이
+												캘린더에 뜨게 구현
+
 -------------------------------------------------------------------------
 -->
 
@@ -51,7 +57,6 @@
 .cpoint {
 	transition: 0.2s ease;
 }
-
 .cpoint:hover {
 	transform: scale(1.02);
 }
@@ -61,23 +66,109 @@
 text-align: right;
 }
 
-
 </style>
 
 <script>
-// 1. FullCalendar API Js 시작 -------
-document.addEventListener('DOMContentLoaded', function() {
-  var calendarEl = document.getElementById('calendar');
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: 'dayGridMonth'
-  });
-  calendar.render();
+
+function caldisplay(data) {
+	var calendarEl = document.getElementById('calendar');
+	var sdate = null;
+	var calendar = new FullCalendar.Calendar(calendarEl, {
+		initialView: 'dayGridMonth',
+		locale: 'ko',		// 한국어 버전
+		// 날짜 selection 시작
+		selectable: true,
+		headerToolbar: {	// 선택된 날짜 확인용
+			left: 'prev,next today',
+			center: 'title',
+			right: 'dayGridMonth'
+		},
+		fixedWeekCount: false,		// 보여주는 날짜 수
+		dateClick: function(info) {
+			//alert('clicked ' + info.dateStr);
+			sdate = info.dateStr;	// 선택된 날짜를 담음
+			
+		},
+		select: function(info) {
+			//alert('selected ' + info.startStr + ' to ' + info.endStr);
+		},
+		// 날짜 selection 끝
+		// schedule 가져오기 시작
+		timeZone: 'local',
+		headerToolbar: {
+			center: 'addEventButton'
+		},
+		// add events 시작
+		customButtons: {
+			addEventButton: {
+				text: '알람 추가',
+		        click: function() {	
+					//var dateStr = prompt('Enter a date in YYYY-MM-DD format');
+					//var date = new Date(dateStr + 'T00:00:00'); // will be in local time
+
+					$('#exampleModalSignUp').modal("show");		// modal 창 띄우기
+					
+					if (!isNaN(date.valueOf())) { // valid?
+						calendar.addEvent({
+							title: 'dynamic event',
+							start: date,
+							allDay: true
+						});
+						alert('Great. Now, update your database...');
+					} else {
+						alert('Invalid date.');
+					}
+				}
+			}
+		},
+		// add events 끝
+		editable: true,
+		dayMaxEvents: true, // when too many events in a day, show the popover
+		events: data,
+		  color: 'yellow',   // an option!
+		  textColor: 'black' // an option!,
+		// schedule 가져오기 끝
+		
+	});
+	
+	calendar.render();
+	
+}
+
+
+$(document).ready(function(){
+	// 처방전 아이디
+	var pid = $('#pid').text();
+
+	// 알람 데이터 가져오기
+	$.ajax({
+		method: 'GET',
+		url:'loadalarm',
+		data:{'pid':pid},
+		//dataType: 'json',
+		success:function(data){
+			caldisplay(data);
+		},
+		error: function(error) {
+			alert("error");
+		}
+		
+	});
+	
+	/* 알람추가 창에서 등록 버튼 클릭 시 */
+	$('#reg_bt').click(function(){
+		
+		// 시간 DB에 등록
+		$('#alarm-form').attr({
+			'method':'get',
+			'action':'alarmaddimpl'
+		});
+		
+		$('#alarm-form').submit();
+	
+	});
 });
 
-
-//1. FullCalendar API Js 끝 ----------
- 
- 
 </script>
     
     
@@ -93,6 +184,8 @@ document.addEventListener('DOMContentLoaded', function() {
                   <img src="../assets/img/illustrations/pattern-tree.svg" class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100" alt="pattern-tree">
                   <span class="mask bg-gradient-dark opacity-10"></span>
                   <div class="card-body position-relative z-index-1 p-3">
+                  	<!-- 처방내역 아이디 담아놓는 곳 -->
+                  	<p id="pid" th:text="${p.id}" hidden="hidden"></p>
                     <h4 class="text-white mb-3 pb-2">
                     	<i class="fa fa-file-text-o text-white p-2" style="font-size:24px"></i>
                     	 처방내역 상세
@@ -248,6 +341,49 @@ document.addEventListener('DOMContentLoaded', function() {
 					<!-- FullCalendar div -->
 					<div id='calendar' class="mb-sm-3"></div>
 				</div>
+				
+				<!-- 알람설정 Modal 시작 -->
+			    <div class="modal fade" id="exampleModalSignUp" tabindex="-1" role="dialog" aria-labelledby="exampleModalSignTitle" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+						<div class="modal-content">
+							<div class="modal-body p-0">
+								<div class="card card-plain">
+									<div class="card-header pb-0 text-left">
+										<h3 class="font-weight-bolder text-primary text-gradient">
+											<i class="material-icons text-bold text-primary text-5xl">alarm</i>
+											알람 추가
+										</h3>
+										<p class="mb-0">해당 처방전의 복용 알람을 추가해 보세요.</p>
+			             			</div>
+			              			<div class="card-body pb-3">
+			              				<form role="form text-left" id="alarm-form">
+			              				  	<label>아침</label>
+											<div class="input-group mb-3">
+												<input type="time" class="form-control" name="morning">
+											</div>
+											<label>점심</label>
+											<div class="input-group mb-3">
+												<input type="time" class="form-control" name="afternoon">
+											</div>
+											<label>저녁</label>
+											<div class="input-group mb-3">
+												<input type="time" class="form-control" name="dinner">
+											</div>
+											<div class="text-center">
+												<button type="button" id="reg_bt" th:onclick="|location.href='@{/alarmaddimpl(id=${p.id})}'|"
+													class="btn bg-gradient-primary btn-lg btn-rounded w-100 mt-4 mb-0">
+													등록
+												</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			    <!-- 알람설정 Modal 끝 -->
+			    
 			</div>
 		</div>
 	
