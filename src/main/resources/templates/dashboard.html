@@ -54,7 +54,7 @@
 				<hr class="dark horizontal my-0">
 				<!-- 전월 대비 증감률 -->
 				<div class="card-footer p-3" th:if="${month != null}" th:each="m:${month}">
-					<p class="mb-0" th:if="${m.mgrowth != null}">
+					<p class="mb-0">
 					<span class="text-success text-sm font-weight-bolder" th:if="${m.mgrowth >= 0}" th:text="'+' + ${#numbers.formatInteger(m.mgrowth,0)} + '%'">+55% </span>
 					<span class="text-danger text-sm font-weight-bolder" th:unless="${m.mgrowth >= 0}" th:text="${#numbers.formatInteger(m.mgrowth,0)} + '%'">+55% </span>
 					전월 대비</p>
