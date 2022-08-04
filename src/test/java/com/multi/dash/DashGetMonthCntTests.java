@@ -5,10 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.multi.biz.DashBiz;
+import com.multi.vo.SlistVo;
 
 /**
  * @author qwaszx357
- * @date 2022. 7. 29.
+ * @date 2022. 8. 3.
  * @version 1.0
  * @description
  *
@@ -16,12 +17,12 @@ import com.multi.biz.DashBiz;
  * =========================================================
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
- *  2022. 7. 29.	 	qwaszx357		  	First Creation
+ *  2022. 8. 3.	 		qwaszx357		  	First Creation
  *
  * =========================================================
  */
 @SpringBootTest
-class DashGetSmediTodayTests {
+class DashGetMonthCntTests {
 
 	@Autowired
 	DashBiz biz;
@@ -30,7 +31,7 @@ class DashGetSmediTodayTests {
 	void contextLoads() {
 		int cnt = 0;
 		try {
-			cnt = biz.getsmeditoday();
+			cnt = biz.getmonthcnt();
 			System.out.println(cnt);
 		} catch (Exception e) {
 			e.printStackTrace();

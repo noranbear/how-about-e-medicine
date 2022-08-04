@@ -8,6 +8,11 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<select id="getsmedicnt" resultType="int">
 		SELECT count(*) FROM smedi
 	</select>
+	<!-- 전월 대비 증감률 계산하기 -->
+	<select id="getmonthgrowth" resultType="slistVo">
+		SELECT * FROM month_growth
+		WHERE month = EXTRACT(MONTh FROM CURDATE())
+	</select>
 	
 	<!-- 오늘 스캔된 약의 양 -->
 	<select id="getsmeditoday" resultType="int">
@@ -15,10 +20,19 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		INNER JOIN smedi sm ON sm.sid = sl.id
 		WHERE sl.regdate = CURDATE()
 	</select>
+	<!-- 전일 대비 증감률 계산하기 -->
+	<select id="getdaygrowth" resultType="slistVo">
+		SELECT * FROM day_growth
+		WHERE day = EXTRACT(DAY FROM CURDATE())
+	</select>
 	
 	<!-- 가장 많이 스캔된 제품명 -->
 	<select id="getsmeditop" resultType="smediVo">
 		SELECT name, COUNT(id) AS cnt FROM smedi GROUP BY name ORDER BY cnt DESC LIMIT 1
+	</select>
+	<!-- 두번째로 많이 스캔된 제품명 -->
+	<select id="getsmeditop2" resultType="smediVo">
+		SELECT name, COUNT(id) AS cnt FROM smedi GROUP BY name ORDER BY cnt DESC LIMIT 1,1
 	</select>
 	
 	<!-- 가장 많이 스캔한 날짜 -->
@@ -26,5 +40,36 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		SELECT sl.regdate, COUNT(sl.id) AS cnt FROM smedi sm
 		RIGHT JOIN slist sl ON sm.sid = sl.id
 		GROUP BY sl.regdate ORDER BY cnt DESC LIMIT 1
+	</select>
+	<!-- 두번째로 많이 스캔한 날짜 -->
+	<select id="getsmeditopday2" resultType="slistVo">
+		SELECT sl.regdate, COUNT(sl.id) AS cnt FROM smedi sm
+		RIGHT JOIN slist sl ON sm.sid = sl.id
+		GROUP BY sl.regdate ORDER BY cnt DESC LIMIT 1,1
+	</select>
+
+	<!-- 요일별 스캔 횟수 -->
+	<select id="getdayofweek" resultType="slistVo">
+		SELECT WEEKDAY(regdate) AS dayofweek, COUNT(id) AS cnt FROM slist
+		GROUP BY dayofweek order by dayofweek
+	</select>
+	
+	<!-- 월별 스캔 횟수 -->
+	<select id="getmonth" resultType="slistVo">
+		SELECT EXTRACT(MONTh FROM regdate) AS month, COUNT(id) AS cnt FROM slist
+		GROUP BY month order by month
+	</select>
+	
+	<!-- 이달의 약 트렌드 -->
+	<select id="getmonthmedi" resultType="slistVo">
+		SELECT ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS rownum, sm.name, COUNT(sm.id) AS cnt FROM slist sl
+		INNER JOIN smedi sm ON sl.id = sm.sid
+		WHERE EXTRACT(MONTH FROM sl.regdate) = EXTRACT(MONTh FROM CURDATE())
+		GROUP BY sm.name ORDER BY cnt DESC LIMIT 5
+	</select>
+	<!-- 이번달 스캔 횟수 -->
+	<select id="getmonthcnt" resultType="int">
+		SELECT COUNT(*) AS cnt FROM slist
+		WHERE EXTRACT(MONTH FROM regdate) = EXTRACT(MONTh FROM CURDATE())
 	</select>
 </mapper>

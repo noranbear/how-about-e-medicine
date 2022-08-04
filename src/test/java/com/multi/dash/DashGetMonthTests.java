@@ -1,14 +1,17 @@
 package com.multi.dash;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.multi.biz.DashBiz;
+import com.multi.vo.SlistVo;
 
 /**
  * @author qwaszx357
- * @date 2022. 7. 29.
+ * @date 2022. 8. 3.
  * @version 1.0
  * @description
  *
@@ -16,22 +19,24 @@ import com.multi.biz.DashBiz;
  * =========================================================
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
- *  2022. 7. 29.	 	qwaszx357		  	First Creation
+ *  2022. 8. 3.	 		qwaszx357		  	First Creation
  *
  * =========================================================
  */
 @SpringBootTest
-class DashGetSmediTodayTests {
+class DashGetMonthTests {
 
 	@Autowired
 	DashBiz biz;
 	
 	@Test
 	void contextLoads() {
-		int cnt = 0;
+		List<SlistVo> slist = null;
 		try {
-			cnt = biz.getsmeditoday();
-			System.out.println(cnt);
+			slist = biz.getmonth();
+			for (SlistVo obj : slist) {
+				System.out.println(obj);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
