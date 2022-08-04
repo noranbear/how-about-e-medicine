@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 8.2 -->
+<!-- Version: 8.3 -->
 <!-- Description: 메인 페이지의 기본 중간 화면 (검색창)
 
 -------------------------------------------------------------------------------
@@ -32,7 +32,9 @@
 								  			
 2022. 7. 26.									ocrbox 실행 성공
 
-             	    najune						분류 검색 기능 추가	
+             	     najune						분류 검색 기능 추가	
+
+2022. 8. 4.			noranbear					indentation	수정				 
 								  							 
 -------------------------------------------------------------------------------
 -->
@@ -218,17 +220,18 @@ $(document).ready(function(){
 		var a = $("#sort").val(); // The text content of the selected option
 		//alert(param); 	
     
-    if(param != ""){	// 검색어가 존재하지 않을 때
-        if(a == "dataget3"){									
-          getData3(param);
-        }
-        else if(a == "dataget2"){								
-          getData2(param);
-          }
-        else{								
-          getData(param);			
-        }
-      }
+	    if(param != ""){	// 검색어가 존재하지 않을 때
+	        if(a == "dataget3"){									
+	        	getData3(param);
+	        	
+	        }else if (a == "dataget2"){	
+	        	getData2(param);
+	        	
+	        }else {		
+	        	getData(param);	
+	        	
+	        }
+	    }
 	});	
 				
 	/* ocr 창에서 검색 버튼 클릭 시, 해당 사진 저장 */

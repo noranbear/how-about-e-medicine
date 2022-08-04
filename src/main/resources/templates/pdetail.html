@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 6.0 -->
+<!-- Version: 6.1 -->
 <!-- Description: 처방상세내역 및 복약관리 페이지
 
 -------------------------------------------------------------------------
@@ -36,12 +36,13 @@
 
 											calendar 불필요한 코드 정리
 
-											복약 알람 화면 구현 및 
+											 복약 알람 화면 구현 및 
 												알람 띄우기 완료
 
 										복약 알람 리스트: 알람 상태 변경에 
 										따른 버튼 디자인 변경을 ajax로 구현 
 
+											복약 알람 없을 시 화면 구현
 
 -------------------------------------------------------------------------
 -->
@@ -99,7 +100,6 @@ function date(){
  */
 function caldisplay(data) {
 	var calendarEl = document.getElementById('calendar');
-	var sdate = null;
 	var calendar = new FullCalendar.Calendar(calendarEl, {
 		initialView: 'dayGridMonth',
 		locale: 'ko',		// 한국어 버전
@@ -113,7 +113,6 @@ function caldisplay(data) {
 		fixedWeekCount: false,		// 보여주는 날짜 수
 		dateClick: function(info) {
 			//alert('clicked ' + info.dateStr);
-			sdate = info.dateStr;	// 선택된 날짜를 담음
 			
 		},
 		select: function(info) {
@@ -159,7 +158,28 @@ $(document).ready(function(){
 		data:{'pid':pid},
 		//dataType: 'json',
 		success:function(data){
-			caldisplay(data);
+			// 복약 캘린더 로드
+			caldisplay(data);		
+			
+			// 설정된 알람이 없을 때
+			if(data == ""){
+				// 1. 복용 알람 리스트에 알람이 없다는 메세지 쓰기
+				var html= "";	// 출력할 html을 담을 변수  
+
+				// 검색 결과 없음 메세지 생성
+				html += "<li class='list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg'>"; 
+				html += "<div class='align-items-center text-center mb-6'>"
+				html += "<i class='material-icons' style='left: 50%; top: 30%; transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); position: absolute;'>add_alarm</i>";
+				html += "<small class='d-sm-block' style='left: 50%; top: 70%; transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); position: absolute;'>알람을 추가해 주세요.</small>";
+				// close
+				html += "</div></li>";
+				
+				// 생성된 메세지 출력
+				$('#alist_group').html(html);
+				
+				// 2. 알람 설정하라고 하는 toast 창 띄우기
+				$('#infoToast').toast("show");
+			}
 		},
 		error: function(error) {
 			alert("error");
@@ -201,6 +221,7 @@ $(document).ready(function(){
 		
 	});
 });
+
 
 /**
  * 알람 버튼 상태가 바뀔 시, 화면에서 알람 버튼 디자인을 각각의 상태에 따라 변경한다.
@@ -475,20 +496,30 @@ function switchBtColor(btinfo){
 				</div>
 				<div class="card-body pt-4 p-3">
 					<!-- 복약 알람 리스트가 뜨는 곳  -->
-					<ul class="list-group">
+					<ul class="list-group" id="alist_group">
 						<li th:each="al:${alist}" class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
 							<div class="d-flex align-items-center" th:if="${al.button.equals('undone')}">
-								<button th:attrappend="id='b'+ ${al.id}" class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">access_alarm</i></button>
+								<button th:attrappend="id='b'+ ${al.id}" class="btn btn-icon-only btn-rounded btn-outline-danger 
+									mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center" disabled>
+									<i class="material-icons text-lg">access_alarm</i>
+								</button>
 								<div class="d-flex flex-column">
 									<h6 class="mb-1 text-dark text-sm" th:text="${al.mad}">아침</h6>
-									<span th:attrappend="id='sp'+ ${al.id}" class="text-xs" th:text="${al.time} + ' 미완료'">오후 12:30 미완료</span>
+									<span th:attrappend="id='sp'+ ${al.id}" class="text-xs" th:text="${al.time} + ' 미완료'">
+										오후 12:30 미완료
+									</span>
 								</div>
 							</div>
 							<div class="d-flex align-items-center" th:unless="${al.button.equals('undone')}">
-								<button th:attrappend="id='b'+ ${al.id}" class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">access_alarm</i></button>
+								<button th:attrappend="id='b'+ ${al.id}" class="btn btn-icon-only btn-rounded btn-outline-success 
+									mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center" disabled>
+									<i class="material-icons text-lg">access_alarm</i>
+								</button>
 								<div class="d-flex flex-column">
 									<h6 class="mb-1 text-dark text-sm" th:text="${al.mad}">아침</h6>
-									<span th:attrappend="id='sp'+ ${al.id}" class="text-xs" th:text="${al.time} + ' 완료'">오후 12:30 완료</span>
+									<span th:attrappend="id='sp'+ ${al.id}" class="text-xs" th:text="${al.time} + ' 완료'">
+										오후 12:30 완료
+									</span>
 								</div>
 							</div>
 							<div class="d-flex align-items-center" th:if="${al.button.equals('undone')}">
@@ -509,3 +540,22 @@ function switchBtColor(btinfo){
 	<!-- 2. 복약알림 끝 -->
 	
 </div>
+
+<!-- 캘린더에 등록된 알람이 없을 시, 나오는 경고 팝업 -->
+<div class="position-fixed bottom-1 end-1 z-index-2">
+	<div class="toast fade hide p-2 mt-2 bg-gradient-warning" role="alert" aria-live="assertive" id="infoToast" aria-atomic="true">
+		<div class="toast-header bg-transparent border-0">
+            <i class="material-icons text-white me-2">notifications</i>
+            <span class="me-auto text-white font-weight-bold">알람 추가 알림</span>
+            <small class="text-white"></small>
+			<i class="fas fa-times text-md text-white ms-3 cursor-pointer" data-bs-dismiss="toast" aria-label="Close"></i>
+        </div>
+        <hr class="horizontal light m-0">
+		<div class="toast-body text-white py-sm-3">
+			현재 처방전에 복용알람을 등록해 주세요.
+		</div>
+	</div>
+</div>
+    
+    
+    
