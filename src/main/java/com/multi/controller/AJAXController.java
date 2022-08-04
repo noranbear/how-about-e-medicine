@@ -19,12 +19,11 @@ import com.multi.restapi.OCRBoxAPI;
 import com.multi.restapi.OCREnvelopeAPI;
 import com.multi.vo.AlarmVo;
 import com.multi.vo.MymediVo;
-import com.multi.vo.PlistVo;
 
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 7.0
+ * @version 7.1
  * @description
  *
  *
@@ -48,6 +47,8 @@ import com.multi.vo.PlistVo;
  *            
  *  2022. 8. 3.			noranbear			loadalarm 추가
  * 
+ *	2022. 8. 4.								loadalarm 수정
+ *
  * =================================================================
  */
 
@@ -74,9 +75,6 @@ public class AJAXController {
 	
 	@Autowired
 	AlarmBiz abiz;
-	
-	@Autowired
-	PlistBiz pbiz;
 	
 	
 	/**
@@ -189,37 +187,27 @@ public class AJAXController {
 	/**
 	 * alarm tbl에 있는 데이터를 아래의 형태의 json으로 바꿔서 pdetail.html에 보내는 함수
 	 * [	{	title: '아침',
-	 *			startTime: '02:00',
-	 *			startRecur: '2022-08-01',
-	 *   		endRecur: '2022-08-15'
+	 *			start: '2022-08-22T13:30'
 	 *   	}, ... ] 
 	 * @param pid	해당 알람 정보의 pid
-	 * @return json화된 알람 데이터
+	 * @return ja	json화된 알람 데이터
 	 */
 	@RequestMapping("loadalarm")
 	public Object loadalarm(int pid) {
 		JSONArray ja = new JSONArray();		// [ ]
         List<AlarmVo> list = null;
-        PlistVo pli = null;
-        String startR = "";
-        String endR = "";
-        
+
         try {
-        	// 1. StartRecur, endRecur 정보 가져오기
-        	pli = pbiz.getenddate(pid);
-        	startR = pli.getPdate();
-        	endR = pli.getEnddate();
-        	
-        	// 2. title, startTime 정보 가져오기
+        	// 1. 약정보 가져오기
 			list = abiz.getpalarms(pid);	
 			
 			// 3. Object에 데이터 넣기
 			for (int i=0; i < list.size(); i++) {
+				String dformat = list.get(i).getDate() + "T" + list.get(i).getTime();	// start 포맷으로 변환
 				JSONObject jo = new JSONObject();	// { }
+				
 				jo.put("title", list.get(i).getMad());
-				jo.put("startTime", list.get(i).getTime());
-				jo.put("startRecur", startR);
-				jo.put("endRecur", endR);
+				jo.put("start", dformat);
 				
 				ja.add(jo);		// Json Array에 넣기
 			}

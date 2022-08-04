@@ -1,5 +1,8 @@
 package com.multi.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -36,7 +39,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 11.0
+ * @version 12.0
  * @description
  *
  *
@@ -91,6 +94,8 @@ import com.multi.vo.UsersVo;
  *
  *	2022. 7. 30.							alarmaddimpl 생성
  *
+ *	2022. 8. 4.								alarmaddimpl 수정
+ *
  * ================================================================
  */
 
@@ -111,7 +116,7 @@ public class MainController {
 	UsersBiz ubiz;
 	
 	@Autowired
-	PlistBiz plistbiz;
+	PlistBiz plibiz;
 	
 	@Autowired
 	MymediBiz mbiz;
@@ -331,9 +336,9 @@ public class MainController {
             users = (UsersVo) session.getAttribute("signinusers");
             
             try {
-                inglist = plistbiz.get_ing(users.getId());
+                inglist = plibiz.get_ing(users.getId());
                 m.addAttribute("ilist", inglist);
-                endlist = plistbiz.get_end(users.getId());
+                endlist = plibiz.get_end(users.getId());
                 m.addAttribute("elist", endlist);
                 m.addAttribute("center", "plist");
             } catch (Exception e) {    
@@ -356,7 +361,7 @@ public class MainController {
 		plistid = id;		// 현재 처방내역 id를 저장
 		
         try {
-            obj = plistbiz.get(id);
+            obj = plibiz.get(id);
             m.addAttribute("dp", obj);
             mlist = pmedibiz.get_medi(id);
             m.addAttribute("medi", mlist);
@@ -461,28 +466,110 @@ public class MainController {
 	@RequestMapping("/alarmaddimpl")
 	public String alarmaddimpl(Model m, String morning, String afternoon, String dinner) {
 		AlarmVo al = null;
-		
+		PlistVo pli = null;
+		SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+		String stDate = "";
+		int pdays = 0;
+
 		try {
-			// 알람 DB에 추가
+			// 1. plist에서 조제일자와 투약일수 가져오기
+			pli = plibiz.get(plistid);
+			stDate = pli.getPdate();
+			pdays = pli.getDays();
+			
+			// 2. 조제일자 Date 타입으로 변환
+			Date date = sdformat.parse(stDate);
+			
+			// 날짜 연산을 위한 Calendar객체 생성 후 date 대입
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			
+			// 3. 일수 변경하면서 알람 DB에 추가
+			// 아침
 			if(morning != null && !(morning.isEmpty())) {
-				al = new AlarmVo ("아침", morning, plistid);
+				
+				// 처방받은 날짜 알람
+				al = new AlarmVo("아침", morning, stDate, plistid);
+				abiz.register(al);
+				
+				// 이후 남은 복약 기간 알람
+				int days = pdays-1;
+				int mdays = days-(days*2);
+				
+				while(days > 0) {
+					
+					// 날짜 하루 추가
+					cal.add(Calendar.DATE, 1);
+					String cdate = sdformat.format(cal.getTime());
+					
+					// 데이터 넣기
+					al = new AlarmVo ("아침", morning, cdate, plistid);
 					abiz.register(al);
+					
+					days --;
+				}
+				
+				cal.add(Calendar.DATE, mdays);
 			}
 			
+			// 점심
 			if(afternoon != null && !(afternoon.isEmpty())) {
-				al = new AlarmVo ("점심", afternoon, plistid);
+				
+				// 처방받은 날짜 알람
+				al = new AlarmVo("점심", afternoon, stDate, plistid);
+				abiz.register(al);
+				
+				// 이후 남은 복약 기간 알람
+				int days = pdays-1;
+				int mdays = days-(days*2);
+				
+				while(days > 0) {
+					
+					// 날짜 하루 추가
+					cal.add(Calendar.DATE, 1);
+					String cdate = sdformat.format(cal.getTime());
+					
+					// 데이터 넣기
+					al = new AlarmVo ("점심", afternoon, cdate, plistid);
 					abiz.register(al);
+					
+					days --;
+				}
+				
+				cal.add(Calendar.DATE, mdays);
 			}
-			
+
+			// 저녁
 			if(dinner != null && !(dinner.isEmpty())) {
-				al = new AlarmVo ("저녁", dinner, plistid);
+				
+				// 처방받은 날짜 알람
+				al = new AlarmVo("저녁", dinner, stDate, plistid);
+				abiz.register(al);
+				
+				// 이후 남은 복약 기간 알람
+				int days = pdays-1;
+				int mdays = days-(days*2);
+				
+				while(days > 0) {
+					
+					// 다음날
+					cal.add(Calendar.DATE, 1);
+					String cdate = sdformat.format(cal.getTime());
+					
+					// 데이터 넣기
+					al = new AlarmVo ("저녁", dinner, cdate, plistid);
 					abiz.register(al);
+					
+					days --;
+				}
+				
+				cal.add(Calendar.DATE, mdays);
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+			
 		return "redirect:/pdetail?id=" + plistid;
 	}
 

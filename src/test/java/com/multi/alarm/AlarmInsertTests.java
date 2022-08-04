@@ -10,7 +10,7 @@ import com.multi.vo.AlarmVo;
 /**
  * @author qwaszx357
  * @date 2022. 7. 13.
- * @version 2.0
+ * @version 3.0
  * @description
  *
  *
@@ -20,7 +20,10 @@ import com.multi.vo.AlarmVo;
  *  2022. 7. 13.		qwaszx357		   First Creation
  *
  *	2022. 8. 2.			noranbear		 AlarmVo fields 변경으로 
- *											   인한 수정 	
+ *											   인한 수정 
+ *
+ *	2022. 8. 4.							 AlarmVo fields 변경으로
+ *												인한 수정
  *
  * ==============================================================
  */
@@ -33,7 +36,7 @@ class AlarmInsertTests {
 
 	@Test
 	void contextLoads() {
-	    AlarmVo alarm = new AlarmVo("아침","08:00",1);
+	    AlarmVo alarm = new AlarmVo("아침","08:00", "2022-08-01", 1);
 
 	    try {
 	        biz.register(alarm);

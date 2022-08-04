@@ -18,6 +18,8 @@ import com.multi.vo.AlarmVo;
  * 	    DATE			 AUTHOR				    NOTE
  * --------------------------------------------------------------
  *	2022. 8. 2.			noranbear		   First Creation	
+ *	
+ *	2022. 8. 4.							   빈 코드로 만들어 둠
  *
  * ==============================================================
  */
@@ -25,16 +27,11 @@ import com.multi.vo.AlarmVo;
 @SpringBootTest
 class CreateJsonTests {
 
-	@Autowired
-	AlarmBiz biz;
-
 	@Test
 	void contextLoads() {
-	    AlarmVo alarm = new AlarmVo("아침","08:00",1);
 
 	    try {
-	        biz.register(alarm);
-	        System.out.println("Inserted Ok");
+
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
