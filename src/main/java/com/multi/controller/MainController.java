@@ -39,13 +39,13 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 12.0
+ * @version 12.1
  * @description
  *
  *
- * ================================================================
+ * ====================================================================
  * 	    DATE			 AUTHOR				       NOTE
- * ----------------------------------------------------------------
+ * --------------------------------------------------------------------
  *  2022. 7. 6.			noranbear			     main 생성
  *
  *	2022. 7. 15.							   dashboard 생성
@@ -92,11 +92,14 @@ import com.multi.vo.UsersVo;
  *
  *	2022. 7. 27.		noranbear		 ocraddimpl에 조건 1 추가
  *
- *	2022. 7. 30.							alarmaddimpl 생성
+ *	2022. 7. 30.							  alarmaddimpl 생성
  *
- *	2022. 8. 4.								alarmaddimpl 수정
+ *	2022. 8. 4.								  alarmaddimpl 수정
  *
- * ================================================================
+ *											복약 알람 화면 구현을 위해 
+ *												 pdetail 수정
+ *	
+ * ====================================================================
  */
 
 @Controller
@@ -357,14 +360,20 @@ public class MainController {
     public String pdetail(Model m, Integer id) {
 		PlistVo obj = null;
 		List<PmediVo> mlist = null;
+		List<AlarmVo> alist = null;
 	
-		plistid = id;		// 현재 처방내역 id를 저장
+		plistid = id;		// 현재 처방내역 id를 저장 - 다른 함수에서 쓰기 위해
 		
         try {
+        	// 1. 처방내역
             obj = plibiz.get(id);
             m.addAttribute("dp", obj);
             mlist = pmedibiz.get_medi(id);
             m.addAttribute("medi", mlist);
+            
+            // 2. 복약 알람 리스트
+            alist = abiz.getpalarms2(id);
+            m.addAttribute("alist", alist);
             
         } catch (Exception e) {
             e.printStackTrace();

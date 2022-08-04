@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 4.2 -->
+<!-- Version: 5.0 -->
 <!-- Description: 처방상세내역 및 복약관리 페이지
 
 -------------------------------------------------------------------------
@@ -35,6 +35,9 @@
 2022. 8. 4.									복약 버튼 리스트 화면 구현 완료												
 
 											calendar 불필요한 코드 정리
+
+											복약 알람 화면 구현 및 
+												알람 띄우기 완료
 
 -------------------------------------------------------------------------
 -->
@@ -404,20 +407,31 @@ $(document).ready(function(){
 							<i class="material-icons me-2 text-lg">date_range</i>
 							<small id="currentDate">2022년 8월 3일</small>
 						</div>
+						<p class="mb-0 pt-1 text-xs">복약 시 해당 알람의 버튼을 눌러주세요.</p>
 					</div>
 				</div>
 				<div class="card-body pt-4 p-3">
 					<ul class="list-group">
-						<li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-							<div class="d-flex align-items-center">
-								<button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">expand_more</i></button>
+						<li th:each="al:${alist}" class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+							<div class="d-flex align-items-center" th:if="${al.button.equals('undone')}">
+								<button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">access_alarm</i></button>
 								<div class="d-flex flex-column">
-									<h6 class="mb-1 text-dark text-sm">아침</h6>
-									<span class="text-xs">오후 12:30</span>
+									<h6 class="mb-1 text-dark text-sm" th:text="${al.mad}">아침</h6>
+									<span class="text-xs" th:text="${al.time} + ' 미완료'">오후 12:30 미완료</span>
 								</div>
 							</div>
-							<div class="d-flex align-items-center">
-								<button type="button" class="btn btn-outline-secondary mb-0 me-0 btn-sm justify-content-center">복약완료</button>
+							<div class="d-flex align-items-center" th:unless="${al.button.equals('undone')}">
+								<button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">access_alarm</i></button>
+								<div class="d-flex flex-column">
+									<h6 class="mb-1 text-dark text-sm" th:text="${al.mad}">아침</h6>
+									<span class="text-xs" th:text="${al.time} + ' 완료'">오후 12:30 완료</span>
+								</div>
+							</div>
+							<div class="d-flex align-items-center" th:if="${al.button.equals('undone')}">
+								<button type="button" class="btn btn-outline-danger mb-0 me-0 btn-sm justify-content-center">복용완료</button>
+							</div>
+							<div class="d-flex align-items-center" th:unless="${al.button.equals('undone')}">
+								<button type="button" class="btn btn-outline-success mb-0 me-0 btn-sm justify-content-center">복용완료</button>
 							</div>
 						</li>
 					</ul>

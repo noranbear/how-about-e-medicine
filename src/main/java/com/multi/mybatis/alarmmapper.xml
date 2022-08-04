@@ -25,4 +25,8 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	    SELECT * FROM alarm WHERE PID=#{pid}
 	</select>
 	
+	<select id="selectpalarms2" parameterType="int" resultType="alarmVo">
+	    SELECT * FROM alarm WHERE DATE=CURDATE() AND PID=#{pid}
+	</select>
+	
 </mapper>
