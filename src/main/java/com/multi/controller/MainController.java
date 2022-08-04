@@ -34,7 +34,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 10.1
+ * @version 10.2
  * @description
  *
  *
@@ -87,9 +87,11 @@ import com.multi.vo.UsersVo;
  *
  *	2022. 7. 27.		noranbear		 ocraddimpl에 조건 1 추가
  *
- *	                najune		 		profile 업데이트 기능 
+ *	                	najune		 		profile 업데이트 기능 
  *
- *  2022. 7. 29.			qwaszx357	  editmymedi, deletemymedi 생성
+ *  2022. 7. 29.		qwaszx357	  editmymedi, deletemymedi 생성
+ *  
+ *  										dashboard 수정
  *
  * ================================================================
  */
@@ -143,12 +145,52 @@ public class MainController {
 	 */
 	@RequestMapping("/dashboard")
 	public String dashboard(Model m) {
-		
-		// 총 스캔된 약들의 양 가져오기
 		int smedicnt = 0;
+		int smeditoday = 0;
+		SmediVo topsmedi = null;
+		SmediVo topsmedi2 = null;
+		SlistVo topday = null;
+		SlistVo topday2 = null;
+		SlistVo month = null;
+		SlistVo day = null;
+		List<SlistVo> monthmedi = null;
+		int monthcnt = 0;
+		
 		try {
+			// 총 스캔된 약들의 양 가져오기
 			smedicnt = dbiz.getSmediCnt();
 			m.addAttribute("smedicnt", smedicnt);
+			// 전월 대비 증감률
+			month = dbiz.getmonthgrowth();
+			m.addAttribute("month", month);
+			
+			// 오늘 스캔된 약들이 양
+			smeditoday = dbiz.getsmeditoday();
+			m.addAttribute("smeditoday", smeditoday);
+			// 전일 대비 증감률
+			day = dbiz.getdaygrowth();
+			m.addAttribute("day", day);
+			
+			// 가장 많이 스캔된 제품명
+			topsmedi = dbiz.getsmeditop();
+			m.addAttribute("topsmedi", topsmedi);
+			// 두번째로 많이 스캔된 제품명
+			topsmedi2 = dbiz.getsmeditop2();
+			m.addAttribute("topsmedi2", topsmedi2);
+			
+			// 가장 많이 스캔한 날짜
+			topday = dbiz.getsmeditopday();
+			m.addAttribute("topday", topday);
+			// 두번째로 많이 스캔한 날짜
+			topday2 = dbiz.getsmeditopday2();
+			m.addAttribute("topday2", topday2);
+			
+			// 이달의 약 트렌드
+			monthmedi = dbiz.getmonthmedi();
+			m.addAttribute("monthmedi", monthmedi);
+			// 이번달 스캔 횟수
+			monthcnt = dbiz.getmonthcnt();
+			m.addAttribute("monthcnt", monthcnt);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
