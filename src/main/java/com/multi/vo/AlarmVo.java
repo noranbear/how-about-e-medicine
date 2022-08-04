@@ -9,13 +9,13 @@ import lombok.ToString;
 /**
  * @author qwaszx357
  * @date 2022. 7. 13.
- * @version 3.0
+ * @version 4.0
  * @description
  *
  *
- * ==============================================================
+ * ================================================================
  * 	    DATE			 AUTHOR				    NOTE
- * --------------------------------------------------------------
+ * ----------------------------------------------------------------
  *  2022. 7. 13.		qwaszx357		  First Creation
  *  
  *  2022. 8. 2.			noranbear		 오전/오후, 시간, 분 없애고 
@@ -24,7 +24,9 @@ import lombok.ToString;
  *	2022. 8. 4.						  complete를 button으로 바꾸고 
  *											date field 추가
  *
- * ==============================================================
+ *									updatebt 함수를 위해 id와 button 
+ *									  값만 받는 Constructor 생성
+ * ================================================================
  */
  
 @NoArgsConstructor
@@ -55,6 +57,12 @@ public class AlarmVo {
 		this.time = time;
 		this.button = button;
 		this.date = date;
+	}
+	
+	// Constructor for updatebt
+	public AlarmVo(int id, String button) {
+		this.id = id;
+		this.button = button;
 	}
 	
 	

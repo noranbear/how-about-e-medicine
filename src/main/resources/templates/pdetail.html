@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 5.0 -->
+<!-- Version: 6.0 -->
 <!-- Description: 처방상세내역 및 복약관리 페이지
 
 -------------------------------------------------------------------------
@@ -38,6 +38,10 @@
 
 											복약 알람 화면 구현 및 
 												알람 띄우기 완료
+
+										복약 알람 리스트: 알람 상태 변경에 
+										따른 버튼 디자인 변경을 ajax로 구현 
+
 
 -------------------------------------------------------------------------
 -->
@@ -175,7 +179,66 @@ $(document).ready(function(){
 		$('#alarm-form').submit();
 	
 	});
+	
+	/* 복약알람 리스트에서 복약완료 버튼 클릭 시 */
+	$('button[name=consume_bt]').click(function(){
+		// 복약 알람 아이디 가져오기
+		var btaid = $(this).attr("id");
+		var aid = btaid.substr(2);
+		
+		$.ajax({
+			method: 'GET',
+			url:'/switchbt',
+			data:{'aid':aid},
+			success:function(data){
+				switchBtColor(data);
+			},
+			error: function(error) {
+				alert("error");
+			}
+			
+		});
+		
+	});
 });
+
+/**
+ * 알람 버튼 상태가 바뀔 시, 화면에서 알람 버튼 디자인을 각각의 상태에 따라 변경한다.
+ */
+function switchBtColor(btinfo){
+	
+	var stat = btinfo.substr(0,1);	// status
+	var btid = btinfo.substr(1);	// 복약버튼 id
+	var id = btid.substr(2);		// alarm 데이터 id
+	var bid = "b" + id;				// 첫번째 버튼 id
+	var spid = "sp" + id;			// span id
+
+	// 복용 완료로 바뀌었을 때
+	if(stat == "d"){
+		// 버튼 완료색으로 바꾸기
+		$('#' + bid).attr("class", "btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center");
+		$('#' + btid).attr("class", "btn btn-outline-success mb-0 me-0 btn-sm justify-content-center");
+		
+		// span에 완료 써넣기
+		var all = $('#' + spid).text();		// 기존 값 가져오기
+		var atime = all.split(" ");			// 시간만 분리하기
+		
+		$('#' + spid).text(atime[0] + " 완료"); // 뒤에 메세지 바꿔주기
+		
+	// 복용 미완료로 바뀌었을 때
+	}else {
+		// 버튼 미완료색으로 바꾸기
+		$('#' + bid).attr("class", "btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center");
+		$('#' + btid).attr("class", "btn btn-outline-danger mb-0 me-0 btn-sm justify-content-center");
+		
+		// span에 미완료 써넣기
+		var all = $('#' + spid).text();		// 기존 값 가져오기
+		var atime = all.split(" ");			// 시간만 분리하기
+		
+		$('#' + spid).text(atime[0] + " 미완료");		// 뒤에 메세지 바꿔주기
+	}
+	
+}
 
 </script>
     
@@ -411,27 +474,30 @@ $(document).ready(function(){
 					</div>
 				</div>
 				<div class="card-body pt-4 p-3">
+					<!-- 복약 알람 리스트가 뜨는 곳  -->
 					<ul class="list-group">
 						<li th:each="al:${alist}" class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
 							<div class="d-flex align-items-center" th:if="${al.button.equals('undone')}">
-								<button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">access_alarm</i></button>
+								<button th:attrappend="id='b'+ ${al.id}" class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">access_alarm</i></button>
 								<div class="d-flex flex-column">
 									<h6 class="mb-1 text-dark text-sm" th:text="${al.mad}">아침</h6>
-									<span class="text-xs" th:text="${al.time} + ' 미완료'">오후 12:30 미완료</span>
+									<span th:attrappend="id='sp'+ ${al.id}" class="text-xs" th:text="${al.time} + ' 미완료'">오후 12:30 미완료</span>
 								</div>
 							</div>
 							<div class="d-flex align-items-center" th:unless="${al.button.equals('undone')}">
-								<button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">access_alarm</i></button>
+								<button th:attrappend="id='b'+ ${al.id}" class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">access_alarm</i></button>
 								<div class="d-flex flex-column">
 									<h6 class="mb-1 text-dark text-sm" th:text="${al.mad}">아침</h6>
-									<span class="text-xs" th:text="${al.time} + ' 완료'">오후 12:30 완료</span>
+									<span th:attrappend="id='sp'+ ${al.id}" class="text-xs" th:text="${al.time} + ' 완료'">오후 12:30 완료</span>
 								</div>
 							</div>
 							<div class="d-flex align-items-center" th:if="${al.button.equals('undone')}">
-								<button type="button" class="btn btn-outline-danger mb-0 me-0 btn-sm justify-content-center">복용완료</button>
+								<button type="button" class="btn btn-outline-danger mb-0 me-0 btn-sm justify-content-center"
+										th:attrappend="id='bt'+ ${al.id}" name="consume_bt">복용완료</button>
 							</div>
 							<div class="d-flex align-items-center" th:unless="${al.button.equals('undone')}">
-								<button type="button" class="btn btn-outline-success mb-0 me-0 btn-sm justify-content-center">복용완료</button>
+								<button type="button" class="btn btn-outline-success mb-0 me-0 btn-sm justify-content-center"
+										th:attrappend="id='bt'+ ${al.id}" name="consume_bt">복용완료</button>
 							</div>
 						</li>
 					</ul>

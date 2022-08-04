@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.multi.biz.AlarmBiz;
 import com.multi.biz.MymediBiz;
-import com.multi.biz.PlistBiz;
 import com.multi.restapi.DataAPI;
 import com.multi.restapi.DataAPI2;
 import com.multi.restapi.DataAPI3;
@@ -23,7 +22,7 @@ import com.multi.vo.MymediVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 7.1
+ * @version 8.0
  * @description
  *
  *
@@ -48,6 +47,8 @@ import com.multi.vo.MymediVo;
  *  2022. 8. 3.			noranbear			loadalarm 추가
  * 
  *	2022. 8. 4.								loadalarm 수정
+ *
+ *											 switchbt 생성
  *
  * =================================================================
  */
@@ -219,6 +220,41 @@ public class AJAXController {
         return ja;
 	}
 	
+	/**
+	 * 알람버튼 상태 스위치하는 함수
+	 * @param aid	알람 id
+	 * @return btaid	알람버튼 상태 + 눌린 버튼 id
+	 */
+	@RequestMapping("/switchbt")
+    public String switchbt(int aid) {
+		String btaid = "";
+		AlarmVo al = null;
+		AlarmVo al2 = null;
+		
+		try {
+			al = abiz.get(aid);		// 해당 알람을 가져옴
+			
+			// 알람이 체크가 안 되어 있는 경우
+			if(al.getButton().equals("undone")) {
+				al2 = new AlarmVo(aid, "done");		// 체크하기
+				abiz.switchbt(al2);
+				
+				btaid = "dbt" + aid;		// pdetail.html에서 버튼 상태 확인용
+
+			// 알람이 체크가 되어 있는 경우	
+			}else {
+				al2 = new AlarmVo(aid, "undone");	// 체크 풀기
+				abiz.switchbt(al2);
+				
+				btaid += "ubt" + aid;		// pdetail.html에서 버튼 상태 확인용
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return btaid;
+	}
 	
 /*	// ID 중복 확인
 	@RequestMapping("/checkid")

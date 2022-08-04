@@ -12,7 +12,7 @@ import com.multi.vo.AlarmVo;
 /**
  * @author qwaszx357
  * @date 2022. 7. 13.
- * @version 3.0
+ * @version 4.0
  * @description
  *
  *
@@ -24,6 +24,8 @@ import com.multi.vo.AlarmVo;
  *	2022. 8. 3.			noranbear		   getpalarms 추가
  *
  *	2022. 8. 4.							   getpalarms2 추가
+ *
+ *											switchbt 추가
  *
  * =========================================================
  */
@@ -47,6 +49,14 @@ public class AlarmBiz implements Biz<Integer, AlarmVo> {
 	@Override
 	public void modify(AlarmVo v) throws Exception {
 		dao.update(v);
+	}
+	
+	/**
+	 * 알람 버튼의 상태를 바꾼다.
+	 * @param v 해당 알람에서 바뀔 정보
+	 */
+	public void switchbt(AlarmVo v) throws Exception {
+		dao.updatebt(v);
 	}
 
 	@Override

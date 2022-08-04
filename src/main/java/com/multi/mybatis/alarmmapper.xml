@@ -10,6 +10,10 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<update id="update" parameterType="alarmVo">
 	    UPDATE alarm SET MAD=#{mad},TIME=#{time},BUTTON=#{button},DATE=#{date} WHERE ID=#{id}
 	</update>
+	<update id="updatebt" parameterType="alarmVo">
+	    UPDATE alarm SET BUTTON=#{button} WHERE ID=#{id}
+	</update>
+	
 	<delete id="delete" parameterType="int">
 	    DELETE FROM alarm WHERE ID=#{id}
 	</delete>
