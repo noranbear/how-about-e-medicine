@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 4.1 -->
+<!-- Version: 5.0 -->
 <!-- Description: 약 디테일 페이지
 
 -----------------------------------------------------------------------------
@@ -37,6 +37,8 @@
 
 2022. 7. 27.							modal 제품명, 이미지 가운데 정렬
 									추가 완료 modal 지우고 현재 modal에 출력
+									
+2022. 8. 4.										부작용, 관련약 출력
 
 -------------------------------------------------------------------------
 -->
@@ -229,77 +231,92 @@ $(document).ready(function(){
 			</div>
 		</div>
 	</div>
-	<!-- Your Transaction's -->
 	<div class="col-md-5 mt-4">
-		<div class="card h-100 mb-4">
+		<!-- 부작용 시작 -->
+		<div class="card h-auto mb-4">
 			<div class="card-header pb-0 px-3">
 				<div class="row">
 					<div class="col-md-6">
-						<h6 class="mb-0">Your Transaction's</h6>
-					</div>
-					<div class="col-md-6 d-flex justify-content-start justify-content-md-end align-items-center">
-						<i class="material-icons me-2 text-lg">date_range</i>
-						<small>23 - 30 March 2020</small>
+						<h5 class="mb-0">부작용</h5>
 					</div>
 				</div>
 			</div>
 			<div class="card-body pt-4 p-3">
-				<h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Newest</h6>
+				<ul class="list-group">
+					<li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+						<h6 class="text-uppercase text-body text-xs font-weight-bolder mb-2" th:utext="${i.seQesitm}">Newest</h6>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- 부작용 끝 -->
+		<!-- 관련 약 시작 -->
+		<div class="card h-auto mb-4">
+			<div class="card-header pb-0 px-3">
+				<div class="row">
+					<div class="col-md-6">
+						<h5 class="mb-0">관련 약</h5>
+					</div>
+				</div>
+			</div>
+			<div class="card-body pt-4 p-3">
+				<h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">비슷한 효능을 가진 약</h6>
 				<ul class="list-group">
 					<li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
 						<div class="d-flex align-items-center">
-							<button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">expand_more</i></button>
+							<button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">expand_more</i></button>
 							<div class="d-flex flex-column">
-								<h6 class="mb-1 text-dark text-sm">Netflix</h6>
-								<span class="text-xs">27 March 2020, at 12:30 PM</span>
+								<h6 class="mb-1 text-dark text-sm">페리나정</h6>
+								<span class="text-xs">삼진제약(주)</span>
 							</div>
 						</div>
-						<div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-							- $ 2,500
+						<div class="d-flex align-items-center text-dark text-gradient text-sm font-weight-bold">
+							감기
 						</div>
 					</li>
 					<li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
 						<div class="d-flex align-items-center">
-							<button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">expand_less</i></button>
+							<button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">expand_more</i></button>
 							<div class="d-flex flex-column">
-								<h6 class="mb-1 text-dark text-sm">Apple</h6>
-								<span class="text-xs">27 March 2020, at 04:30 AM</span>
+								<h6 class="mb-1 text-dark text-sm">부루펜정</h6>
+								<span class="text-xs">삼일제약(주)</span>
 							</div>
 						</div>
-						<div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-							+ $ 2,000
+						<div class="d-flex align-items-center text-dark text-gradient text-sm font-weight-bold">
+							발열, 두통
 						</div>
 					</li>
 				</ul>
-				<h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Yesterday</h6>
+				<h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">혼용을 피해야 하는 약</h6>
 				<ul class="list-group">
 					
 					<li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
 						<div class="d-flex align-items-center">
-							<button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">expand_less</i></button>
+							<button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">priority_high</i></button>
 							<div class="d-flex flex-column">
-								<h6 class="mb-1 text-dark text-sm">Creative Tim</h6>
-								<span class="text-xs">26 March 2020, at 08:30 AM</span>
+								<h6 class="mb-1 text-dark text-sm">영진아스피린장용정</h6>
+								<span class="text-xs">영진약품(주)</span>
 							</div>
 						</div>
-						<div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-							+ $ 2,500
+						<div class="d-flex align-items-center text-dark text-gradient text-sm font-weight-bold">
+							심근경색
 						</div>
 					</li>
 					<li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
 						<div class="d-flex align-items-center">
-							<button class="btn btn-icon-only btn-rounded btn-outline-dark mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">priority_high</i></button>
+							<button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">priority_high</i></button>
 							<div class="d-flex flex-column">
-								<h6 class="mb-1 text-dark text-sm">Webflow</h6>
-								<span class="text-xs">26 March 2020, at 05:00 AM</span>
+								<h6 class="mb-1 text-dark text-sm">리피클연질캡슐</h6>
+								<span class="text-xs">알보젠코리아(주)</span>
 							</div>
 						</div>
 						<div class="d-flex align-items-center text-dark text-sm font-weight-bold">
-							Pending
+							고콜레스테롤 혈증
 						</div>
 					</li>
 				</ul>
 			</div>
 		</div>
+		<!-- 관련 약 끝 -->
 	</div>
 </div>
