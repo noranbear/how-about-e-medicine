@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 4.0 -->
+<!-- Version: 4.1 -->
 <!-- Description: 처방상세내역 및 복약관리 페이지
 
 -------------------------------------------------------------------------
@@ -31,6 +31,8 @@
 
 2022. 8. 2. 								화면 로드될 때, 해당 알람내역이
 												캘린더에 뜨게 구현
+
+2022. 8. 4.			noranbear				복약 버튼 리스트 화면 구현 완료												
 
 -------------------------------------------------------------------------
 -->
@@ -70,6 +72,22 @@ text-align: right;
 
 <script>
 
+/**
+ * 복약 알람 리스트의 오늘 날짜 보여주는 함수
+ */
+function date(){
+	
+	date = new Date();
+	year = date.getFullYear();
+	month = date.getMonth() + 1;
+	day = date.getDate();
+	document.getElementById("currentDate").innerHTML = year + "년 " + month + "월 " + day + "일 ";
+	
+}
+
+/**
+ * Calendar
+ */
 function caldisplay(data) {
 	var calendarEl = document.getElementById('calendar');
 	var sdate = null;
@@ -125,8 +143,6 @@ function caldisplay(data) {
 		editable: true,
 		dayMaxEvents: true, // when too many events in a day, show the popover
 		events: data,
-		  color: 'yellow',   // an option!
-		  textColor: 'black' // an option!,
 		// schedule 가져오기 끝
 		
 	});
@@ -139,6 +155,7 @@ function caldisplay(data) {
 $(document).ready(function(){
 	// 처방전 아이디
 	var pid = $('#pid').text();
+	date();
 
 	// 알람 데이터 가져오기
 	$.ajax({
@@ -397,62 +414,22 @@ $(document).ready(function(){
 						</div>
 						<div class="col-md-6 d-flex justify-content-start justify-content-md-end align-items-center">
 							<i class="material-icons me-2 text-lg">date_range</i>
-							<small>23 - 30 March 2020</small>
+							<small id="currentDate">2022년 8월 3일</small>
 						</div>
 					</div>
 				</div>
 				<div class="card-body pt-4 p-3">
-					<h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Newest</h6>
 					<ul class="list-group">
 						<li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
 							<div class="d-flex align-items-center">
 								<button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">expand_more</i></button>
 								<div class="d-flex flex-column">
-									<h6 class="mb-1 text-dark text-sm">Netflix</h6>
-									<span class="text-xs">27 March 2020, at 12:30 PM</span>
+									<h6 class="mb-1 text-dark text-sm">아침</h6>
+									<span class="text-xs">오후 12:30</span>
 								</div>
 							</div>
-							<div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-								- $ 2,500
-							</div>
-						</li>
-						<li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
 							<div class="d-flex align-items-center">
-								<button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">expand_less</i></button>
-								<div class="d-flex flex-column">
-									<h6 class="mb-1 text-dark text-sm">Apple</h6>
-									<span class="text-xs">27 March 2020, at 04:30 AM</span>
-								</div>
-							</div>
-							<div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-								+ $ 2,000
-							</div>
-						</li>
-					</ul>
-					<h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Yesterday</h6>
-					<ul class="list-group">
-						<li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-							<div class="d-flex align-items-center">
-								<button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">expand_less</i></button>
-								<div class="d-flex flex-column">
-									<h6 class="mb-1 text-dark text-sm">Stripe</h6>
-									<span class="text-xs">26 March 2020, at 13:45 PM</span>
-								</div>
-							</div>
-							<div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-								+ $ 750
-							</div>
-						</li>
-						<li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-							<div class="d-flex align-items-center">
-								<button class="btn btn-icon-only btn-rounded btn-outline-dark mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">priority_high</i></button>
-								<div class="d-flex flex-column">
-									<h6 class="mb-1 text-dark text-sm">Webflow</h6>
-									<span class="text-xs">26 March 2020, at 05:00 AM</span>
-								</div>
-							</div>
-							<div class="d-flex align-items-center text-dark text-sm font-weight-bold">
-								Pending
+								<button type="button" class="btn btn-outline-secondary mb-0 me-0 btn-sm justify-content-center">복약완료</button>
 							</div>
 						</li>
 					</ul>
