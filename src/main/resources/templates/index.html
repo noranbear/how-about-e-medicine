@@ -14,7 +14,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 
-<!-- Version: 7.3 -->
+<!-- Version: 8.0 -->
 <!-- Description: 메인페이지
 
 ----------------------------------------------------------------------------
@@ -51,11 +51,13 @@
 
 2022. 7. 18			qwaszx357					한글로 수정
 												
-											          plist 링크 수정
+											   plist 링크 수정
 											  
 2022. 7. 21.		noranbear				필요없는 import 지우기
 
-2022. 7. 22.    qwaszx357       footer 추가
+2022. 7. 22.    	qwaszx357       			footer 추가
+
+2022. 8. 5.									utype에 따른 navbar 변경
 											  
 ----------------------------------------------------------------------------
 -->
@@ -191,14 +193,22 @@ footer {
 				<li class="nav-item mt-3">
 					<h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link text-white " th:href="@{/profile}">
-						<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-							<i class="material-icons opacity-10">person</i>
-						</div>
-						<span class="nav-link-text ms-1">마이페이지</span>
-					</a>
-				</li>
+				<div th:if="${session.signinusers != null}">
+					<li class="nav-item">
+						<a class="nav-link text-white " th:if="${session.signinusers.utype == 10}" th:href="@{/dashboard}">
+							<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+								<i class="material-icons opacity-10">person</i>
+							</div>
+							<span class="nav-link-text ms-1">관리자페이지</span>
+						</a>
+						<a class="nav-link text-white " th:unless="${session.signinusers.utype == 10}" th:href="@{/profile}">
+							<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+								<i class="material-icons opacity-10">person</i>
+							</div>
+							<span class="nav-link-text ms-1">마이페이지</span>
+						</a>
+					</li>
+				</div>
 				<li class="nav-item">
 					<a class="nav-link text-white " href="/signin">
 						<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
