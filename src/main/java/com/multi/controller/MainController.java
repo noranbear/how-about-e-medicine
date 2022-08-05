@@ -39,7 +39,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 13.0
+ * @version 14.0
  * @description
  *
  *
@@ -104,6 +104,8 @@ import com.multi.vo.UsersVo;
  *
  *											복약 알람 화면 구현을 위해 
  *												 pdetail 수정
+ *
+ *                  ynr1734             location 
  *	
  * ====================================================================
  */
@@ -559,6 +561,26 @@ public class MainController {
 	}
 	
 	/**
+	 * 지도 페이지 연결
+	 * @return location
+	 */
+	@RequestMapping("/location")
+	public String location(Model m, Integer id) {
+		PlistVo pli = null;
+		String phos = "";
+		try {
+			pli = plistbiz.get(id);
+			phos = pli.getHospital();
+			m.addAttribute("phospital", phos);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		m.addAttribute("center", "location");
+		return "index";
+  }
+  
+  
+  /**
 	 * Alarm tbl에 알람 데이터를 추가
 	 * @return 처방디테일 페이지로 돌아감
 	 */
