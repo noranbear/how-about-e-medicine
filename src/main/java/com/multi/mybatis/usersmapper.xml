@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		INSERT INTO users VALUES (#{id},#{pwd},#{name},#{email},#{birth},#{sex},"photo01.jpg",CURDATE(),20,1,NULL)
 	</insert>
 	<update id="update" parameterType="usersVo">
-		UPDATE users SET PWD=#{pwd},NAME=#{name},EMAIL=#{email},BIRTH=#{birth},SEX=#{sex},PHOTO=#{photo},STATUS=#{status},QDATE=#{qdate} WHERE ID=#{id}
+		UPDATE users SET PWD=#{pwd},NAME=#{name},EMAIL=#{email},BIRTH=#{birth},SEX=#{sex} WHERE ID=#{id}
 	</update>
 	<delete id="delete" parameterType="String">
 		DELETE FROM users WHERE ID=#{id}
@@ -19,6 +19,10 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	</select>
 	<select id="selectall" resultType="usersVo">
 		SELECT * FROM users
+	</select>
+	
+	<select id="getid" parameterType="String" resultType="int">
+		SELECT count(*) FROM users WHERE ID=#{id}
 	</select>
 	
 </mapper>

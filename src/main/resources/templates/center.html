@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 8.3 -->
+<!-- Version: 9.0 -->
 <!-- Description: 메인 페이지의 기본 중간 화면 (검색창)
 
 -------------------------------------------------------------------------------
@@ -34,8 +34,10 @@
 
              	     najune						분류 검색 기능 추가	
 
+2022. 7. 29.		qwaszx357			검색 결과 div 크기 변경, 대체 이미지 출력
+
 2022. 8. 4.			noranbear					indentation	수정				 
-								  							 
+			  							 
 -------------------------------------------------------------------------------
 -->
 
@@ -88,7 +90,7 @@ function display(data){
 		var efficacy = data[i].efcyQesitm;
 
 		html += "<tr class='tr-height'>"
-		html += "<td class='align-middle text-center'><img style='height:100px; width: 100px;' src='" + imgurl + "'></td>";
+		html += "<td class='align-middle text-center'><img style='height:100px; width: 100px;' src='" + imgurl + "' onerror=this.src='img/logo.png';></td>";
 		html += "<td class='align-middle text-center'><a href='#' onclick='getname(this);'>"+ itemname +"</a></td>";
 		html += "<td class='align-middle text-center'>"+ company +"</td>";
 		html += "<td class='td-height align-middle text-center'>"+ efficacy +"</td>";
@@ -339,7 +341,7 @@ function readURL(input) {
 <div class="mid-div" id="remove-div"></div>
 
 <!-- 3-2. 검색 결과 출력 시작 -->
-<div class="search_card col-lg-8 col-10 mb-md-0 mb-4 mx-auto">
+<div class="search_card col-lg-9 col-10 mb-md-0 mb-4 mx-auto">
 	<div class="card" id="result-div">
 		<!-- 검색 결과가 출력되는 곳 -->
 	</div>

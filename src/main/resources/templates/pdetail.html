@@ -27,7 +27,9 @@
 
 2022. 7. 25. 		najune						    기능구현
 
-2022. 7. 30.		noranbear					알람 추가 창 구현
+2022. 7. 30.		                  처방약 기능 구현
+                
+                noranbear					알람 추가 창 구현
 
 2022. 8. 2. 								화면 로드될 때, 해당 알람내역이
 												캘린더에 뜨게 구현
@@ -75,7 +77,13 @@
 /* 처방약 카드 호버 스타일 끝 */
 
 #right{
-text-align: right;
+  text-align: right;
+}
+
+ /* 처방약 이름 호버 */ 
+#mname:hover { 
+  color: #e91e63;
+  cursor : pointer; 
 }
 
 </style>
@@ -261,6 +269,16 @@ function switchBtColor(btinfo){
 	
 }
 
+ /**
+  * 약 디테일 페이지로 이동
+  */
+ function getname(item){
+	var text = $(item).text();	
+	//alert(text);
+	
+	location.href="/medidetail?item=" + text;
+}
+ 
 </script>
     
     
@@ -367,7 +385,7 @@ function switchBtColor(btinfo){
 						<ul class="list-group">
 							<li class="cpoint list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
 								<div class="d-flex flex-column" th:each="p:${dp}">
-									<h6 class="mb-3 text-sm" th:text="${m.name}">약이름 1</h6>						
+									<h6 class="mb-3 text-sm" th:text="${m.name}" onclick='getname(this);' id="mname">약이름 1</h6>						
 									<span class="mb-2 text-xs">복약횟수: <span class="text-dark ms-sm-2 font-weight-bold" th:text="'1일 ' + ${p.time} + '회'"></span></span>
 									<span class="mb-2 text-xs">복약시간: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${p.dtime}"></span></span>
 									<span class="text-xs">복약일수: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${p.days}  + '일'"></span></span>

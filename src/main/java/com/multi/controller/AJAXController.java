@@ -1,5 +1,5 @@
 package com.multi.controller;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.simple.JSONArray;
@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.multi.biz.AlarmBiz;
+import com.multi.biz.DashBiz;
 import com.multi.biz.MymediBiz;
+import com.multi.biz.UsersBiz;
+import com.multi.mapper.UsersMapper;
 import com.multi.restapi.DataAPI;
 import com.multi.restapi.DataAPI2;
 import com.multi.restapi.DataAPI3;
@@ -18,11 +21,12 @@ import com.multi.restapi.OCRBoxAPI;
 import com.multi.restapi.OCREnvelopeAPI;
 import com.multi.vo.AlarmVo;
 import com.multi.vo.MymediVo;
+import com.multi.vo.SlistVo;
 
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 8.0
+ * @version 9.0
  * @description
  *
  *
@@ -43,8 +47,12 @@ import com.multi.vo.MymediVo;
  *  2022. 7. 26.		qwaszx357			addmymedi 생성
  *
  *            	   		najune			ataget2, dataget3 추가
+ *
+ *  2022. 7. 28.		              id 중복체크 구현
  *            
- *  2022. 8. 3.			noranbear			loadalarm 추가
+ *  2022. 8. 3.			qwaszx357			chart1, chart2 생성
+ *
+ *                  noranbear			loadalarm 추가
  * 
  *	2022. 8. 4.								loadalarm 수정
  *
@@ -76,6 +84,15 @@ public class AJAXController {
 	
 	@Autowired
 	AlarmBiz abiz;
+  
+  @Autowired
+	UsersBiz ubiz;
+	
+	@Autowired
+	UsersMapper mapper;
+	
+	@Autowired
+	DashBiz dbiz;
 	
 	
 	/**
@@ -256,28 +273,44 @@ public class AJAXController {
 		return btaid;
 	}
 	
-/*	// ID 중복 확인
+	// ID 중복 확인
 	@RequestMapping("/checkid")
+	public int checkid(String id) {
+		int result = mapper.getid(id);	
+		return result;
+	}
 	
-	public String checkid(String id) {
-		String result = "";
-		UsersVo user = null;
-
-		if (id.equals("") || id == null) {
-			return "1";
-		}
+	// 요일별 스캔 횟수 차트
+	@RequestMapping("/chart1")
+	public Object chart1() {
+		List<SlistVo> dlist = null;
+		List<Integer> cdlist = new ArrayList();
 		try {
-			user = ubiz.getId();
-			if (user == null) {
-				result = "0";
-			} else {
-				result = "1";
+			dlist = dbiz.getdayofweek();
+			for (SlistVo obj : dlist) {
+				cdlist.add(obj.getCnt());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return result;
-
+		// System.out.println(cdlist);
+		return cdlist;
 	}
-*/
+	
+	// 월별 스캔 횟수 차트
+	@RequestMapping("/chart2")
+	public Object chart2() {
+		List<SlistVo> mlist = null;
+		List<Integer> cmlist = new ArrayList();
+		try {
+			mlist = dbiz.getmonth();
+			for (SlistVo obj : mlist) {
+				cmlist.add(obj.getCnt());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// System.out.println(cmlist);
+		return cmlist;
+	}
 }

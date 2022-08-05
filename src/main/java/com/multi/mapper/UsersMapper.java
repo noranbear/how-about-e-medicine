@@ -18,7 +18,9 @@ import com.multi.vo.UsersVo;
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
  *  2022. 7. 11.		 najune		  		First Creation
- *
+ *	
+ *  2022. 7. 28.		 najune		  		getid 추가
+ *  
  * =========================================================
  */
 @Repository
@@ -32,4 +34,5 @@ public interface UsersMapper {
 	public UsersVo select(String id) throws Exception;
 	public List<UsersVo> selectall() throws Exception;
 
+	public int getid(String id);
 }
