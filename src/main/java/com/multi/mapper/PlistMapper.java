@@ -22,6 +22,8 @@ import com.multi.vo.PlistVo;
  *  
  *  2022. 7. 19.		qwaszx357		    select_ing 생성
  *  										select_end 생성
+ *	
+ *	2022. 8. 05			najune				selecttheon생성
  *
  * =========================================================
  */
@@ -40,12 +42,6 @@ public interface PlistMapper {
 	public List<PlistVo> select_ing(String k) throws Exception;
 	public List<PlistVo> select_end(String k) throws Exception;
 	
-
 	public PlistVo selecttheone(PlistVo plist) throws Exception;
 
-	public void insertbox(PlistVo v) throws Exception;
-	
-	
-	
-	
 }
