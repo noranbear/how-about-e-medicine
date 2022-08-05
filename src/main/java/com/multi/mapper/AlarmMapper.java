@@ -10,7 +10,7 @@ import com.multi.vo.AlarmVo;
 /**
  * @author qwaszx357
  * @date 2022. 7. 13.
- * @version 1.0
+ * @version 4.0
  * @description
  *
  *
@@ -19,17 +19,31 @@ import com.multi.vo.AlarmVo;
  * ---------------------------------------------------------
  *  2022. 7. 13.		qwaszx357		  First Creation
  *
+ *	2022. 8. 3.			noranbear		 selectpalarms 추가
+ *
+ *  2022. 8. 4.                          selectpalarms2 추가
+ *
+ *                                          updatebt 추가
+ *
  * =========================================================
  */
+
 @Repository
 @Mapper
 public interface AlarmMapper {
 	
     public void insert(AlarmVo alarm) throws Exception;
     public void delete(int id) throws Exception;
+    
     public void update(AlarmVo alarm) throws Exception;
+    // 알람의 버튼 done/undone 상태를 바꾼다.
+    public void updatebt(AlarmVo alarm) throws Exception;
     
     public AlarmVo select(int id) throws Exception;
     public List<AlarmVo> selectall() throws Exception;
+    
+    public List<AlarmVo> selectpalarms(int pid) throws Exception;
+    // 처방전의 현재 날짜의 알람을 가져온다.
+    public List<AlarmVo> selectpalarms2(int pid) throws Exception;
 
 }

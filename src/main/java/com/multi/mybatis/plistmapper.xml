@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<!-- 처방내역 페이지에 출력 -->
 	<!-- 복용중인 약 -->
 	<select id="select_ing" parameterType="String" resultType="plistVo">
-		SELECT p.id ,p.uid, p.hospital, p.pdate, p.days, (p.days - (curdate() - p.pdate)) AS dday FROM plist p
+		SELECT p.id, p.uid, p.hospital, p.pdate, p.days, (p.days - (curdate() - p.pdate)) AS dday FROM plist p
 		INNER JOIN users u ON p.uid = u.id WHERE p.uid=#{uid} AND (p.days - (curdate() - p.pdate)) > 0
 	</select>
 	<!-- 복용 완료된 약 -->
@@ -33,8 +33,14 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		INNER JOIN users u ON p.uid = u.id WHERE p.uid=#{uid} AND (p.days - (curdate() - p.pdate)) <![CDATA[<=]]> 0 
 	</select>
 	
+  <!-- 동일한 유저 아이디, 조제일자, 병원이름을 가진 처방전 리턴 -->
 	<select id="selecttheone" parameterType="plistVo" resultType="plistVo">
 		SELECT * FROM plist WHERE UID=#{uid} AND PDATE=#{pdate} AND HOSPITAL=#{hospital}
+  </select>
+	<!-- 복약알람 끝나는 날짜 반환 -->
+	<select id="selectenddate" parameterType="int" resultType="plistVo">
+		SELECT p.id, p.uid, p.hospital, p.pdate, p.days, DATE_ADD(p.pdate, INTERVAL p.days DAY) AS enddate FROM plist p
+		WHERE ID=#{id}
 	</select>
 	
 </mapper>
