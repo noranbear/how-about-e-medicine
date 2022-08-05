@@ -433,7 +433,6 @@ public class MainController {
         return "index";
     }
 	
-	
 	/**
 	 * 메인페이지에서 ocr창으로 들어온 1. 이미지 저장, 2. ocrbox search, 
 	 * 3. 해당 내용 DB(slist, smedi)에 저장하는 함수

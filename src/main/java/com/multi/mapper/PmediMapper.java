@@ -40,5 +40,4 @@ public interface PmediMapper {
     
     public List<PmediVo> add(PmediVo pmedi) throws Exception;
 	
-
 }
