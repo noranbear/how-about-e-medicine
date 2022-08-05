@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 8.1 -->
+<!-- Version: 9.0 -->
 <!-- Description: 메인 페이지의 기본 중간 화면 (검색창)
 
 -------------------------------------------------------------------------------
@@ -32,8 +32,12 @@
 								  			
 2022. 7. 26.									ocrbox 실행 성공
 
-             	    najune						분류 검색 기능 추가	
-								  							 
+             	     najune						분류 검색 기능 추가	
+
+2022. 7. 29.		qwaszx357			검색 결과 div 크기 변경, 대체 이미지 출력
+
+2022. 8. 4.			noranbear					indentation	수정				 
+			  							 
 -------------------------------------------------------------------------------
 -->
 
@@ -49,7 +53,7 @@
  * 디테일 페이지로 선택된 아이템이름 보내기
  */
 function getname(item){
-	var text = $(item).text();	
+	var text = $(item).text();
 	//alert(text);
 	
 	location.href="/medidetail?item=" + text;
@@ -86,7 +90,7 @@ function display(data){
 		var efficacy = data[i].efcyQesitm;
 
 		html += "<tr class='tr-height'>"
-		html += "<td class='align-middle text-center'><img style='height:100px; width: 100px;' src='" + imgurl + "'></td>";
+		html += "<td class='align-middle text-center'><img style='height:100px; width: 100px;' src='" + imgurl + "' onerror=this.src='img/logo.png';></td>";
 		html += "<td class='align-middle text-center'><a href='#' onclick='getname(this);'>"+ itemname +"</a></td>";
 		html += "<td class='align-middle text-center'>"+ company +"</td>";
 		html += "<td class='td-height align-middle text-center'>"+ efficacy +"</td>";
@@ -212,23 +216,24 @@ function getData3(param){
 
 $(document).ready(function(){
 	
-/* 검색버튼 클릭 시, 약 데이터 불러오기 */
+	/* 검색버튼 클릭 시, 약 데이터 불러오기 */
 	$('#search_bt').click(function(){
 		var param = $('#param').val();
 		var a = $("#sort").val(); // The text content of the selected option
 		//alert(param); 	
     
-    if(param != ""){	// 검색어가 존재하지 않을 때
-        if(a == "dataget3"){									
-          getData3(param);
-        }
-        else if(a == "dataget2"){								
-          getData2(param);
-          }
-        else{								
-          getData(param);			
-        }
-      }
+	    if(param != ""){	// 검색어가 존재하지 않을 때
+	        if(a == "dataget3"){									
+	        	getData3(param);
+	        	
+	        }else if (a == "dataget2"){	
+	        	getData2(param);
+	        	
+	        }else {		
+	        	getData(param);	
+	        	
+	        }
+	    }
 	});	
 				
 	/* ocr 창에서 검색 버튼 클릭 시, 해당 사진 저장 */
@@ -336,7 +341,7 @@ function readURL(input) {
 <div class="mid-div" id="remove-div"></div>
 
 <!-- 3-2. 검색 결과 출력 시작 -->
-<div class="search_card col-lg-8 col-10 mb-md-0 mb-4 mx-auto">
+<div class="search_card col-lg-9 col-10 mb-md-0 mb-4 mx-auto">
 	<div class="card" id="result-div">
 		<!-- 검색 결과가 출력되는 곳 -->
 	</div>

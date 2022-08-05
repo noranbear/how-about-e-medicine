@@ -10,7 +10,7 @@ import com.multi.vo.MymediVo;
 /**
  * @author qwaszx357
  * @date 2022. 7. 11.
- * @version 1.0
+ * @version 1.1
  * @description
  *
  *
@@ -20,6 +20,8 @@ import com.multi.vo.MymediVo;
  *  2022. 7. 11.		qwaszx357		  First Creation
  *  
  *  2022. 7. 13.						  DB 수정으로 인한 수정
+ *
+ *	2022. 7. 29.						  DB 수정으로 인한 수정
  * =========================================================
  */
 @SpringBootTest
@@ -30,7 +32,7 @@ class MymediUpdateTests {
 
 	@Test
 	void contextLoads() {
-	    MymediVo mymedi = new MymediVo(4,"아스","2022-07-20","image01.jpg","note01");
+	    MymediVo mymedi = new MymediVo(4,"2022-07-20","note01");
 
 	    try {
 	        biz.modify(mymedi);

@@ -1,46 +1,43 @@
-package com.multi.alarm;
+package com.multi.mymedi;
+
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.multi.biz.AlarmBiz;
-import com.multi.vo.AlarmVo;
+import com.multi.biz.MymediBiz;
+import com.multi.vo.MymediVo;
 
 /**
  * @author qwaszx357
- * @date 2022. 7. 13.
- * @version 3.0
+ * @date 2022. 7. 29.
+ * @version 1.0
  * @description
  *
  *
  * =========================================================
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
- *  2022. 7. 13.		qwaszx357		  First Creation
- *
- *	2022. 8. 2.			noranbear		 AlarmVo fields 변경으로 
- *											   인한 수정
- *
- *	2022. 8. 4.							 AlarmVo fields 변경으로
- *												인한 수정
- *	
+ *  2022. 7. 29.		qwaszx357		   First Creation
+ *  
  * =========================================================
  */
-
 @SpringBootTest
-class AlarmUpdateTests {
+class MymediSelectDdayTests {
 
 	@Autowired
-	AlarmBiz biz;
+	MymediBiz biz;
 
 	@Test
 	void contextLoads() {
-	    AlarmVo alarm = new AlarmVo(1,"아침","10:00","done","2022-08-01");
+	    List<MymediVo> list = null;
 
 	    try {
-	        biz.modify(alarm);
-	        System.out.println("Updated Ok");
+	        list = biz.getdday("id01");
+	        for (MymediVo obj : list) {
+		        System.out.println(obj);
+			}
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
