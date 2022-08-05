@@ -61,6 +61,8 @@ public class PmediBiz implements Biz<Integer, PmediVo>{
 		return dao.select_medi(k);
 	}
 	
-	
+	public List<PmediVo> add(PmediVo pmedi) throws Exception {
+		return dao.add(pmedi);
+	}
 
 }

@@ -35,6 +35,9 @@ public interface PmediMapper {
     public List<PmediVo> selectall() throws Exception;
     
     public List<PmediVo> select_medi(int id)throws Exception;
+	public List<PmediVo> add(Integer k)throws Exception;
+	
+	public List<PmediVo> add(PmediVo pmedi);
 	
 
 }

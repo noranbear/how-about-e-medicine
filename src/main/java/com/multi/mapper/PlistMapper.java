@@ -41,6 +41,9 @@ public interface PlistMapper {
 	public List<PlistVo> select_end(String k) throws Exception;
 	
 
+	public PlistVo selecttheone(PlistVo plist) throws Exception;
+
+	public void insertbox(PlistVo v) throws Exception;
 	
 	
 	

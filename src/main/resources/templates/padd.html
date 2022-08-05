@@ -13,28 +13,24 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 1.2 -->
-<!-- Description: 메인페이지
+<!-- Version: 1.1 -->
+<!-- Description: 마이 페이지
 
 -------------------------------------------------------------------------
 	Date			 Author							Note
 -------------------------------------------------------------------------								    
-2022. 7. 15			noranbear			  Bootstrap singup 페이지 생성
+2022. 7. 18			noranbear					First Creation
 
-					qwaszx357					  code 정리
-		
-2022. 7. 16			najune						회원가입 페이지 구현	
-		
-2022. 7. 18			najune						회원가입 기능 구현		
+2022. 7. 22.		najune			 	         profile 화면 구현
 
-2022. 7. 23.		qwaszx357				   헤더 변경 및 링크 연결
+2022. 7. 22.		qwaszx357					footer 지우기
 
-2022. 7. 28.		najune				    아이디 중복체크 기능,이메일 @ 유효성 체크 기능
+2022. 7. 29.		najune						profile 수정 기능 구현
 
 -------------------------------------------------------------------------
 -->
 
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="UTF-8">
 
@@ -67,50 +63,19 @@
 <script>
 $(document).ready(function(){
 
-	// ID 중복 확인
-	$('#id').keyup(function(){
-		let id = $('#id').val();
-		
-		$.ajax({
-			url:'/checkid',
-			type:"post",
-			data:{id: id},
-			success:function(result){
-				if (result == '1') {
-					$('#id_msg').text('사용 불가능한 ID 입니다.');						        
-				} else {
-					$('#id_msg').text('사용 가능한 ID 입니다.');
-				}
-			},
-		}
-		);
-	});	
-	
-	// pwd 글자 수 확인
-	$('#pwd').blur(function(){
-		var pwd = $(this).val();
-		if (pwd.length < 4){
-			$('#pwd_msg').text("Password는 4글자 이상 입력해주세요.");
-		} else {
-			$('#pwd_msg').text('');
-		}
-	});
-
 	// 데이터 전송
-	$('#signup_btn').click(function(){
-		$('#signup_form').attr({
+	$('#add_btn').click(function(){
+		$('#add_form').attr({
 			'method':'post',
-			'action':'signupimpl'
+			'action':'addimpl'
 		});
-		$('#signup_form').submit();
+		$('#add_form').submit();
 	})
 
 });
-
-  
+ 
 </script>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
 <style>
 .span{
 font-size:1em;
@@ -198,56 +163,52 @@ font-size:1em;
 						<div class="card z-index-0 fadeIn3 fadeInBottom">
 							<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 								<div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-									<h4 class="text-white font-weight-bolder text-center mt-2 mb-0">회원가입</h4>
+									<h4 class="text-white font-weight-bolder text-center mt-2 mb-0">처방내역 추가</h4>
 								
 									
 								</div>
 							</div>
 							<!-- 회원가입 -->
 							<div class="card-body">
-								<form id="signup_form" action="#" class="text-start"  onsubmit="return checkz()">
+								<form id="add_form" action="#" class="text-start" method="post">
 									<div class="input-group input-group-outline my-3">
-										<label class="form-label">name</label>
-										<input id="name"  name="name" class="form-control">
-									</div>
-									<div class="input-group input-group-outline mb-3">
-										<label class="form-label"></label>
-										<input type="date" id="birth" name="birth" class="form-control">
-									</div>
-					
-									 
-									<div class="input-group input-group-outline mb-3">
 										<label class="form-label">id</label>
-										<input id="id" name="id" type="text" class="form-control">
-									</div>	
-									
-									<div>
-                            			<span id="id_msg" th:text="${msg}"></span>
-                            		</div>
-									
-									<div class="input-group input-group-outline mb-3">
-										<label class="form-label">password</label>
-										<input id="pwd" name="pwd" type="password"  class="form-control">
+										<input type="text"  name="uid" class="form-control">
 									</div>
 									
-									<div>
-                            			<span id="pwd_msg" th:text="${msg}"></span>
-                            		</div>
+									<div class="input-group input-group-outline mb-3">
+										<label class="form-label">hospital</label>
+										<input type="text" id="hospital"  name="hospital" class="form-control">
+									</div>
+										 
+									<div class="input-group input-group-outline mb-3">
+										<label class="form-label">pdate</label>
+										<input id="pdate" type="date" name="pdate"  class="form-control">
+									</div>								
+									
+									<div class="input-group input-group-outline mb-3">
+										<label class="form-label">days</label>
+										<input id="days" name="days" type="text"  class="form-control">
+									</div>
                             		
 									<div class="input-group input-group-outline mb-3">
-										<label class="form-label">email</label>
-										<input id="mail" name="email" type="email" class="form-control" required>
+										<label class="form-label">time</label>
+										<input id="time" name="time" type="text"  class="form-control">
 									</div>
-									<h4><span>성별</span></h4>
-		                            <div>							  
-		                              <label for="male">남성</label>
-									  <input id="male" type="radio"  value="남성" name="sex">							
-									  <label for="female">여성</label>
-									  <input id="female" type="radio" checked value="여성" name="sex">
-		                   			 </div>
+									
+									<div class="input-group input-group-outline mb-3">
+										<label class="form-label">dtime</label>
+										<input id="dtime" name="dtime" type="text"  class="form-control">
+									</div>
+									
+									<div class="input-group input-group-outline mb-3">
+										<label class="form-label">medicine</label>
+										<input id="name" name="name" type="text"  class="form-control">
+									</div>
 
 									<div class="text-center">
-										<button id="signup_btn" type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2" >회원가입</button>
+										<button id="add_btn" type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2" >추가하기</button>
+										<button type="button"  onClick="history.go(-1)" class="btn bg-gradient-primary w-100 my-4 mb-2">취소</button>
 									</div>
 									
 								</form>

@@ -80,7 +80,11 @@ public class PlistBiz implements Biz<Integer, PlistVo>{
 		return dao.select_end(k);
 	}
 
+	public List<PlistVo> select() throws Exception {
+		return dao.selectall();
+	}
 	
-	
-	
+	public PlistVo gettheone(PlistVo v) throws Exception{
+		return dao.selecttheone(v);
+	}
 }

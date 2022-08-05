@@ -33,8 +33,9 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		INNER JOIN users u ON p.uid = u.id WHERE p.uid=#{uid} AND (p.days - (curdate() - p.pdate)) <![CDATA[<=]]> 0 
 	</select>
 	
-	
-	
+	<select id="selecttheone" parameterType="plistVo" resultType="plistVo">
+		SELECT * FROM plist WHERE UID=#{uid} AND PDATE=#{pdate} AND HOSPITAL=#{hospital}
+	</select>
 	
 </mapper>
 
