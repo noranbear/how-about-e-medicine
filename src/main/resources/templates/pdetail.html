@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 2.1 -->
+<!-- Version: 6.1 -->
 <!-- Description: 처방상세내역 및 복약관리 페이지
 
 -------------------------------------------------------------------------
@@ -25,9 +25,26 @@
 												  
 2022. 7. 22.		qwaszx357					footer 지우기
 
-2022. 7. 25. 		najune						  기능구현
+2022. 7. 25. 		najune						    기능구현
 
-2022. 7. 30. 								  	처방약 기능 구현
+2022. 7. 30.		                  처방약 기능 구현
+                
+                noranbear					알람 추가 창 구현
+
+2022. 8. 2. 								화면 로드될 때, 해당 알람내역이
+												캘린더에 뜨게 구현
+
+2022. 8. 4.									복약 버튼 리스트 화면 구현 완료												
+
+											calendar 불필요한 코드 정리
+
+											 복약 알람 화면 구현 및 
+												알람 띄우기 완료
+
+										복약 알람 리스트: 알람 상태 변경에 
+										따른 버튼 디자인 변경을 ajax로 구현 
+
+											복약 알람 없을 시 화면 구현
 
 -------------------------------------------------------------------------
 -->
@@ -54,37 +71,207 @@
 .cpoint {
 	transition: 0.2s ease;
 }
-
 .cpoint:hover {
 	transform: scale(1.02);
 }
 /* 처방약 카드 호버 스타일 끝 */
 
 #right{
-text-align: right;
+  text-align: right;
 }
 
  /* 처방약 이름 호버 */ 
 #mname:hover { 
-color: #e91e63;
-cursor : pointer; }
-
+  color: #e91e63;
+  cursor : pointer; 
+}
 
 </style>
 
 <script>
-// 1. FullCalendar API Js 시작 -------
-document.addEventListener('DOMContentLoaded', function() {
-  var calendarEl = document.getElementById('calendar');
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: 'dayGridMonth'
-  });
-  calendar.render();
+
+/**
+ * 복약 알람 리스트의 오늘 날짜 보여주는 함수
+ */
+function date(){
+	date = new Date();
+	year = date.getFullYear();
+	month = date.getMonth() + 1;
+	day = date.getDate();
+	
+	document.getElementById("currentDate").innerHTML = year + "년 " + month + "월 " + day + "일 ";
+	
+}
+
+/**
+ * Calendar
+ */
+function caldisplay(data) {
+	var calendarEl = document.getElementById('calendar');
+	var calendar = new FullCalendar.Calendar(calendarEl, {
+		initialView: 'dayGridMonth',
+		locale: 'ko',		// 한국어 버전
+		// 날짜 selection 시작
+		selectable: true,
+		headerToolbar: {	// 선택된 날짜 확인용
+			left: 'prev,next today',
+			center: 'title',
+			right: 'dayGridMonth'
+		},
+		fixedWeekCount: false,		// 보여주는 날짜 수
+		dateClick: function(info) {
+			//alert('clicked ' + info.dateStr);
+			
+		},
+		select: function(info) {
+			//alert('selected ' + info.startStr + ' to ' + info.endStr);
+		},
+		// 날짜 selection 끝
+		// schedule 가져오기 시작
+		timeZone: 'local',
+		headerToolbar: {
+			center: 'addEventButton'
+		},
+		// add events 시작
+		customButtons: {
+			addEventButton: {
+				text: '알람 추가',
+		        click: function() {	
+					$('#exampleModalSignUp').modal("show");		// modal 창 띄우기
+				}
+			}
+		},
+		// add events 끝
+		editable: true,
+		dayMaxEvents: true, // when too many events in a day, show the popover
+		events: data,
+		// schedule 가져오기 끝
+		
+	});
+	
+	calendar.render();
+	
+}
+
+
+$(document).ready(function(){
+	// 처방전 아이디
+	var pid = $('#pid').text();
+	date();
+
+	// 알람 데이터 가져오기
+	$.ajax({
+		method: 'GET',
+		url:'loadalarm',
+		data:{'pid':pid},
+		//dataType: 'json',
+		success:function(data){
+			// 복약 캘린더 로드
+			caldisplay(data);		
+			
+			// 설정된 알람이 없을 때
+			if(data == ""){
+				// 1. 복용 알람 리스트에 알람이 없다는 메세지 쓰기
+				var html= "";	// 출력할 html을 담을 변수  
+
+				// 검색 결과 없음 메세지 생성
+				html += "<li class='list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg'>"; 
+				html += "<div class='align-items-center text-center mb-6'>"
+				html += "<i class='material-icons' style='left: 50%; top: 30%; transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); position: absolute;'>add_alarm</i>";
+				html += "<small class='d-sm-block' style='left: 50%; top: 70%; transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); position: absolute;'>알람을 추가해 주세요.</small>";
+				// close
+				html += "</div></li>";
+				
+				// 생성된 메세지 출력
+				$('#alist_group').html(html);
+				
+				// 2. 알람 설정하라고 하는 toast 창 띄우기
+				$('#infoToast').toast("show");
+			}
+		},
+		error: function(error) {
+			alert("error");
+		}
+		
+	});
+	
+	/* 알람추가 창에서 등록 버튼 클릭 시 */
+	$('#reg_bt').click(function(){
+		
+		// 시간 DB에 등록
+		$('#alarm-form').attr({
+			'method':'get',
+			'action':'alarmaddimpl'
+		});
+		
+		$('#alarm-form').submit();
+	
+	});
+	
+	/* 복약알람 리스트에서 복약완료 버튼 클릭 시 */
+	$('button[name=consume_bt]').click(function(){
+		// 복약 알람 아이디 가져오기
+		var btaid = $(this).attr("id");
+		var aid = btaid.substr(2);
+		
+		$.ajax({
+			method: 'GET',
+			url:'/switchbt',
+			data:{'aid':aid},
+			success:function(data){
+				switchBtColor(data);
+			},
+			error: function(error) {
+				alert("error");
+			}
+			
+		});
+		
+	});
 });
 
 
-//1. FullCalendar API Js 끝 ----------
- 
+/**
+ * 알람 버튼 상태가 바뀔 시, 화면에서 알람 버튼 디자인을 각각의 상태에 따라 변경한다.
+ */
+function switchBtColor(btinfo){
+	
+	var stat = btinfo.substr(0,1);	// status
+	var btid = btinfo.substr(1);	// 복약버튼 id
+	var id = btid.substr(2);		// alarm 데이터 id
+	var bid = "b" + id;				// 첫번째 버튼 id
+	var spid = "sp" + id;			// span id
+
+	// 복용 완료로 바뀌었을 때
+	if(stat == "d"){
+		// 버튼 완료색으로 바꾸기
+		$('#' + bid).attr("class", "btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center");
+		$('#' + btid).attr("class", "btn btn-outline-success mb-0 me-0 btn-sm justify-content-center");
+		
+		// span에 완료 써넣기
+		var all = $('#' + spid).text();		// 기존 값 가져오기
+		var atime = all.split(" ");			// 시간만 분리하기
+		
+		$('#' + spid).text(atime[0] + " 완료"); // 뒤에 메세지 바꿔주기
+		
+	// 복용 미완료로 바뀌었을 때
+	}else {
+		// 버튼 미완료색으로 바꾸기
+		$('#' + bid).attr("class", "btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center");
+		$('#' + btid).attr("class", "btn btn-outline-danger mb-0 me-0 btn-sm justify-content-center");
+		
+		// span에 미완료 써넣기
+		var all = $('#' + spid).text();		// 기존 값 가져오기
+		var atime = all.split(" ");			// 시간만 분리하기
+		
+		$('#' + spid).text(atime[0] + " 미완료");		// 뒤에 메세지 바꿔주기
+	}
+	
+}
+
+ /**
+  * 약 디테일 페이지로 이동
+  */
  function getname(item){
 	var text = $(item).text();	
 	//alert(text);
@@ -107,6 +294,8 @@ document.addEventListener('DOMContentLoaded', function() {
                   <img src="../assets/img/illustrations/pattern-tree.svg" class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100" alt="pattern-tree">
                   <span class="mask bg-gradient-dark opacity-10"></span>
                   <div class="card-body position-relative z-index-1 p-3">
+                  	<!-- 처방내역 아이디 담아놓는 곳 -->
+                  	<p id="pid" th:text="${p.id}" hidden="hidden"></p>
                     <h4 class="text-white mb-3 pb-2">
                     	<i class="fa fa-file-text-o text-white p-2" style="font-size:24px"></i>
                     	 처방내역 상세
@@ -262,6 +451,49 @@ document.addEventListener('DOMContentLoaded', function() {
 					<!-- FullCalendar div -->
 					<div id='calendar' class="mb-sm-3"></div>
 				</div>
+				
+				<!-- 알람설정 Modal 시작 -->
+			    <div class="modal fade" id="exampleModalSignUp" tabindex="-1" role="dialog" aria-labelledby="exampleModalSignTitle" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+						<div class="modal-content">
+							<div class="modal-body p-0">
+								<div class="card card-plain">
+									<div class="card-header pb-0 text-left">
+										<h3 class="font-weight-bolder text-primary text-gradient">
+											<i class="material-icons text-bold text-primary text-5xl">alarm</i>
+											알람 추가
+										</h3>
+										<p class="mb-0">해당 처방전의 복용 알람을 추가해 보세요.</p>
+			             			</div>
+			              			<div class="card-body pb-3">
+			              				<form role="form text-left" id="alarm-form">
+			              				  	<label>아침</label>
+											<div class="input-group mb-3">
+												<input type="time" class="form-control" name="morning">
+											</div>
+											<label>점심</label>
+											<div class="input-group mb-3">
+												<input type="time" class="form-control" name="afternoon">
+											</div>
+											<label>저녁</label>
+											<div class="input-group mb-3">
+												<input type="time" class="form-control" name="dinner">
+											</div>
+											<div class="text-center">
+												<button type="button" id="reg_bt" th:onclick="|location.href='@{/alarmaddimpl(id=${p.id})}'|"
+													class="btn bg-gradient-primary btn-lg btn-rounded w-100 mt-4 mb-0">
+													등록
+												</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			    <!-- 알람설정 Modal 끝 -->
+			    
 			</div>
 		</div>
 	
@@ -275,62 +507,46 @@ document.addEventListener('DOMContentLoaded', function() {
 						</div>
 						<div class="col-md-6 d-flex justify-content-start justify-content-md-end align-items-center">
 							<i class="material-icons me-2 text-lg">date_range</i>
-							<small>23 - 30 March 2020</small>
+							<small id="currentDate">2022년 8월 3일</small>
 						</div>
+						<p class="mb-0 pt-1 text-xs">복약 시 해당 알람의 버튼을 눌러주세요.</p>
 					</div>
 				</div>
 				<div class="card-body pt-4 p-3">
-					<h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Newest</h6>
-					<ul class="list-group">
-						<li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-							<div class="d-flex align-items-center">
-								<button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">expand_more</i></button>
+					<!-- 복약 알람 리스트가 뜨는 곳  -->
+					<ul class="list-group" id="alist_group">
+						<li th:each="al:${alist}" class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+							<div class="d-flex align-items-center" th:if="${al.button.equals('undone')}">
+								<button th:attrappend="id='b'+ ${al.id}" class="btn btn-icon-only btn-rounded btn-outline-danger 
+									mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center" disabled>
+									<i class="material-icons text-lg">access_alarm</i>
+								</button>
 								<div class="d-flex flex-column">
-									<h6 class="mb-1 text-dark text-sm">Netflix</h6>
-									<span class="text-xs">27 March 2020, at 12:30 PM</span>
+									<h6 class="mb-1 text-dark text-sm" th:text="${al.mad}">아침</h6>
+									<span th:attrappend="id='sp'+ ${al.id}" class="text-xs" th:text="${al.time} + ' 미완료'">
+										오후 12:30 미완료
+									</span>
 								</div>
 							</div>
-							<div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-								- $ 2,500
-							</div>
-						</li>
-						<li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-							<div class="d-flex align-items-center">
-								<button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">expand_less</i></button>
+							<div class="d-flex align-items-center" th:unless="${al.button.equals('undone')}">
+								<button th:attrappend="id='b'+ ${al.id}" class="btn btn-icon-only btn-rounded btn-outline-success 
+									mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center" disabled>
+									<i class="material-icons text-lg">access_alarm</i>
+								</button>
 								<div class="d-flex flex-column">
-									<h6 class="mb-1 text-dark text-sm">Apple</h6>
-									<span class="text-xs">27 March 2020, at 04:30 AM</span>
+									<h6 class="mb-1 text-dark text-sm" th:text="${al.mad}">아침</h6>
+									<span th:attrappend="id='sp'+ ${al.id}" class="text-xs" th:text="${al.time} + ' 완료'">
+										오후 12:30 완료
+									</span>
 								</div>
 							</div>
-							<div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-								+ $ 2,000
+							<div class="d-flex align-items-center" th:if="${al.button.equals('undone')}">
+								<button type="button" class="btn btn-outline-danger mb-0 me-0 btn-sm justify-content-center"
+										th:attrappend="id='bt'+ ${al.id}" name="consume_bt">복용완료</button>
 							</div>
-						</li>
-					</ul>
-					<h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Yesterday</h6>
-					<ul class="list-group">
-						<li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-							<div class="d-flex align-items-center">
-								<button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">expand_less</i></button>
-								<div class="d-flex flex-column">
-									<h6 class="mb-1 text-dark text-sm">Stripe</h6>
-									<span class="text-xs">26 March 2020, at 13:45 PM</span>
-								</div>
-							</div>
-							<div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-								+ $ 750
-							</div>
-						</li>
-						<li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-							<div class="d-flex align-items-center">
-								<button class="btn btn-icon-only btn-rounded btn-outline-dark mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">priority_high</i></button>
-								<div class="d-flex flex-column">
-									<h6 class="mb-1 text-dark text-sm">Webflow</h6>
-									<span class="text-xs">26 March 2020, at 05:00 AM</span>
-								</div>
-							</div>
-							<div class="d-flex align-items-center text-dark text-sm font-weight-bold">
-								Pending
+							<div class="d-flex align-items-center" th:unless="${al.button.equals('undone')}">
+								<button type="button" class="btn btn-outline-success mb-0 me-0 btn-sm justify-content-center"
+										th:attrappend="id='bt'+ ${al.id}" name="consume_bt">복용완료</button>
 							</div>
 						</li>
 					</ul>
@@ -342,3 +558,22 @@ document.addEventListener('DOMContentLoaded', function() {
 	<!-- 2. 복약알림 끝 -->
 	
 </div>
+
+<!-- 캘린더에 등록된 알람이 없을 시, 나오는 경고 팝업 -->
+<div class="position-fixed bottom-1 end-1 z-index-2">
+	<div class="toast fade hide p-2 mt-2 bg-gradient-warning" role="alert" aria-live="assertive" id="infoToast" aria-atomic="true">
+		<div class="toast-header bg-transparent border-0">
+            <i class="material-icons text-white me-2">notifications</i>
+            <span class="me-auto text-white font-weight-bold">알람 추가 알림</span>
+            <small class="text-white"></small>
+			<i class="fas fa-times text-md text-white ms-3 cursor-pointer" data-bs-dismiss="toast" aria-label="Close"></i>
+        </div>
+        <hr class="horizontal light m-0">
+		<div class="toast-body text-white py-sm-3">
+			현재 처방전에 복용알람을 등록해 주세요.
+		</div>
+	</div>
+</div>
+    
+    
+    

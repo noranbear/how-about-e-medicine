@@ -9,7 +9,7 @@ import lombok.ToString;
 /**
  * @author najune
  * @date 2022. 7. 13.
- * @version 1.0
+ * @version 3.0
  * @description
  *
  *
@@ -19,6 +19,8 @@ import lombok.ToString;
  *  2022. 7. 13.		 najune		  		First Creation
  *  
  *  2022. 7. 19.		qwaszx357			  dday 생성
+ *
+ *	2022. 8. 3.			noranbear			enddate 생성	
  *
  * =========================================================
  */
@@ -37,6 +39,8 @@ public class PlistVo {
 	private String dtime;
 	
 	private int dday;	// 남은 복용일
+	private String enddate;	// 복약 끝나는 날
+	
 
 	// Constructor for insert
 	public PlistVo(String uid, String hospital, String pdate, int days, int time, String dtime) {

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.multi.biz.AlarmBiz;
 import com.multi.biz.DashBiz;
 import com.multi.biz.MymediBiz;
 import com.multi.biz.UsersBiz;
@@ -18,13 +19,14 @@ import com.multi.restapi.DataAPI2;
 import com.multi.restapi.DataAPI3;
 import com.multi.restapi.OCRBoxAPI;
 import com.multi.restapi.OCREnvelopeAPI;
+import com.multi.vo.AlarmVo;
 import com.multi.vo.MymediVo;
 import com.multi.vo.SlistVo;
 
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 7.0
+ * @version 9.0
  * @description
  *
  *
@@ -44,12 +46,18 @@ import com.multi.vo.SlistVo;
  *  
  *  2022. 7. 26.		qwaszx357			addmymedi 생성
  *
- *            	   		najune				dataget2, dataget3 추가
- * 
- *  2022. 7. 28.		najune				id 중복체크 구현
- *  
+ *            	   		najune			ataget2, dataget3 추가
+ *
+ *  2022. 7. 28.		              id 중복체크 구현
+ *            
  *  2022. 8. 3.			qwaszx357			chart1, chart2 생성
- *  
+ *
+ *                  noranbear			loadalarm 추가
+ * 
+ *	2022. 8. 4.								loadalarm 수정
+ *
+ *											 switchbt 생성
+ *
  * =================================================================
  */
 
@@ -75,6 +83,9 @@ public class AJAXController {
 	MymediBiz mbiz;
 	
 	@Autowired
+	AlarmBiz abiz;
+  
+  @Autowired
 	UsersBiz ubiz;
 	
 	@Autowired
@@ -188,6 +199,78 @@ public class AJAXController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	
+	/**
+	 * alarm tbl에 있는 데이터를 아래의 형태의 json으로 바꿔서 pdetail.html에 보내는 함수
+	 * [	{	title: '아침',
+	 *			start: '2022-08-22T13:30'
+	 *   	}, ... ] 
+	 * @param pid	해당 알람 정보의 pid
+	 * @return ja	json화된 알람 데이터
+	 */
+	@RequestMapping("loadalarm")
+	public Object loadalarm(int pid) {
+		JSONArray ja = new JSONArray();		// [ ]
+        List<AlarmVo> list = null;
+
+        try {
+        	// 1. 알람정보 가져오기
+			list = abiz.getpalarms(pid);	
+			
+			// 2. Object에 데이터 넣기
+			for (int i=0; i < list.size(); i++) {
+				String dformat = list.get(i).getDate() + "T" + list.get(i).getTime();	// start 포맷으로 변환
+				JSONObject jo = new JSONObject();	// { }
+				
+				jo.put("title", list.get(i).getMad());
+				jo.put("start", dformat);
+				
+				ja.add(jo);		// Json Array에 넣기
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+        return ja;
+	}
+	
+	/**
+	 * 알람버튼 상태 스위치하는 함수
+	 * @param aid	알람 id
+	 * @return btaid	알람버튼 상태 + 눌린 버튼 id
+	 */
+	@RequestMapping("/switchbt")
+    public String switchbt(int aid) {
+		String btaid = "";
+		AlarmVo al = null;
+		AlarmVo al2 = null;
+		
+		try {
+			al = abiz.get(aid);		// 해당 알람을 가져옴
+			
+			// 알람이 체크가 안 되어 있는 경우
+			if(al.getButton().equals("undone")) {
+				al2 = new AlarmVo(aid, "done");		// 체크하기
+				abiz.switchbt(al2);
+				
+				btaid = "dbt" + aid;		// pdetail.html에서 버튼 상태 확인용
+
+			// 알람이 체크가 되어 있는 경우	
+			}else {
+				al2 = new AlarmVo(aid, "undone");	// 체크 풀기
+				abiz.switchbt(al2);
+				
+				btaid += "ubt" + aid;		// pdetail.html에서 버튼 상태 확인용
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return btaid;
 	}
 	
 	// ID 중복 확인
