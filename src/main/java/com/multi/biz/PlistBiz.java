@@ -23,6 +23,8 @@ import com.multi.vo.PlistVo;
  *  
  *  2022. 7. 19.		qwaszx357			get_ing 생성
  *  										get_end 생성
+ *  
+ *  2022. 8. 05			najune				gettheone생성
  *
  *	2022. 8. 3. 		noranbear			getenddate 생성
  *
@@ -92,7 +94,7 @@ public class PlistBiz implements Biz<Integer, PlistVo>{
 		return dao.selectenddate(k);
 	}
 
-	
-	
-	
+	public PlistVo gettheone(PlistVo v) throws Exception{
+		return dao.selecttheone(v);
+	}
 }

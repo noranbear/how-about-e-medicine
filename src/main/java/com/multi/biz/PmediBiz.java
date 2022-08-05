@@ -22,6 +22,9 @@ import com.multi.vo.PmediVo;
  *  2022. 7. 13.		qwaszx357		  First Creation
  *
  *	2022. 7. 25.		 najune				 get_medi 추가
+ *
+ *	2022. 8. 05.		 						 add 추가
+ *
  * =========================================================
  */
 @Service
@@ -60,7 +63,9 @@ public class PmediBiz implements Biz<Integer, PmediVo>{
 	public List<PmediVo> get_medi(Integer k) throws Exception {
 		return dao.select_medi(k);
 	}
-	
-	
+
+	public List<PmediVo> add(PmediVo pmedi) throws Exception {
+		return dao.add(pmedi);
+	}
 
 }

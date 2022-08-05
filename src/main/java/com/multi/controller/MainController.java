@@ -443,8 +443,36 @@ public class MainController {
         }
          return "index";
     }
-	
-	/**
+    
+    /**
+	 * 처방내역 페이지 연결
+	 * @throws Exception 
+	 */
+    @RequestMapping("/padd")
+    public String padd() {  
+        return "padd";
+    }
+		
+    @RequestMapping("/addimpl")
+	public String addimpl(Model m, PlistVo plist, String name) {	      
+         int listId = 0;		
+         
+         try {
+         	 plistbiz.register(plist);
+    	     plist = plistbiz.gettheone(plist);
+     
+             if(plist.getId() != 0) {		
+					listId = plist.getId();
+					PmediVo medi = new PmediVo(name, listId);
+					pmedibiz.register(medi);												
+				}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}                                       
+        m.addAttribute("center", "plist");
+		return "index";
+	}
+    /**
 	 * 복약내역상세 페이지 연결
 	 * @return pdetail.html
 	 */
@@ -474,7 +502,6 @@ public class MainController {
         m.addAttribute("center", "pdetail"); 
         return "index";
     }
-	
 	
 	/**
 	 * 메인페이지에서 ocr창으로 들어온 1. 이미지 저장, 2. ocrbox search, 
