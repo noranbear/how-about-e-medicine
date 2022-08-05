@@ -441,5 +441,24 @@ public class MainController {
 		return "index";
 
 	}
+	
+	/**
+	 * 지도 페이지 연결
+	 * @return location
+	 */
+	@RequestMapping("/location")
+	public String location(Model m, Integer id) {
+		PlistVo pli = null;
+		String phos = "";
+		try {
+			pli = plistbiz.get(id);
+			phos = pli.getHospital();
+			m.addAttribute("phospital", phos);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		m.addAttribute("center", "location");
+		return "index";
+	}
 
 }

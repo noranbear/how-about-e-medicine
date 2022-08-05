@@ -147,7 +147,8 @@ document.addEventListener('DOMContentLoaded', function() {
 								<h6 class="mb-0">병원 정보</h6>
 							</div>
 							<div class="col-6 text-end">
-								<a class="btn bg-gradient-dark mb-0" href="javascript:;"><i class="fas fa-map-marker-alt text-sm"></i>&nbsp;&nbsp;지도로 보기</a>
+								<a class="btn bg-gradient-dark mb-0" th:onclick="|location.href='@{/location(id=${p.id})}'|"><i class="fas fa-map-marker-alt text-sm"></i>&nbsp;&nbsp;지도로 보기</a>
+								
 							</div>
 						</div>
 					</div>
