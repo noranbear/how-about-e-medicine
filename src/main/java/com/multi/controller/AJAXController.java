@@ -199,7 +199,7 @@ public class AJAXController {
         List<AlarmVo> list = null;
 
         try {
-        	// 1. 약정보 가져오기
+        	// 1. 알람정보 가져오기
 			list = abiz.getpalarms(pid);	
 			
 			// 3. Object에 데이터 넣기
