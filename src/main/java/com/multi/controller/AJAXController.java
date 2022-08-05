@@ -202,7 +202,7 @@ public class AJAXController {
         	// 1. 알람정보 가져오기
 			list = abiz.getpalarms(pid);	
 			
-			// 3. Object에 데이터 넣기
+			// 2. Object에 데이터 넣기
 			for (int i=0; i < list.size(); i++) {
 				String dformat = list.get(i).getDate() + "T" + list.get(i).getTime();	// start 포맷으로 변환
 				JSONObject jo = new JSONObject();	// { }
