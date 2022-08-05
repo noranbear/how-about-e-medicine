@@ -39,7 +39,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 14.0
+ * @version 14.1
  * @description
  *
  *
@@ -458,8 +458,8 @@ public class MainController {
          int listId = 0;		
          
          try {
-         	 plistbiz.register(plist);
-    	     plist = plistbiz.gettheone(plist);
+         	 plibiz.register(plist);
+    	     plist = plibiz.gettheone(plist);
      
              if(plist.getId() != 0) {		
 					listId = plist.getId();
@@ -596,7 +596,7 @@ public class MainController {
 		PlistVo pli = null;
 		String phos = "";
 		try {
-			pli = plistbiz.get(id);
+			pli = plibiz.get(id);
 			phos = pli.getHospital();
 			m.addAttribute("phospital", phos);
 		} catch (Exception e) {
