@@ -39,7 +39,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 14.1
+ * @version 15.0
  * @description
  *
  *
@@ -104,8 +104,11 @@ import com.multi.vo.UsersVo;
  *
  *											복약 알람 화면 구현을 위해 
  *												 pdetail 수정
- *
+ *  
  *                  ynr1734             location 
+ *
+ *  2022. 8. 5.			qwaszx357				editstop 생성
+ *												editdone 생성
  *	
  * ====================================================================
  */
@@ -423,18 +426,33 @@ public class MainController {
 	 */
     @RequestMapping("/plist")
     public String plist(Model m, HttpSession session) {
-        List<PlistVo> inglist = null;
-        List<PlistVo> endlist = null;
+        List<PlistVo> ulist = null;
         UsersVo users = null;
+        AlarmVo alarm = null;
+		double gage = 0.0;
         
         if(session.getAttribute("signinusers") != null){
             users = (UsersVo) session.getAttribute("signinusers");
             
             try {
-                inglist = plibiz.get_ing(users.getId());
-                m.addAttribute("ilist", inglist);
-                endlist = plibiz.get_end(users.getId());
-                m.addAttribute("elist", endlist);
+                ulist = plibiz.getuser(users.getId());
+               
+                // 남은 복용일
+                for (int i = 0; i < ulist.size(); i++) {
+                	if (ulist.get(i).getStatus() == "복용 완료") {
+                    	ulist.get(i).setDday(0);
+                    }
+				}
+                m.addAttribute("ulist", ulist);
+                //System.out.println(ulist.get(1).getDday());
+                
+                // 순응도
+                alarm = abiz.donegage(1);
+                if (alarm != null) {
+                	gage = alarm.getGage();
+                } else {
+                	gage = 0.0;
+                }
                 m.addAttribute("center", "plist");
             } catch (Exception e) {    
                 e.printStackTrace();
@@ -502,6 +520,37 @@ public class MainController {
         m.addAttribute("center", "pdetail"); 
         return "index";
     }
+	
+	/**
+	 * 복약 완료
+	 * @param id
+	 * @return plist.html
+	 */
+	@RequestMapping("/editdone")
+	public String editdone(int id) {
+		try {
+			plibiz.editdone(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:plist";
+	}
+	
+	
+	/**
+	 * 복약 중지
+	 * @param id
+	 * @return plist.html
+	 */
+	@RequestMapping("/editstop")
+	public String editstop(int id) {
+		try {
+			plibiz.editstop(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:plist";
+	}
 	
 	/**
 	 * 메인페이지에서 ocr창으로 들어온 1. 이미지 저장, 2. ocrbox search, 

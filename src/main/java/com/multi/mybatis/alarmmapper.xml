@@ -33,4 +33,12 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	    SELECT * FROM alarm WHERE DATE=CURDATE() AND PID=#{pid}
 	</select>
 	
+	<!-- 순응도 구현 -->
+	<select id="donegage"  parameterType="int" resultType="alarmVo">
+	    SELECT ROUND((COUNT(*) / (SELECT COUNT(*) FROM alarm a
+		INNER JOIN plist p ON p.id = a.pid WHERE p.id=#{pid})) * 100,0) AS gage FROM alarm a
+		INNER JOIN plist p ON p.id = a.pid
+		WHERE PID=#{pid} AND a.button="done"
+	</select>
+	
 </mapper>

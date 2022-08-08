@@ -6,12 +6,14 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.multi.biz.AlarmBiz;
 import com.multi.biz.DashBiz;
 import com.multi.biz.MymediBiz;
+import com.multi.biz.PlistBiz;
 import com.multi.biz.UsersBiz;
 import com.multi.mapper.UsersMapper;
 import com.multi.restapi.DataAPI;
@@ -21,12 +23,14 @@ import com.multi.restapi.OCRBoxAPI;
 import com.multi.restapi.OCREnvelopeAPI;
 import com.multi.vo.AlarmVo;
 import com.multi.vo.MymediVo;
+import com.multi.vo.PlistVo;
+import com.multi.vo.PmediVo;
 import com.multi.vo.SlistVo;
 
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 9.0
+ * @version 10.0
  * @description
  *
  *
@@ -57,6 +61,8 @@ import com.multi.vo.SlistVo;
  *	2022. 8. 4.								loadalarm 수정
  *
  *											 switchbt 생성
+ *
+ *	2022. 8. 6.			qwaszx357			donegage 생성
  *
  * =================================================================
  */
@@ -93,6 +99,9 @@ public class AJAXController {
 	
 	@Autowired
 	DashBiz dbiz;
+	
+	@Autowired
+	PlistBiz plibiz;
 	
 	
 	/**
@@ -313,4 +322,26 @@ public class AJAXController {
 		// System.out.println(cmlist);
 		return cmlist;
 	}
+	
+	// 순응도
+	@RequestMapping("/donegage")
+    public double donegage(int pid) {
+		AlarmVo alarm = null;
+		int gage = 0;
+			
+        try {
+            alarm = abiz.donegage(pid);
+            if (alarm != null) {
+            	gage = alarm.getGage();
+            } else {
+            	gage = 0;
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // System.out.println(gage);
+        return gage;
+    }
+
 }

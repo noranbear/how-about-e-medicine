@@ -12,7 +12,7 @@ import com.multi.vo.PlistVo;
 /**
  * @author qwaszx357
  * @date 2022. 7. 19
- * @version 1.0
+ * @version 2.0
  * @description
  *
  *
@@ -20,11 +20,13 @@ import com.multi.vo.PlistVo;
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
  *  2022. 7. 19.		qwaszx357		  	First Creation
+ *  
+ *  2022. 8. 6.			qwaszx357		mapper.xml변동으로 수정
  *
  * =========================================================
  */
 @SpringBootTest
-class PlistSelect_EndTests {
+class PlistSelectUserTests {
 
 	@Autowired
 	PlistBiz biz;
@@ -33,7 +35,7 @@ class PlistSelect_EndTests {
 	void contextLoads() {
 		List<PlistVo> list = null;
 		try {
-			list = biz.get_end("id02");
+			list = biz.getuser("id01");
 			for (PlistVo plist : list) {
 				System.out.println(plist);
 			}
