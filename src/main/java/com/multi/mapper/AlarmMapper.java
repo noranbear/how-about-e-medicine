@@ -10,7 +10,7 @@ import com.multi.vo.AlarmVo;
 /**
  * @author qwaszx357
  * @date 2022. 7. 13.
- * @version 4.0
+ * @version 5.0
  * @description
  *
  *
@@ -24,6 +24,8 @@ import com.multi.vo.AlarmVo;
  *  2022. 8. 4.                          selectpalarms2 추가
  *
  *                                          updatebt 추가
+ *
+ *	2022. 8. 5.			qwaszx357			donegage 생성
  *
  * =========================================================
  */
@@ -45,5 +47,8 @@ public interface AlarmMapper {
     public List<AlarmVo> selectpalarms(int pid) throws Exception;
     // 처방전의 현재 날짜의 알람을 가져온다.
     public List<AlarmVo> selectpalarms2(int pid) throws Exception;
+    
+    //순응도
+    public AlarmVo donegage(int id) throws Exception;
 
 }

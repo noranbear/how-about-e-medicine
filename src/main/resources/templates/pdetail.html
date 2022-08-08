@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 6.1 -->
+<!-- Version: 7.0 -->
 <!-- Description: 처방상세내역 및 복약관리 페이지
 
 -------------------------------------------------------------------------
@@ -45,6 +45,8 @@
 										따른 버튼 디자인 변경을 ajax로 구현 
 
 											복약 알람 없을 시 화면 구현
+
+2022. 8. 4.				qwaszx357				순응도 구현											
 
 -------------------------------------------------------------------------
 -->
@@ -153,6 +155,39 @@ function caldisplay(data) {
 	
 }
 
+/**
+ * 복약 완료 버튼 클릭 시 순응도 변경
+ */
+function donegage() {
+	var pid = $('#pid').text();
+	var gage = 0;
+	
+	$.ajax({
+		method: 'GET',
+		url:'/donegage',
+		data:{'pid':pid},
+		success:function(data){
+			$('#donegage').text(data + ' %');
+			gage = data;
+			
+			// 순응도가 100일 경우 복용 완료로 변경
+			if (gage == 100) {
+				$('#done-form').attr({
+					'method':'post',
+					'action':'editdone' 
+				});
+				$('#done-form').submit();
+			}
+		},
+		error: function(error) {
+			alert("error");
+		}
+		
+	});
+	
+	
+}
+
 
 $(document).ready(function(){
 	// 처방전 아이디
@@ -228,6 +263,31 @@ $(document).ready(function(){
 		});
 		
 	});
+	
+	/* 초기 순응도 */
+	$.ajax({
+		method: 'GET',
+		url:'/donegage',
+		data:{'pid':pid},
+		success:function(data){
+			$('#donegage').text(data + ' %');
+			gage = data;
+		},
+		error: function(error) {
+			alert("error");
+		}
+		
+	});
+	
+	/* 복약 중지 버튼 클릭 시, days 멈추고 '복용 중지'로 변경한다. */
+	$('#stop-btn').click(function(){
+		$('#stop-form').attr({
+			'method':'post',
+			'action':'editstop' 
+		});
+		$('#stop-form').submit();
+	});
+
 });
 
 
@@ -266,6 +326,9 @@ function switchBtColor(btinfo){
 		
 		$('#' + spid).text(atime[0] + " 미완료");		// 뒤에 메세지 바꿔주기
 	}
+	
+	// 순응도 변경
+	donegage();
 	
 }
 
@@ -335,7 +398,7 @@ function switchBtColor(btinfo){
 							<div class="card-body pt-0 p-3 py-4 text-center">
 								<h6 class="text-center mb-0">복약 순응도</h6>
 								<hr class="horizontal dark my-3">
-								<h2 class="mb-0">60%</h2>
+								<h2 class="mb-0" id="donegage"></h2>
 							</div>
 						</div>
 					</div>
@@ -436,10 +499,13 @@ function switchBtColor(btinfo){
 												<p>복약기간을 완료하지 않고<br> 복약을 중지하면 순응도를 잃게 됩니다.</p>
 											</div>
 										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn bg-gradient-primary">확인</button>
-											<button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal">닫기</button>
-										</div>
+										<form id="stop-form"  method="post" th:action="@{/doneupdate}">
+											<div class="modal-footer">
+												<input type="hidden" th:value="${p.id}" name="id">
+												<button id="stop-btn" type="submit" class="btn bg-gradient-primary">확인</button>
+												<button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal">닫기</button>
+											</div>
+										</form>
 									</div>
 								</div>
 						    </div>
@@ -540,14 +606,17 @@ function switchBtColor(btinfo){
 									</span>
 								</div>
 							</div>
-							<div class="d-flex align-items-center" th:if="${al.button.equals('undone')}">
-								<button type="button" class="btn btn-outline-danger mb-0 me-0 btn-sm justify-content-center"
-										th:attrappend="id='bt'+ ${al.id}" name="consume_bt">복용완료</button>
-							</div>
-							<div class="d-flex align-items-center" th:unless="${al.button.equals('undone')}">
-								<button type="button" class="btn btn-outline-success mb-0 me-0 btn-sm justify-content-center"
-										th:attrappend="id='bt'+ ${al.id}" name="consume_bt">복용완료</button>
-							</div>
+							<form id="done-form">
+								<input type="hidden" th:value="${p.id}" name="id">
+								<div class="d-flex align-items-center" th:if="${al.button.equals('undone')}">
+									<button type="button" class="btn done-btn btn-outline-danger mb-0 me-0 btn-sm justify-content-center"
+											th:attrappend="id='bt'+ ${al.id}" name="consume_bt">복용완료</button>
+								</div>
+								<div class="d-flex align-items-center" th:unless="${al.button.equals('undone')}">
+									<button type="button" class="btn done-btn btn-outline-success mb-0 me-0 btn-sm justify-content-center"
+											th:attrappend="id='bt'+ ${al.id}" name="consume_bt">복용완료</button>
+								</div>
+							</form>
 						</li>
 					</ul>
 				</div>

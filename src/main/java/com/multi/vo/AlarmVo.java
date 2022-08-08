@@ -9,7 +9,7 @@ import lombok.ToString;
 /**
  * @author qwaszx357
  * @date 2022. 7. 13.
- * @version 4.0
+ * @version 5.0
  * @description
  *
  *
@@ -26,6 +26,8 @@ import lombok.ToString;
  *
  *									updatebt 함수를 위해 id와 button 
  *									  값만 받는 Constructor 생성
+ *
+ *	2022. 8. 5.			qwaszx357			gage 생성
  * ================================================================
  */
  
@@ -41,6 +43,8 @@ public class AlarmVo {
 	private String button;
 	private String date;
 	private int pid;
+	
+	private int gage;	// 순응도
 	
 	// Constructor for insert
 	public AlarmVo(String mad, String time, String date, int pid) {

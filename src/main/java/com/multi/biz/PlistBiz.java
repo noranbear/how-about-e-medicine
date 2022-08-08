@@ -12,7 +12,7 @@ import com.multi.vo.PlistVo;
 /**
  * @author najune
  * @date 2022. 7. 13.
- * @version 3.0
+ * @version 4.0
  * @description
  *
  *
@@ -25,6 +25,9 @@ import com.multi.vo.PlistVo;
  *  										get_end 생성
  *
  *	2022. 8. 3. 		noranbear			getenddate 생성
+ *
+ *  2022. 8. 5.			qwaszx357			editstop 생성
+ *											editdone 생성
  *
  * =========================================================
  */
@@ -64,23 +67,12 @@ public class PlistBiz implements Biz<Integer, PlistVo>{
 	}
 
 	/**
-	 * 처방내역에 복용중인 약 출력
+	 * 처방내역에 출력
 	 * @param k
 	 * @return
-	 * @throws Exception
 	 */
-	public List<PlistVo> get_ing(String k) throws Exception {
-		return dao.select_ing(k);
-	}
-	
-	/**
-	 * 처방내역에 복용 완료된 약 출력
-	 * @param k
-	 * @return
-	 * @throws Exception
-	 */
-	public List<PlistVo> get_end(String k) throws Exception {
-		return dao.select_end(k);
+	public List<PlistVo> getuser(String k) throws Exception {
+		return dao.selectuser(k);
 	}
 	
 	/**
@@ -91,8 +83,23 @@ public class PlistBiz implements Biz<Integer, PlistVo>{
 	public PlistVo getenddate(Integer k) throws Exception {
 		return dao.selectenddate(k);
 	}
+	
+	/**
+	 * 복용 완료
+	 * @param k 처방전 아이디
+	 */
+	public void editdone(Integer k) throws Exception {
+		dao.editdone(k);
+		
+	}
 
-	
-	
+	/**
+	 * 복용 중지 버튼 클릭 시
+	 * @param k 처방전 아이디
+	 */
+	public void editstop(Integer k) throws Exception {
+		dao.editstop(k);
+		
+	}
 	
 }

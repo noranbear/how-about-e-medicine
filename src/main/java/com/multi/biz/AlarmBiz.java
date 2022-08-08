@@ -12,7 +12,7 @@ import com.multi.vo.AlarmVo;
 /**
  * @author qwaszx357
  * @date 2022. 7. 13.
- * @version 4.0
+ * @version 5.0
  * @description
  *
  *
@@ -26,6 +26,8 @@ import com.multi.vo.AlarmVo;
  *	2022. 8. 4.							   getpalarms2 추가
  *
  *											switchbt 추가
+ *
+ *	2022. 8. 5.			qwaszx357			donegage 생성
  *
  * =========================================================
  */
@@ -85,6 +87,15 @@ public class AlarmBiz implements Biz<Integer, AlarmVo> {
 	 */
 	public List<AlarmVo> getpalarms2(Integer p) throws Exception {
 		return dao.selectpalarms2(p);
+	}
+	
+	/**
+	 * 순응도를 계산하여 출력한다.
+	 * @param k 처방전 아이디
+	 * @return AlarmVo
+	 */
+	public AlarmVo donegage(Integer k) throws Exception {
+		return dao.donegage(k);
 	}
 
 }
