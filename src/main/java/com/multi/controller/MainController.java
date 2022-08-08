@@ -39,7 +39,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 14.0
+ * @version 15.0
  * @description
  *
  *
@@ -104,6 +104,8 @@ import com.multi.vo.UsersVo;
  *
  *											복약 알람 화면 구현을 위해 
  *												 pdetail 수정
+ *  
+ *                  ynr1734             location 
  *
  *  2022. 8. 5.			qwaszx357				editstop 생성
  *												editdone 생성
@@ -459,8 +461,36 @@ public class MainController {
         }
          return "index";
     }
-	
-	/**
+    
+    /**
+	 * 처방내역 페이지 연결
+	 * @throws Exception 
+	 */
+    @RequestMapping("/padd")
+    public String padd() {  
+        return "padd";
+    }
+		
+    @RequestMapping("/addimpl")
+	public String addimpl(Model m, PlistVo plist, String name) {	      
+         int listId = 0;		
+         
+         try {
+         	 plibiz.register(plist);
+    	     plist = plibiz.gettheone(plist);
+     
+             if(plist.getId() != 0) {		
+					listId = plist.getId();
+					PmediVo medi = new PmediVo(name, listId);
+					pmedibiz.register(medi);												
+				}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}                                       
+        m.addAttribute("center", "plist");
+		return "index";
+	}
+    /**
 	 * 복약내역상세 페이지 연결
 	 * @return pdetail.html
 	 */
@@ -607,6 +637,26 @@ public class MainController {
 	}
 	
 	/**
+	 * 지도 페이지 연결
+	 * @return location
+	 */
+	@RequestMapping("/location")
+	public String location(Model m, Integer id) {
+		PlistVo pli = null;
+		String phos = "";
+		try {
+			pli = plibiz.get(id);
+			phos = pli.getHospital();
+			m.addAttribute("phospital", phos);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		m.addAttribute("center", "location");
+		return "index";
+  }
+  
+  
+  /**
 	 * Alarm tbl에 알람 데이터를 추가
 	 * @return 처방디테일 페이지로 돌아감
 	 */

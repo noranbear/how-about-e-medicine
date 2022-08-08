@@ -27,6 +27,10 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		INNER JOIN users u ON p.uid = u.id WHERE p.uid=#{uid}
 	</select>
 	
+  <!-- 동일한 유저 아이디, 조제일자, 병원이름을 가진 처방전 리턴 -->
+	<select id="selecttheone" parameterType="plistVo" resultType="plistVo">
+		SELECT * FROM plist WHERE UID=#{uid} AND PDATE=#{pdate} AND HOSPITAL=#{hospital}
+  </select>
 	<!-- 복약알람 끝나는 날짜 반환 -->
 	<select id="selectenddate" parameterType="int" resultType="plistVo">
 		SELECT p.id, p.uid, p.hospital, p.pdate, p.days, DATE_ADD(p.pdate, INTERVAL p.days DAY) AS enddate FROM plist p

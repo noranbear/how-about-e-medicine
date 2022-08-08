@@ -21,6 +21,8 @@ import com.multi.vo.PmediVo;
  *  
  *  2022. 7. 25.		 najune			  select_medi 추가
  *  
+ *  2022. 8. 05.				  			add 추가
+ *  
  * =========================================================
  */
 @Repository
@@ -35,6 +37,7 @@ public interface PmediMapper {
     public List<PmediVo> selectall() throws Exception;
     
     public List<PmediVo> select_medi(int id)throws Exception;
+    
+    public List<PmediVo> add(PmediVo pmedi) throws Exception;
 	
-
 }
