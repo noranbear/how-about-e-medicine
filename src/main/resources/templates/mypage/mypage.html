@@ -14,14 +14,17 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 
-<!-- Version: 1.0 -->
+<!-- Version: 3.0 -->
 <!-- Description: 마이페이지
 
 -------------------------------------------------------------------------------
 	Date			 Author							Note
 -------------------------------------------------------------------------------
 2022. 8. 5.	    	noranbear				   First Creation 
-                                      		  복약알람탭 구현 완료
+
+2022. 8. 9.                                    복약알람탭 구현 완료
+
+                                               처방내역탭 구현 완료
 			  							 
 -------------------------------------------------------------------------------
 -->
@@ -33,10 +36,49 @@
 
 <script>
 /**
+ * AJAX로 받은 JSON 처방내역 데이터를 화면에 출력
+ */
+function displayPl(plists) {
+	var html = "";
+	
+	// 제목
+	html += "<div class='card-header pb-0 p-3'><h6 class='mb-0'>복용중</h6></div>";
+
+	// 틀
+	html += "<div class='card-body p-3'>";
+	html += "<ul class='list-group'>";
+	
+	// 데이터 출력 부분
+	for(let i = 0; i< plists.length; i++) {
+		var pid = plists[i].id;				// 처방전 아이디
+		var hosp = plists[i].hospital;		// 병원명
+		var pdate = plists[i].pdate;		// 조제일자
+		var dtime = plists[i].dtime;		// 투약시간
+		var enddate = plists[i].enddate;	// 복용마침일
+		
+		html += "<li class='list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0'>";
+		html += "<div class='avatar me-3'>";
+		html += "<img src='../img/prescript-icon.png' alt='처방전 아이콘' class='border-radius-lg shadow'></div>";
+		html += "<div class='d-flex align-items-start flex-column justify-content-center'>";
+		html += "<a class='mb-0 text-sm' style='font-weight: 600;' href='/pdetail?id="+ pid +"'>"+ hosp +"</a>";
+		html += "<p class='mb-0 text-xs'>"+ pdate + " ~ " + enddate +"</p></div>";
+		html += "<a class='btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto' style='cursor:default;'>"+ dtime +"</a></li>";
+		
+	}
+
+	// 틀 close
+	html += "</ul></div>";
+	
+	// 2. 생성된 리스트 출력
+	$('#tabdiv').html(html);
+
+}
+
+/**
  * AJAX로 받은 JSON 알람 데이터를 화면에 출력
  */
 function displayAl(alarms) {
-	var html= "";
+	var html = "";
 	
 	// 제목
 	html += "<div class='card-header pb-0 p-3'>";
@@ -47,6 +89,7 @@ function displayAl(alarms) {
 	html += "<div class='card-body p-3'>";
 	html += "<ul class='list-group'>";
 	
+	// 데이터 출력 부분
 	for(let i = 0; i< alarms.length; i++) {
 		var mad = alarms[i].mad;		// 아침,점심,저녁
 		var time = alarms[i].time;
@@ -112,6 +155,23 @@ $(document).ready(function(){
 		
 		// 알람 가져오기
 		getAlarm();
+	});
+	
+	// 처방내역 탭이 눌렸을 때
+	$('#getplist').click(function(){
+		$('#tabdiv').empty();
+		
+		$.ajax({
+			method: 'POST',
+			url:'/get5plists',
+			success:function(data){
+				displayPl(data);
+			},
+			error: function(error) {
+				alert("error");
+			}
+			
+		});
 	});
 	
 });

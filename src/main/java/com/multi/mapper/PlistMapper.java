@@ -11,7 +11,7 @@ import com.multi.vo.PlistVo;
 /**
  * @author najune
  * @date 2022. 7. 13.
- * @version 4.0
+ * @version 5.0
  * @description
  *
  *
@@ -26,6 +26,8 @@ import com.multi.vo.PlistVo;
  *	2022. 8. 3.			noranbear		  selectenddate 생성
  *
  *	2022. 8. 5.			najune				selecttheone 생성
+ *
+ *	2022. 8. 9.			noranbear		  select5plists 생성
  *
  * =========================================================
  */
@@ -49,6 +51,9 @@ public interface PlistMapper {
 	public PlistVo selecttheone(PlistVo plist) throws Exception;
 	// 복약 끝나는 날짜도 같이 출력
 	public PlistVo selectenddate(int id) throws Exception;
+	
+	// 해당 유저의 최대 5개의 복용중 상태인 처방내역 리턴
+	public List<PlistVo> select5plists(String uid) throws Exception;
 	
 
 	
