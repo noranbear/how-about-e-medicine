@@ -10,15 +10,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.multi.biz.AlarmBiz;
+import com.multi.biz.MymediBiz;
 import com.multi.biz.PlistBiz;
 import com.multi.vo.AlarmVo;
+import com.multi.vo.MymediVo;
 import com.multi.vo.PlistVo;
 import com.multi.vo.UsersVo;
 
 /**
  * @author noranbear
  * @date 2022. 8. 8.
- * @version 2.0
+ * @version 3.0
  * @description
  *
  *
@@ -30,6 +32,8 @@ import com.multi.vo.UsersVo;
  *
  *	2022. 8. 9.								get5plists 추가
  *	
+ *											get5medis 추가
+ *
  * =================================================================
  */
 
@@ -37,10 +41,14 @@ import com.multi.vo.UsersVo;
 public class AJAXMypageController {
 	
 	@Autowired
+	MymediBiz mbiz;
+	
+	@Autowired
 	PlistBiz plbiz;
 	
 	@Autowired
 	AlarmBiz abiz;
+	
 	
 	
 	/**
@@ -122,6 +130,47 @@ public class AJAXMypageController {
 				jo.put("pdate", list.get(i).getPdate());
 				jo.put("dtime", list.get(i).getDtime());
 				jo.put("enddate", list.get(i).getEnddate());
+				
+				ja.add(jo);		// Json Array에 넣기
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+        return ja;
+	}
+	
+	/**
+	 * mymedi tbl에 있는 데이터 중 만료일 임박 상태인 5개의 약내역을 아래의 형태의 json으로 바꿔서 mypage.html에 보내는 함수
+	 * [	{	name: '판콜',
+	 *			note: '배가 아플 때 복용'
+	 *			dday: 4
+	 *   	}, ... ] 
+	 * @return ja Json화된 약내역 데이터
+	 */
+	@RequestMapping("get5medis")
+	public Object get5medis(HttpSession session) {
+		JSONArray ja = new JSONArray();		// [ ]
+        List<MymediVo> list = null;
+        UsersVo users = null;
+        String uid = "";
+        
+        try {
+        	// 1. 유저 아이디 가져오기
+        	users = (UsersVo) session.getAttribute("signinusers");
+        	uid = users.getId();
+        	
+        	// 2. 해당 유저 아이디로 된 약내역정보 가져오기
+			list = mbiz.get5medis(uid);	
+			
+			// 3. Object에 데이터 넣기
+			for (int i=0; i < list.size(); i++) {
+				JSONObject jo = new JSONObject();	// { }
+				
+				jo.put("name", list.get(i).getName());
+				jo.put("note", list.get(i).getNote());
+				jo.put("dday", list.get(i).getDday());
 				
 				ja.add(jo);		// Json Array에 넣기
 			}

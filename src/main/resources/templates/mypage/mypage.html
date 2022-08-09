@@ -14,7 +14,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 
-<!-- Version: 3.0 -->
+<!-- Version: 4.0 -->
 <!-- Description: 마이페이지
 
 -------------------------------------------------------------------------------
@@ -25,6 +25,9 @@
 2022. 8. 9.                                    복약알람탭 구현 완료
 
                                                처방내역탭 구현 완료
+
+                                             약 보관함 탭 구현 완료 및
+                                          탭 데이터 없을 때 화면 구현 완료
 			  							 
 -------------------------------------------------------------------------------
 -->
@@ -35,6 +38,60 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
+/**
+ * AJAX로 받은 JSON 내약 리스트 데이터를 화면에 출력
+ */
+function displayMe(medis) {
+	var html = "";
+	
+	// 제목
+	html += "<div class='card-header pb-0 p-3'><h6 class='mb-0'>남은 만료일</h6></div>";
+
+	// 틀
+	html += "<div class='card-body p-3'>";
+	html += "<ul class='list-group'>";
+	
+	// 데이터 출력 부분
+	if(medis == ""){	// 데이터가 없을 때
+		html += "<li class='list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0'>";
+		html += "<i class='material-icons pt-sm-5' style='left: 50%; top: 50%; transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); position: absolute;'>error_outline</i>";
+		html += "<a class='d-sm-block text-sm pt-sm-7' href='/mymedi' style='left: 50%; top: 100%; transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); position: absolute;'>약을 추가해 주세요.</a>";
+		
+		// 틀 close
+		html += "</li></ul></div>";
+		
+	}else {
+		// 데이터가 있을 때
+		for(let i = 0; i< medis.length; i++) {
+			var name = medis[i].name;			// 약명
+			var note = medis[i].note;			// 노트
+			var dday = medis[i].dday;			// 현재날짜로부터 만료일까지 남은 일수
+			
+			html += "<li class='list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0'>";
+			html += "<div class='avatar me-3'>";
+			html += "<img src='../img/med-icon.png' alt='약 아이콘' class='border-radius-lg shadow'></div>";
+			html += "<div class='d-flex align-items-start flex-column justify-content-center'>";
+			html += "<h6 class='mb-0 text-sm'>"+ name +"</h6>";
+			
+			// 노트가 없을 때
+			if(note == null){
+				html += "<p class='mb-0 text-xs'>특이사항 없음</p></div>";
+			}else {
+				html += "<p class='mb-0 text-xs'>"+ note +"</p></div>";
+			}
+			
+			html += "<a class='btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto' style='cursor:default;'>"+ dday +"일</a></li>";
+		}
+		
+		// 틀 close
+		html += "</ul><a class='text-xs float-end cursor-pointer' href='/mymedi'>보관함으로 가기</a></div>";
+	}
+	
+	// 2. 생성된 리스트 출력
+	$('#tabdiv').html(html);
+	
+}
+
 /**
  * AJAX로 받은 JSON 처방내역 데이터를 화면에 출력
  */
@@ -49,21 +106,30 @@ function displayPl(plists) {
 	html += "<ul class='list-group'>";
 	
 	// 데이터 출력 부분
-	for(let i = 0; i< plists.length; i++) {
-		var pid = plists[i].id;				// 처방전 아이디
-		var hosp = plists[i].hospital;		// 병원명
-		var pdate = plists[i].pdate;		// 조제일자
-		var dtime = plists[i].dtime;		// 투약시간
-		var enddate = plists[i].enddate;	// 복용마침일
-		
+	if(plists == ""){	// 데이터가 없을 때
 		html += "<li class='list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0'>";
-		html += "<div class='avatar me-3'>";
-		html += "<img src='../img/prescript-icon.png' alt='처방전 아이콘' class='border-radius-lg shadow'></div>";
-		html += "<div class='d-flex align-items-start flex-column justify-content-center'>";
-		html += "<a class='mb-0 text-sm' style='font-weight: 600;' href='/pdetail?id="+ pid +"'>"+ hosp +"</a>";
-		html += "<p class='mb-0 text-xs'>"+ pdate + " ~ " + enddate +"</p></div>";
-		html += "<a class='btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto' style='cursor:default;'>"+ dtime +"</a></li>";
+		html += "<i class='material-icons pt-sm-5' style='left: 50%; top: 50%; transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); position: absolute;'>error_outline</i>";
+		html += "<a class='d-sm-block text-sm pt-sm-7' href='/plist' style='left: 50%; top: 100%; transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); position: absolute;'>처방내역을 추가해 주세요.</a>";
+		html += "</li>";
 		
+	}else {
+		// 데이터가 있을 때
+		for(let i = 0; i< plists.length; i++) {
+			var pid = plists[i].id;				// 처방전 아이디
+			var hosp = plists[i].hospital;		// 병원명
+			var pdate = plists[i].pdate;		// 조제일자
+			var dtime = plists[i].dtime;		// 투약시간
+			var enddate = plists[i].enddate;	// 복용마침일
+			
+			html += "<li class='list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0'>";
+			html += "<div class='avatar me-3'>";
+			html += "<img src='../img/prescript-icon.png' alt='처방전 아이콘' class='border-radius-lg shadow'></div>";
+			html += "<div class='d-flex align-items-start flex-column justify-content-center'>";
+			html += "<a class='mb-0 text-sm' style='font-weight: 600;' href='/pdetail?id="+ pid +"'>"+ hosp +"</a>";
+			html += "<p class='mb-0 text-xs'>"+ pdate + " ~ " + enddate +"</p></div>";
+			html += "<a class='btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto' style='cursor:default;'>"+ dtime +"</a></li>";
+			
+		}
 	}
 
 	// 틀 close
@@ -90,34 +156,43 @@ function displayAl(alarms) {
 	html += "<ul class='list-group'>";
 	
 	// 데이터 출력 부분
-	for(let i = 0; i< alarms.length; i++) {
-		var mad = alarms[i].mad;		// 아침,점심,저녁
-		var time = alarms[i].time;
-		var button = alarms[i].button;	// 버튼 상태
-		var pid = alarms[i].pid;		// 해당 처방전페이지로 보내기 위해 필요한 처방전 아이디
-		var phos = alarms[i].phos;		// 처방병원
-		var color = "danger";
-		var complete = "미완료";
-		
-		// 버튼 상태에 따른 디자인 바꾸기
-		if(button == "done"){
-			color = "success";
-			complete = "완료";
-		}
-		
+	if(alarms == ""){	// 데이터가 없을 때
 		html += "<li class='list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0'>";
-		html += "<div class='avatar me-3'>";
-		html += "<button class='btn btn-icon-only btn-rounded btn-outline-"+ color +" mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center' disabled>";
-		html += "<i class='material-icons text-lg'>access_alarm</i>";
-		
-		html += "</button></div>";
-		
-		html += "<div class='d-flex align-items-start flex-column justify-content-center'>";
-		html += "<a href='/pdetail?id="+ pid +"' class='mb-0 text-sm' style='font-weight: 600;'>"+ phos + ": " + mad +"</a>";
-		html += "<p class='mb-0 text-xs'>"+ time +"</p></div>";
-		html += "<p class='btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto' style='cursor:default;'>"+ complete +"</p>";
-		
+		html += "<i class='material-icons pt-sm-5' style='left: 50%; top: 50%; transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); position: absolute;'>error_outline</i>";
+		html += "<a class='d-sm-block text-sm pt-sm-7' href='/plist' style='left: 50%; top: 100%; transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); position: absolute;'>알람을 추가해 주세요.</a>";
 		html += "</li>";
+		
+	}else {
+		// 데이터가 있을 때
+		for(let i = 0; i< alarms.length; i++) {
+			var mad = alarms[i].mad;		// 아침,점심,저녁
+			var time = alarms[i].time;
+			var button = alarms[i].button;	// 버튼 상태
+			var pid = alarms[i].pid;		// 해당 처방전페이지로 보내기 위해 필요한 처방전 아이디
+			var phos = alarms[i].phos;		// 처방병원
+			var color = "danger";
+			var complete = "미완료";
+			
+			// 버튼 상태에 따른 디자인 바꾸기
+			if(button == "done"){
+				color = "success";
+				complete = "완료";
+			}
+			
+			html += "<li class='list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0'>";
+			html += "<div class='avatar me-3'>";
+			html += "<button class='btn btn-icon-only btn-rounded btn-outline-"+ color +" mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center' disabled>";
+			html += "<i class='material-icons text-lg'>access_alarm</i>";
+			
+			html += "</button></div>";
+			
+			html += "<div class='d-flex align-items-start flex-column justify-content-center'>";
+			html += "<a href='/pdetail?id="+ pid +"' class='mb-0 text-sm' style='font-weight: 600;'>"+ phos + ": " + mad +"</a>";
+			html += "<p class='mb-0 text-xs'>"+ time +"</p></div>";
+			html += "<p class='btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto' style='cursor:default;'>"+ complete +"</p>";
+			
+			html += "</li>";
+		}
 	}
 
     // 틀 close
@@ -147,7 +222,7 @@ function getAlarm() {
 
 
 $(document).ready(function(){
-	//getAlarm();
+	getAlarm();
 	
 	// 복약알람 탭이 눌렸을 때
 	$('#getalarm').click(function(){
@@ -166,6 +241,23 @@ $(document).ready(function(){
 			url:'/get5plists',
 			success:function(data){
 				displayPl(data);
+			},
+			error: function(error) {
+				alert("error");
+			}
+			
+		});
+	});
+	
+	// 약보관함 탭이 눌렸을 때
+	$('#getmedi').click(function(){
+		$('#tabdiv').empty();
+		
+		$.ajax({
+			method: 'POST',
+			url:'/get5medis',
+			success:function(data){
+				displayMe(data);
 			},
 			error: function(error) {
 				alert("error");
