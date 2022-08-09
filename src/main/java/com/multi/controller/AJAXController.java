@@ -30,7 +30,7 @@ import com.multi.vo.SlistVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 10.0
+ * @version 11.1
  * @description
  *
  *
@@ -91,7 +91,7 @@ public class AJAXController {
 	@Autowired
 	AlarmBiz abiz;
   
-  @Autowired
+	@Autowired
 	UsersBiz ubiz;
 	
 	@Autowired
@@ -293,7 +293,7 @@ public class AJAXController {
 	@RequestMapping("/chart1")
 	public Object chart1() {
 		List<SlistVo> dlist = null;
-		List<Integer> cdlist = new ArrayList();
+		List<Integer> cdlist = new ArrayList<Integer>();
 		try {
 			dlist = dbiz.getdayofweek();
 			for (SlistVo obj : dlist) {
@@ -310,7 +310,7 @@ public class AJAXController {
 	@RequestMapping("/chart2")
 	public Object chart2() {
 		List<SlistVo> mlist = null;
-		List<Integer> cmlist = new ArrayList();
+		List<Integer> cmlist = new ArrayList<Integer>();
 		try {
 			mlist = dbiz.getmonth();
 			for (SlistVo obj : mlist) {

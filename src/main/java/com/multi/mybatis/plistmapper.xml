@@ -37,6 +37,11 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		WHERE ID=#{id}
 	</select>
 	
+	<!-- 해당 유저의 최대 5개의 복용중 상태인 처방내역 리턴 -->
+	<select id="select5plists" parameterType="String" resultType="plistVo">
+		SELECT id, hospital, pdate, dtime, DATE_ADD(pdate, INTERVAL days DAY) AS enddate FROM plist
+		WHERE UID = #{uid}  AND status = "복용중" ORDER BY pdate ASC LIMIT 5;
+	</select>
 		
 	<!-- 복용 완료 시 -->
 	<update id="editdone" parameterType="int">
