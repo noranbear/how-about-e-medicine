@@ -26,9 +26,11 @@ import com.multi.vo.AlarmVo;
  *	2022. 8. 4.							   getpalarms2 추가
  *
  *											switchbt 추가
- *
- *	2022. 8. 8.								get5alarms 추가
  *	
+ *	2022. 8. 5.			qwaszx357			donegage 생성
+ *
+ *  2022. 8. 8.								get5alarms 추가
+ *
  * =========================================================
  */
  
@@ -96,6 +98,15 @@ public class AlarmBiz implements Biz<Integer, AlarmVo> {
 	 */
 	public List<AlarmVo> get5alarms(String u) throws Exception {
 		return dao.select5alarms(u);
+  }
+  
+  /**
+	 * 순응도를 계산하여 출력한다.
+	 * @param k 처방전 아이디
+	 * @return AlarmVo
+	 */
+	public AlarmVo donegage(Integer k) throws Exception {
+		return dao.donegage(k);
 	}
 
 }

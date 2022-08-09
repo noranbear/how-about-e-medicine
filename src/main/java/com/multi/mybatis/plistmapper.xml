@@ -5,13 +5,13 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 <mapper namespace="com.multi.mapper.PlistMapper">
 	
 	<insert id="insert" parameterType="plistVo">
-		INSERT INTO plist VALUES (NULL,#{uid},#{hospital},#{pdate},#{days},#{time},#{dtime})
+		INSERT INTO plist VALUES (NULL,#{uid},#{hospital},#{pdate},#{days},#{time},#{dtime},NULL)
 	</insert>
 	<delete id="delete" parameterType="int">
 		DELETE FROM plist WHERE ID=#{id}
 	</delete>
 	<update id="update" parameterType="plistVo">
-		UPDATE plist SET TIME=#{time},DTIME=#{dtime} WHERE ID=#{id}
+		UPDATE plist SET TIME=#{time},DTIME=#{dtime},STATUS=#{status} WHERE ID=#{id}
 	</update>
 	
 	<select id="select" parameterType="int" resultType="plistVo">
@@ -22,15 +22,9 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 처방내역 페이지에 출력 -->
-	<!-- 복용중인 약 -->
-	<select id="select_ing" parameterType="String" resultType="plistVo">
-		SELECT p.id, p.uid, p.hospital, p.pdate, p.days, (p.days - (curdate() - p.pdate)) AS dday FROM plist p
-		INNER JOIN users u ON p.uid = u.id WHERE p.uid=#{uid} AND (p.days - (curdate() - p.pdate)) > 0
-	</select>
-	<!-- 복용 완료된 약 -->
-	<select id="select_end" parameterType="String" resultType="plistVo">
-		SELECT p.id, p.uid, p.hospital, p.pdate, p.days, (p.days - (curdate() - p.pdate)) AS dday FROM plist p
-		INNER JOIN users u ON p.uid = u.id WHERE p.uid=#{uid} AND (p.days - (curdate() - p.pdate)) <![CDATA[<=]]> 0 
+	<select id="selectuser" parameterType="String" resultType="plistVo">
+		SELECT p.id, p.uid, p.hospital, p.pdate, p.days, p.status, (p.days - (curdate() - p.pdate)) AS dday FROM plist p
+		INNER JOIN users u ON p.uid = u.id WHERE p.uid=#{uid}
 	</select>
 	
   <!-- 동일한 유저 아이디, 조제일자, 병원이름을 가진 처방전 리턴 -->
@@ -48,6 +42,16 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		SELECT id, hospital, pdate, dtime, DATE_ADD(pdate, INTERVAL days DAY) AS enddate FROM plist
 		WHERE UID = #{uid}  AND status = "복용중" ORDER BY pdate ASC LIMIT 5;
 	</select>
+		
+	<!-- 복용 완료 시 -->
+	<update id="editdone" parameterType="int">
+		UPDATE plist SET STATUS="복용 완료" WHERE ID=#{id}
+	</update>
+	<!-- 복용 중지 버튼 클릭 시 -->
+	<update id="editstop" parameterType="int">
+		UPDATE plist SET DAYS=curdate()-pdate, STATUS="복용 중지" WHERE ID=#{id}
+	</update>
+
 	
 </mapper>
 

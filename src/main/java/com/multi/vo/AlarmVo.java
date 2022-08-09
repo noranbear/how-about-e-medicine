@@ -27,7 +27,9 @@ import lombok.ToString;
  *									updatebt 함수를 위해 id와 button 
  *									  값만 받는 Constructor 생성
  *
- *	2022. 8. 9.								phos 필드 추가
+ *	2022. 8. 5.			qwaszx357			gage 생성
+ *
+ *	2022. 8. 9.		  noranbear				phos 필드 추가
  *
  * ================================================================
  */
@@ -46,7 +48,8 @@ public class AlarmVo {
 	private int pid;
 	
 	private String phos;	// plist hospital - select5alarms 함수 때문에 생성
-	
+	private int gage;	// 순응도
+  
 	
 	// Constructor for insert
 	public AlarmVo(String mad, String time, String date, int pid) {

@@ -25,7 +25,9 @@ import com.multi.vo.AlarmVo;
  *
  *                                          updatebt 추가
  *
- *  2022. 8. 8.                          select5alarms 추가
+ *	2022. 8. 5.			qwaszx357			donegage 생성
+ *
+ *  2022. 8. 8.     noranbear       select5alarms 추가
  *
  * =========================================================
  */
@@ -50,5 +52,8 @@ public interface AlarmMapper {
     
     // 마이페이지의 오늘 알람(최대 5개)를 가져온다.
     public List<AlarmVo> select5alarms(String uid) throws Exception;
+    
+    //순응도
+    public AlarmVo donegage(int id) throws Exception;
 
 }
