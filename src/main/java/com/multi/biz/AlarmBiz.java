@@ -12,7 +12,7 @@ import com.multi.vo.AlarmVo;
 /**
  * @author qwaszx357
  * @date 2022. 7. 13.
- * @version 4.0
+ * @version 5.0
  * @description
  *
  *
@@ -27,6 +27,8 @@ import com.multi.vo.AlarmVo;
  *
  *											switchbt 추가
  *
+ *	2022. 8. 8.								get5alarms 추가
+ *	
  * =========================================================
  */
  
@@ -85,6 +87,15 @@ public class AlarmBiz implements Biz<Integer, AlarmVo> {
 	 */
 	public List<AlarmVo> getpalarms2(Integer p) throws Exception {
 		return dao.selectpalarms2(p);
+	}
+	
+	/**
+	 * 마이페이지의 오늘알람 (최대 5개)를 출력한다.
+	 * @param u	해당 유저 id
+	 * @return	오늘 날짜로 된 알람 시간순 5개
+	 */
+	public List<AlarmVo> get5alarms(String u) throws Exception {
+		return dao.select5alarms(u);
 	}
 
 }

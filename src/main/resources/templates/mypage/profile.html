@@ -153,25 +153,25 @@ $(document).ready(function(){
 								<form id="update_form" class="text-start">
 									<label class="mb-sm-1" for="name" style='font-size: 0.8rem;'>이름</label>
 									<div class="input-group input-group-outline mb-2">
-										<input id="name" class="form-control" type="text" name="name" th:value="${u.name}">
+										<input id="name" class="form-control" type="text" name="name" th:value="${session.signinusers.name}">
 									</div>
 									
 									<label class="mb-sm-1" for="id" style="font-size: 0.8rem;">아이디</label>
 									<div class="input-group input-group-outline mb-2">
-										<input id="id" class="form-control" type="text" name="id" th:value="${u.id}" readonly="readonly">
+										<input id="id" class="form-control" type="text" name="id" th:value="${session.signinusers.id}" readonly="readonly">
 									</div>								
 									<label class="mb-sm-1" for="pwd" style="font-size: 0.8rem;">비밀번호</label>
 									<div class="input-group input-group-outline mb-2">
-										<input id="pwd" class="form-control" type="password" name="pwd" th:value="${u.pwd}">
+										<input id="pwd" class="form-control" type="password" name="pwd" th:value="${session.signinusers.pwd}">
 									</div>
                             		<label class="mb-sm-1" for="email" style="font-size: 0.8rem;">이메일</label>
 									<div class="input-group input-group-outline mb-2">
-										<input id="email" class="form-control" type="email" name="email" th:value="${u.email}">
+										<input id="email" class="form-control" type="email" name="email" th:value="${session.signinusers.email}">
 									</div>
 									
 									<label class="mb-sm-1" for="birth" style="font-size: 0.8rem;">생년월일</label>
 									<div class="input-group input-group-outline mb-3">	
-										<input id="birth" class="form-control" type="date" name="birth" th:value="${u.birth}">
+										<input id="birth" class="form-control" type="date" name="birth" th:value="${session.signinusers.birth}">
 									</div>
 
 									<div class="text-center">

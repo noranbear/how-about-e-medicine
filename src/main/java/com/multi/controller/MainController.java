@@ -109,6 +109,8 @@ import com.multi.vo.UsersVo;
  *
  *	2022. 8. 5.			noranbear		mypage 생성 및 signupimpl 수정
  *	
+ *	2022. 8. 8.							mypage, profile, update 옮기기
+ *	
  * ====================================================================
  */
 
@@ -316,47 +318,7 @@ public class MainController {
 		return "index";
 	}
 	
-	/**
-	*  마이페이지 연결
-    * @return mypage.html
-    */
-   @RequestMapping("/mypage")
-   public String mypage(Model m, HttpSession session) {
-       UsersVo users = null;
-       
-       if(session.getAttribute("signinusers") != null){
-           users = (UsersVo) session.getAttribute("signinusers");
-           m.addAttribute("center", "mypage");
-           m.addAttribute("u", users);
-       }	
-       return "index";
-   }
-   
-   /**
-	*  마이페이지 연결
-   * @return profile.html
-   */
-  @RequestMapping("/profile")
-  public String profile(Model m, HttpSession session) {
-      UsersVo users = null;
-      
-      if(session.getAttribute("signinusers") != null){
-          users = (UsersVo) session.getAttribute("signinusers");
-          m.addAttribute("u", users);
-      }	
-      return "profile";
-  }
-  
-  	@RequestMapping("/update")
-	public String update(Model m, UsersVo user, HttpSession session) {
-		try {
-			ubiz.modify(user);
-			session.setAttribute("signinusers", user);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "index";
-	}
+	
 	
    /**
     * 약 디테일 페이지 연결

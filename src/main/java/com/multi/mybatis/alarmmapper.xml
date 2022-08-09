@@ -28,9 +28,16 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<select id="selectpalarms" parameterType="int" resultType="alarmVo">
 	    SELECT * FROM alarm WHERE PID=#{pid}
 	</select>
-	
 	<select id="selectpalarms2" parameterType="int" resultType="alarmVo">
 	    SELECT * FROM alarm WHERE DATE=CURDATE() AND PID=#{pid}
+	</select>
+	
+	<!-- 마이페이지 오늘 알람 출력 -->
+	<select id="select5alarms" parameterType="String" resultType="alarmVo">
+		SELECT al.mad AS mad, al.time AS time, al.button AS button, al.pid AS pid, pl.hospital AS phos FROM alarm al
+		JOIN plist pl ON al.pid = pl.id
+		WHERE pl.uid = #{uid} AND pl.status = "복용중" AND date = curdate() AND al.time > DATE_FORMAT(SYSDATE(), '%H:%i') 
+		ORDER BY time ASC LIMIT 5;
 	</select>
 	
 </mapper>
