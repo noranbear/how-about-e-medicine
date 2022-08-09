@@ -429,7 +429,7 @@ public class MainController {
         List<PlistVo> ulist = null;
         UsersVo users = null;
         AlarmVo alarm = null;
-		double gage = 0.0;
+		int gage = 0;
         
         if(session.getAttribute("signinusers") != null){
             users = (UsersVo) session.getAttribute("signinusers");
@@ -437,21 +437,20 @@ public class MainController {
             try {
                 ulist = plibiz.getuser(users.getId());
                
-                // 남은 복용일
+                // 복용 완료일 경우 남은 복용일 == 0
                 for (int i = 0; i < ulist.size(); i++) {
-                	if (ulist.get(i).getStatus() == "복용 완료") {
+                	if (ulist.get(i).getStatus().equals("복용 완료")) {
                     	ulist.get(i).setDday(0);
                     }
 				}
                 m.addAttribute("ulist", ulist);
-                //System.out.println(ulist.get(1).getDday());
                 
                 // 순응도
                 alarm = abiz.donegage(1);
                 if (alarm != null) {
                 	gage = alarm.getGage();
                 } else {
-                	gage = 0.0;
+                	gage = 0;
                 }
                 m.addAttribute("center", "plist");
             } catch (Exception e) {    
@@ -528,8 +527,9 @@ public class MainController {
 	 */
 	@RequestMapping("/editdone")
 	public String editdone(int id) {
+		PlistVo plist = null;
 		try {
-			plibiz.editdone(id);
+			// plist = plibiz.editdone(new PlistVo(id, "복용 완료"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
