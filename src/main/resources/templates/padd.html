@@ -13,8 +13,8 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 1.1 -->
-<!-- Description: 마이 페이지
+<!-- Version: 2.0 -->
+<!-- Description: 처방내역 추가 페이지
 
 -------------------------------------------------------------------------
 	Date			 Author							Note
@@ -27,7 +27,10 @@
 
 2022. 7. 29.		najune						profile 수정 기능 구현
 
-2022. 8. 8.			ynr1734				  페이지 타이틀 변경 및 favicon 변경		
+2022. 8. 8.			ynr1734				  페이지 타이틀 변경 및 favicon 변경
+
+2022. 8. 11.		noranbear			  ocr 버튼 및 기능 구현(DB에 넣기)
+
 -------------------------------------------------------------------------
 -->
 
@@ -60,22 +63,6 @@
 <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.0.4" rel="stylesheet" />
 <!-- 2. 끝 -->
 
-</head>
-<script>
-$(document).ready(function(){
-
-	// 데이터 전송
-	$('#add_btn').click(function(){
-		$('#add_form').attr({
-			'method':'post',
-			'action':'addimpl'
-		});
-		$('#add_form').submit();
-	})
-
-});
- 
-</script>
 
 <style>
 .span{
@@ -101,7 +88,115 @@ font-size:1em;
   vertical-align: top;
   outline : none;
 }
+
+/* 5. Modal CSS 시작 ---- */
+#modal-body{
+	text-align:center;
+}
+
+.btn-upload {
+  width: 150px;
+  height: 30px;
+  background: #e91e63;
+  color:white;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-upload:hover {
+	color:white;
+}
+
+#file {
+  display: none;
+}
+
+#url-search{
+	width:400px;
+	text-align:center;
+}
+
+#preview{
+	width:400px;
+	height:300px;
+}
+/* 5. Modal CSS 끝 --- */
 </style>
+
+<script>
+$(document).ready(function(){
+
+	// 데이터 전송
+	$('#add_btn').click(function(){
+		$('#add_form').attr({
+			'method':'post',
+			'action':'addimpl'
+		});
+		$('#add_form').submit();
+	})
+	
+	/* ocr 창에서 검색 버튼 클릭 시, 해당 사진 저장 */
+	$('#envbt').click(function(){
+		var img = $('#file').val();
+		var imgname = img.substr(12);
+		//alert(img);
+		
+		// envelope 폴더에 ocr 이미지 저장 후 ocr 스캔 
+		$('#ocrenv').attr({
+			'enctype':'multipart/form-data',
+			'method':'post',
+			'action':'eocraddimpl'
+		});
+		
+		$('#ocrenv').submit();
+		
+		/*
+		// envelope 폴더에 ocr 이미지 저장 후 ocr 스캔 
+		$.ajax({
+			method: 'POST',
+			url:'/eocrimpl',
+			data:{'imgname':imgname},
+			//dataType: 'json',
+			// [1] 해당 데이터가 없을 때
+			error: function(error) {
+				console.log("error");
+			},
+			// [2] 해당 데이터가 있을 때
+			success:function(data){
+				// test
+				//alert(data);
+			 	console.log(data);
+				//display(data);
+			}
+		});*/
+	
+	});
+
+});
+
+/*
+ * Modal 창에서 input 이미지 프리뷰 
+ */
+function readURL(input) {
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+	    reader.onload = function(e) {
+			document.getElementById('preview').src = e.target.result;
+	    };
+	    reader.readAsDataURL(input.files[0]);
+	} else {
+	    document.getElementById('preview').src = "";
+	}
+}
+</script>
+
+</head>
+
+
 <body class="bg-gray-200">
 	<div class="container position-sticky z-index-sticky top-0">
 		<div class="row">
@@ -165,51 +260,51 @@ font-size:1em;
 							<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 								<div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
 									<h4 class="text-white font-weight-bolder text-center mt-2 mb-0">처방내역 추가</h4>
-								
-									
 								</div>
 							</div>
-							<!-- 회원가입 -->
+							<!-- 처방내역 추가 -->
 							<div class="card-body">
 								<form id="add_form" action="#" class="text-start" method="post">
 									<div class="input-group input-group-outline my-3">
 										<label class="form-label">id</label>
-										<input type="text"  name="uid" class="form-control">
+										<input type="text" name="uid" class="form-control">
 									</div>
 									
 									<div class="input-group input-group-outline mb-3">
 										<label class="form-label">hospital</label>
-										<input type="text" id="hospital"  name="hospital" class="form-control">
+										<input type="text" id="hospital" name="hospital" th:value="${hos}" class="form-control">
 									</div>
 										 
 									<div class="input-group input-group-outline mb-3">
 										<label class="form-label">pdate</label>
-										<input id="pdate" type="date" name="pdate"  class="form-control">
+										<input id="pdate" type="date" name="pdate" th:value="${pdate}" class="form-control">
 									</div>								
 									
 									<div class="input-group input-group-outline mb-3">
 										<label class="form-label">days</label>
-										<input id="days" name="days" type="text"  class="form-control">
+										<input id="days" name="days" type="text" th:value="${days}" class="form-control">
 									</div>
                             		
 									<div class="input-group input-group-outline mb-3">
 										<label class="form-label">time</label>
-										<input id="time" name="time" type="text"  class="form-control">
+										<input id="time" name="time" type="text" class="form-control">
 									</div>
 									
 									<div class="input-group input-group-outline mb-3">
 										<label class="form-label">dtime</label>
-										<input id="dtime" name="dtime" type="text"  class="form-control">
+										<input id="dtime" name="dtime" type="text" class="form-control">
 									</div>
 									
 									<div class="input-group input-group-outline mb-3">
 										<label class="form-label">medicine</label>
-										<input id="name" name="name" type="text"  class="form-control">
+										<input id="name" name="name" type="text" class="form-control">
 									</div>
 
 									<div class="text-center">
 										<button id="add_btn" type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2" >추가하기</button>
-										<button type="button"  onClick="history.go(-1)" class="btn bg-gradient-primary w-100 my-4 mb-2">취소</button>
+										<!-- OCR 버튼 - OCR Modal 창으로 이동 -->
+										<button id="scan_bt" type="button" class="btn btn-block bg-gradient-primary mb-3" data-bs-toggle="modal" data-bs-target="#modal-default"><i class="fa fa-camera"></i></button>
+										<a class="text-end" href="#" onclick="history.go(-1)" style='font-size: 0.8rem;'>취소</a>
 									</div>
 									
 								</form>
@@ -217,13 +312,46 @@ font-size:1em;
 						</div>
 					</div>
 				</div>
-			</div>
-			
-			
-			
+			</div>	
 		</div>
 	</main>
 	<!-- End Main -->
+	
+	<!-- OCR Modal 창 -->
+	<div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+		<div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h6 class="modal-title" id="modal-title-default">이미지로 검색하기</h6>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<!-- 파일 업로드 -->
+				<form id="ocrenv">
+					<div id="modal-body" class="modal-body">
+						<!-- input css 변경 -->
+						<label for="file">
+						  <a class="btn-upload">파일 선택</a>
+						</label>
+						<div class="form-group">
+							<input type="file" id="file" name="mf" accept="image/*" onchange="readURL(this);">
+						</div>
+						<img id="preview">
+						<h6>OR</h6>
+						<!-- 이미지 링크 -->
+						<input type="url" id="url-search" placeholder="이미지 링크"><!-- name 없애놓음 -->
+					</div>
+					<div class="modal-footer">
+						<a id="envbt" class="btn bg-gradient-primary">검색</a>
+						<button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal">닫기</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- OCR Modal 끝 -->
+
 	
 	<!--   Core JS Files   -->
 	<script src="../assets/js/core/popper.min.js"></script>
