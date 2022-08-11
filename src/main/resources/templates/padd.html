@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 2.0 -->
+<!-- Version: 2.1 -->
 <!-- Description: 처방내역 추가 페이지
 
 -------------------------------------------------------------------------
@@ -128,6 +128,29 @@ font-size:1em;
 </style>
 
 <script>
+/**
+ * ocr 스캔 후 약이름을 가져오는 함수
+ */
+function getmedi(imgname) {
+	$.ajax({
+		method: 'POST',
+		url:'/eocrimpl',
+		data:{'imgname':imgname},
+		//dataType: 'json',
+		// [1] 해당 데이터가 없을 때
+		error: function(error) {
+			console.log("error");
+		},
+		// [2] 해당 데이터가 있을 때
+		success:function(data){
+			alert(data);
+		 	console.log(data);
+			//display(data);
+		}
+	});
+	
+}
+
 $(document).ready(function(){
 
 	// 데이터 전송
@@ -141,11 +164,11 @@ $(document).ready(function(){
 	
 	/* ocr 창에서 검색 버튼 클릭 시, 해당 사진 저장 */
 	$('#envbt').click(function(){
-		var img = $('#file').val();
-		var imgname = img.substr(12);
-		//alert(img);
+		var img = $('#file').val();		// C:/fake path/스캔할 이미지 이름
+		var imgname = img.substr(12);	// 스캔할 이미지 이름
+		console.log(imgname);
 		
-		// envelope 폴더에 ocr 이미지 저장 후 ocr 스캔 
+		// envelope 폴더에 ocr 이미지 저장 후 스캔내역 DB에 정보 저장 및 처방정보 가져오기
 		$('#ocrenv').attr({
 			'enctype':'multipart/form-data',
 			'method':'post',
@@ -154,25 +177,8 @@ $(document).ready(function(){
 		
 		$('#ocrenv').submit();
 		
-		/*
-		// envelope 폴더에 ocr 이미지 저장 후 ocr 스캔 
-		$.ajax({
-			method: 'POST',
-			url:'/eocrimpl',
-			data:{'imgname':imgname},
-			//dataType: 'json',
-			// [1] 해당 데이터가 없을 때
-			error: function(error) {
-				console.log("error");
-			},
-			// [2] 해당 데이터가 있을 때
-			success:function(data){
-				// test
-				//alert(data);
-			 	console.log(data);
-				//display(data);
-			}
-		});*/
+		// ocr 스캔 후 약이름 가져오기
+		getmedi(imgname);
 	
 	});
 

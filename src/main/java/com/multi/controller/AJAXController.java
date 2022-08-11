@@ -27,7 +27,7 @@ import com.multi.vo.SlistVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 11.1
+ * @version 11.2
  * @description
  *
  *
@@ -60,6 +60,8 @@ import com.multi.vo.SlistVo;
  *											 switchbt 생성
  *
  *	2022. 8. 6.			qwaszx357			donegage 생성
+ *
+ *	2022. 8. 11.		noranbear		boxscan, envelope 스캔 삭제
  *
  * =================================================================
  */
@@ -169,29 +171,6 @@ public class AJAXController {
         //System.out.println("items 뽑아내기 : " + ja);
         return ja;
     } 
-	
-	/**
-	 * 약봉투에서 스캔한 텍스트 데이터를 보내준다.
-	 * @param imgname
-	 * @return Json text of photo of envelope
-	 */
-	@RequestMapping("envelopescan")
-	public Object envelopescan(String imgname) {
-		Object result = eapi.envelopeapi(imgname);
-		return result;
-	}
-	
-	/**
-	 * 약곽에서 스캔한 텍스트 데이터를 보내준다.
-	 * @param imgname
-	 * @return Json text of photo of box
-	 */
-	@RequestMapping("boxscan")
-	public Object boxscan(String imgname) {
-		//System.out.println(imgname);
-		Object result = bapi.boxapi(imgname);
-		return result;
-	}
 	
 	/**
 	 * mymedi에 약을 추가한다.

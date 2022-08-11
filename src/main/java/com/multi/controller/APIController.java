@@ -23,7 +23,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 8. 10.
- * @version 2.0
+ * @version 2.1
  * @description
  *
  *
@@ -119,7 +119,7 @@ public class APIController {
 				JSONObject images2 = (JSONObject) images.get(0);
 				
 				// 3-2-3. images [{ fields [], title {} ] 뽑아내기
-				JSONArray fields = (JSONArray) images2.get("fields");	// 조제일자, 투약일수	
+				JSONArray fields = (JSONArray) images2.get("fields");	// 조제일자, 투약일수, 약이름	
 				JSONObject title = (JSONObject) images2.get("title");	// 병원명
 				
 				// 3-2-4. images [{ fields [{}] }] 뽑아내기			
@@ -151,7 +151,8 @@ public class APIController {
 						mname = (String) medi.get("inferText");
 						
 						// 4-3. smedi에 넣는다.
-						if(!(mname.equals(""))) {	// 약이름이 null이 아닐 때
+						// 조건2: 약이름이 null이 아닐 때
+						if(!(mname.equals(""))) {	
 							SmediVo smedi = new SmediVo(mname, listId);
 							smbiz.register(smedi);
 						}
