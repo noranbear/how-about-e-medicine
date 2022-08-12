@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 2.3 -->
+<!-- Version: 3.0 -->
 <!-- Description: 처방내역 페이지
 
 -------------------------------------------------------------------------
@@ -28,6 +28,8 @@
 2022. 7. 22.		qwaszx357					footer 지우기
 
 													row 변경
+													
+2022. 8. 11.									   순응도 구현
 
 -------------------------------------------------------------------------
 -->
@@ -38,35 +40,6 @@
 
 <!-- CSS Files -->
 <link href="./assets/ezocss/plistcss.css" rel="stylesheet" />
-
-<script>
-$(document).ready(function(){
-	var pid = $('#pid').text();
-	var html = "";
-	
-	$.ajax({
-		method: 'GET',
-		url:'/donegage',
-		data:{'pid':pid},
-		success:function(data){
-			// alert(data);
-			if (data != 0) {
-				html += "<div id='bar' class='progress-bar' role='progressbar' aria-valuenow='70' aria-valuemin='0' aria-valuemax='100' style='width:" + data + "%'>";
-				html += "<span class='text-center'>순응도 : " + data + " %</span></div>";
-			} else {
-				html += "<div class='text-center w-100'><span>순응도 : 0 %</span></div>";
-			}
-			$('#bar_div').html(html);
-			
-		},
-		error: function(error) {
-			// alert("error");
-		}
-		
-	});
-});
-
-</script>
 
 <!-- 추가 버튼 -->
 <div class="btn-div">
@@ -83,7 +56,6 @@ $(document).ready(function(){
 				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
 					<h6 class="text-white text-capitalize ps-3" th:text="${u.hospital} + ' / ' + ${u.pdate}">
 					처방 내역</h6>
-					<p th:attrappend="id='p'+ ${u.id}" th:text="${u.id}" hidden="hidden"></p>
 				</div>
 			</div>
 			<div class="card-body px-0 pb-2">
@@ -109,6 +81,10 @@ $(document).ready(function(){
 					</table>
 					<!-- 순응도바 -->
 					<div class="progress text-center" id="bar_div">
+						<div th:if="${u.gage != 0}" id="bar" class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" th:style="'width:' + ${u.gage} + '%'">
+							<span th:text="'순응도 : ' + ${u.gage} + '%'">순응도</span>
+						</div>
+						<div th:unless="${u.gage != 0}" class='text-center w-100'><span>순응도 : 0%</span></div>
 					</div>
 				</div>
 			</div>
@@ -145,6 +121,10 @@ $(document).ready(function(){
 					</table>
 					<!-- 순응도바 -->
 					<div class="progress text-center" id="bar_div">
+						<div th:if="${u.gage != 0}" id="bar" class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" th:style="'width:' + ${u.gage} + '%'">
+							<span class="text-center" th:text="'순응도 : ' + ${u.gage} + '%'">순응도 : </span>
+						</div>
+						<div th:unless="${u.gage != 0}" class='text-center w-100'><span>순응도 : 0 %</span></div>
 					</div>
 				</div>
 			</div>

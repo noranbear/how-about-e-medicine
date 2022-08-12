@@ -39,7 +39,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 15.0
+ * @version 15.1
  * @description
  *
  *
@@ -113,6 +113,8 @@ import com.multi.vo.UsersVo;
  *												          editdone 생성
  *	
  *	2022. 8. 8.			noranbear    mypage, profile, update 옮기기
+ *
+ *	2022. 8. 11.								plist 수정
  *	
  * ====================================================================
  */
@@ -417,8 +419,7 @@ public class MainController {
     public String plist(Model m, HttpSession session) {
         List<PlistVo> ulist = null;
         UsersVo users = null;
-        AlarmVo alarm = null;
-		double gage = 0.0;
+        PlistVo uplist = null;
         
         if(session.getAttribute("signinusers") != null){
             users = (UsersVo) session.getAttribute("signinusers");
@@ -426,29 +427,28 @@ public class MainController {
             try {
                 ulist = plibiz.getuser(users.getId());
                
-                // 남은 복용일
+                // 남은 복용일 계산
                 for (int i = 0; i < ulist.size(); i++) {
-                	if (ulist.get(i).getStatus() == "복용 완료") {
+                	if (ulist.get(i).getStatus().equals("복용 완료")) {	// 복용 완료일 경우
                     	ulist.get(i).setDday(0);
+                    } else if (ulist.get(i).getStatus().equals("복용 중지")) {		// 복용 중지일 경우
+                    	ulist.get(i).setDday(ulist.get(i).getDays());
                     }
+                	
+                	// ulist에 순응도 추가
+                	uplist = plibiz.donegage(ulist.get(i).getId());
+                	if (uplist != null) {
+                		ulist.get(i).setGage(uplist.getGage());
+                	}
 				}
                 m.addAttribute("ulist", ulist);
-                //System.out.println(ulist.get(1).getDday());
-                
-                // 순응도
-                alarm = abiz.donegage(1);
-                if (alarm != null) {
-                	gage = alarm.getGage();
-                } else {
-                	gage = 0.0;
-                }
-                m.addAttribute("center", "plist");
+
             } catch (Exception e) {    
                 e.printStackTrace();
             }
-            
         }
-         return "index";
+        m.addAttribute("center", "plist");
+        return "index";
     }
     
     /**
@@ -479,6 +479,7 @@ public class MainController {
         m.addAttribute("center", "plist");
 		return "index";
 	}
+    
     /**
 	 * 복약내역상세 페이지 연결
 	 * @return pdetail.html
@@ -488,6 +489,7 @@ public class MainController {
 		PlistVo obj = null;
 		List<PmediVo> mlist = null;
 		List<AlarmVo> alist = null;
+		Date enddate = null;
 	
 		plistid = id;		// 현재 처방내역 id를 저장 - 다른 함수에서 쓰기 위해
 		
@@ -502,6 +504,9 @@ public class MainController {
             alist = abiz.getpalarms2(id);
             m.addAttribute("alist", alist);
             
+            // 3. 복약이 끝나는 날
+            enddate = mlist.get(0).getEndday();
+            m.addAttribute("enddate", enddate);
         } catch (Exception e) {
             e.printStackTrace();
         }
