@@ -12,7 +12,7 @@ import com.multi.vo.PlistVo;
 /**
  * @author najune
  * @date 2022. 7. 13.
- * @version 4.0
+ * @version 5.0
  * @description
  *
  *
@@ -31,6 +31,10 @@ import com.multi.vo.PlistVo;
  *  2022. 8. 5.			qwaszx357			editstop 생성
  *											editdone 생성
  *
+ *  2022. 8. 9.			noranbear     get5plist 생성
+ *
+ *	2022. 8. 11.		qwaszx357			donegage 생성
+ * 
  * =========================================================
  */
 
@@ -108,5 +112,24 @@ public class PlistBiz implements Biz<Integer, PlistVo>{
 	public PlistVo gettheone(PlistVo v) throws Exception{
 		return dao.selecttheone(v);
 	}
+	
+  /**
+	 * 해당 유저의 복용중 상태인 처방전 내역을 조제일자 순으로 리턴하는 함수
+	 * @param u 유저 아이디
+	 * @return 처방전 아이디, 병원명, 조제일자, 복용마침일자, 투약시간를 포함한 처방내역
+	 */
+	public List<PlistVo> get5plists(String u) throws Exception {
+		return dao.select5plists(u);
+	}
+  
+	/**
+	 * 순응도를 계산하여 출력한다.
+	 * @param k 처방전 아이디
+	 * @return AlarmVo
+	 */
+	public PlistVo donegage(Integer k) throws Exception {
+		return dao.donegage(k);
+	}
+
   
 }

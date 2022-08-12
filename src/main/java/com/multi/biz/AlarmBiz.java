@@ -26,8 +26,10 @@ import com.multi.vo.AlarmVo;
  *	2022. 8. 4.							   getpalarms2 추가
  *
  *											switchbt 추가
- *
+ *	
  *	2022. 8. 5.			qwaszx357			donegage 생성
+ *
+ *  2022. 8. 8.								get5alarms 추가
  *
  * =========================================================
  */
@@ -90,6 +92,15 @@ public class AlarmBiz implements Biz<Integer, AlarmVo> {
 	}
 	
 	/**
+	 * 마이페이지의 오늘알람 (최대 5개)를 출력한다.
+	 * @param u	해당 유저 id
+	 * @return	오늘 날짜로 된 알람 시간순 5개
+	 */
+	public List<AlarmVo> get5alarms(String u) throws Exception {
+		return dao.select5alarms(u);
+  }
+  
+  /**
 	 * 순응도를 계산하여 출력한다.
 	 * @param k 처방전 아이디
 	 * @return AlarmVo

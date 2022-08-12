@@ -39,7 +39,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 15.0
+ * @version 15.1
  * @description
  *
  *
@@ -49,40 +49,40 @@ import com.multi.vo.UsersVo;
  *  2022. 7. 6.			noranbear			     main 생성
  *
  *	2022. 7. 15.							   dashboard 생성
- *											   sign in 생성
- *											   sign up 생성
+ *											    sign in 생성
+ *											    sign up 생성
  *
- *	2022. 7. 16.							   mdetail 생성
- *											   mymlist 생성
+ *	2022. 7. 16.							    mdetail 생성
+ *											    mymlist 생성
  *
  *						qwaszx357			  signinimpl 생성
- *											     msg 생성
- *											   signout 생성
+ *											      msg 생성
+ *											    signout 생성
  *
- *	2022. 7. 18.							    plist 생성
+ *	2022. 7. 18.							     plist 생성
  *
- *						noranbear			   profile 생성
+ *						noranbear			    profile 생성
  *
- *	2022. 7. 19.							   pdetail 생성
+ *	2022. 7. 19.							    pdetail 생성
  *
- *						qwaszx357			    plist 수정
+ *						qwaszx357			     plist 수정
  *
- *						noranbear			  datatest 생성
+ *						noranbear			   datatest 생성
  *
- *	2022. 7. 20.		 najune				   mymedi 수정
+ *	2022. 7. 20.		 najune				    mymedi 수정
  *
- *	2022. 7. 21.		noranbear			  datatest 이동
+ *	2022. 7. 21.		noranbear			   datatest 이동
  *
- *	2022. 7. 22.		 					   profile 수정
+ *	2022. 7. 22.		 					    profile 수정
  *
- *  2022. 7. 23.		qwaszx357		    signin, signup 수정
+ *  2022. 7. 23.		qwaszx357		     signin, signup 수정
  *  
- *  2022. 7. 25.						  	   mdetail 수정
+ *  2022. 7. 25.						  	    mdetail 수정
  *
- *            			najune				   pdetail 수정
+ *            			najune				    pdetail 수정
  *
- *  					noranbear		      medidetail 수정
- *                         				      ocraddimpl 생성
+ *  					noranbear		       medidetail 수정
+ *                         				       ocraddimpl 생성
  *
  *	2022. 7. 26.						ocraddimpl에 ocrbox 실행 추가
  *
@@ -96,19 +96,25 @@ import com.multi.vo.UsersVo;
  *
  *  2022. 7. 29.		qwaszx357	  editmymedi, deletemymedi 생성
  *  
- *  										dashboard 수정
+ *  										   dashboard 수정
  *
- *	2022. 7. 30.    noranbear				alarmaddimpl 생성
+ *	2022. 7. 30.    	noranbear			  alarmaddimpl 생성
  *
  *	2022. 8. 4.								  alarmaddimpl 수정
  *
  *											복약 알람 화면 구현을 위해 
  *												 pdetail 수정
- *  
- *                  ynr1734             location 
  *
- *  2022. 8. 5.			qwaszx357				editstop 생성
- *												editdone 생성
+ *                  	ynr1734             	location 생성
+ *
+ *	2022. 8. 5.			noranbear		mypage 생성 및 signupimpl 수정
+ *
+ *                  qwaszx357				editstop 생성
+ *												          editdone 생성
+ *	
+ *	2022. 8. 8.			noranbear    mypage, profile, update 옮기기
+ *
+ *	2022. 8. 11.								plist 수정
  *	
  *  2022. 8. 12.		najune				addimpl ajax로 이동
  *
@@ -290,6 +296,11 @@ public class MainController {
 		return "signup";
 	}
 	
+	/**
+	 * 회원가입 기능 수행
+	 * @param users	유저가 넣은 회원가입 정보를 담은 객체
+	 * @return
+	 */
 	@RequestMapping("/signupimpl")
 	public String signupimpl(Model m, UsersVo users, HttpSession session) {
 		
@@ -300,41 +311,21 @@ public class MainController {
 			return "redirect:/signup?msg=f";
 		}
 		try {
+			// 회원가입 시 default 프로필 사진으로 지정해놓기
+			users.setPhoto("photo01.jpg");	
+			
+			// 유저 정보 등록
 			ubiz.register(users);
-			session.setAttribute("loginuser", users);
-			System.out.println(users);
+			// 자동로그인
+			session.setAttribute("signinusers", users);
+			
 		} catch (Exception e) {
 			return "redirect:/signup";
 		}
 		return "index";
 	}
 	
-	/**
-	*  마이페이지 연결
-    * @return profile.html
-    */
-   @RequestMapping("/profile")
-   public String profile(Model m, HttpSession session) {
-       UsersVo users = null;
-       
-       if(session.getAttribute("signinusers") != null){
-           users = (UsersVo) session.getAttribute("signinusers");
-           m.addAttribute("center", "profile");
-           m.addAttribute("u", users);
-       }	
-       return "index";
-   }
-  
-  	@RequestMapping("/update")
-	public String update(Model m, UsersVo user, HttpSession session) {
-		try {
-			ubiz.modify(user);
-			session.setAttribute("signinusers", user);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "index";
-	}
+	
 	
    /**
     * 약 디테일 페이지 연결
@@ -365,7 +356,7 @@ public class MainController {
        return "index";
    }
 	
-	/**
+   /**
 	* 내 약 리스트 페이지 연결
 	* @return mymedilist.html
 	*/
@@ -430,8 +421,7 @@ public class MainController {
     public String plist(Model m, HttpSession session) {
         List<PlistVo> ulist = null;
         UsersVo users = null;
-        AlarmVo alarm = null;
-		double gage = 0.0;
+        PlistVo uplist = null;
         
         if(session.getAttribute("signinusers") != null){
             users = (UsersVo) session.getAttribute("signinusers");
@@ -439,29 +429,28 @@ public class MainController {
             try {
                 ulist = plibiz.getuser(users.getId());
                
-                // 남은 복용일
+                // 남은 복용일 계산
                 for (int i = 0; i < ulist.size(); i++) {
-                	if (ulist.get(i).getStatus() == "복용 완료") {
+                	if (ulist.get(i).getStatus().equals("복용 완료")) {	// 복용 완료일 경우
                     	ulist.get(i).setDday(0);
+                    } else if (ulist.get(i).getStatus().equals("복용 중지")) {		// 복용 중지일 경우
+                    	ulist.get(i).setDday(ulist.get(i).getDays());
                     }
+                	
+                	// ulist에 순응도 추가
+                	uplist = plibiz.donegage(ulist.get(i).getId());
+                	if (uplist != null) {
+                		ulist.get(i).setGage(uplist.getGage());
+                	}
 				}
                 m.addAttribute("ulist", ulist);
-                //System.out.println(ulist.get(1).getDday());
-                
-                // 순응도
-                alarm = abiz.donegage(1);
-                if (alarm != null) {
-                	gage = alarm.getGage();
-                } else {
-                	gage = 0.0;
-                }
-                m.addAttribute("center", "plist");
+
             } catch (Exception e) {    
                 e.printStackTrace();
             }
-            
         }
-         return "index";
+        m.addAttribute("center", "plist");
+        return "index";
     }
     
     /**
@@ -472,6 +461,7 @@ public class MainController {
     public String padd() {  
         return "padd";
     }
+    
     /**
 	 * 복약내역상세 페이지 연결
 	 * @return pdetail.html
@@ -481,6 +471,7 @@ public class MainController {
 		PlistVo obj = null;
 		List<PmediVo> mlist = null;
 		List<AlarmVo> alist = null;
+		Date enddate = null;
 	
 		plistid = id;		// 현재 처방내역 id를 저장 - 다른 함수에서 쓰기 위해
 		
@@ -495,6 +486,9 @@ public class MainController {
             alist = abiz.getpalarms2(id);
             m.addAttribute("alist", alist);
             
+            // 3. 복약이 끝나는 날
+            enddate = mlist.get(0).getEndday();
+            m.addAttribute("enddate", enddate);
         } catch (Exception e) {
             e.printStackTrace();
         }

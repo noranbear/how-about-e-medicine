@@ -24,12 +24,21 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<!-- 사용기한 5일 이내 안내 -->
 	<select id="selectdday" parameterType="String" resultType="mymediVo">
 		SELECT name, (usedate - curdate()) AS dday FROM mymedi 
-		WHERE UID=#{id01} AND (usedate - curdate()) IN (1,2,3,4,5) ORDER BY dday
+		WHERE UID=#{uid} AND (usedate - curdate()) IN (1,2,3,4,5) ORDER BY dday
 	</select>
 	
-	<!-- search  -->
+	<!-- search -->
 	<select id="get" parameterType="String" resultType="mymediVo">
 		SELECT * FROM mymedi WHERE UID=#{uid} 
 	</select>
+	
+	<!-- 만료일로부터 25일 이내인 약 리스트 리턴 -->
+	<select id="select5medis" parameterType="String" resultType="mymediVo">
+		SELECT name, note, (usedate - CURDATE()) AS dday FROM mymedi 
+		WHERE UID=#{uid} AND (usedate - CURDATE()) > 0 AND (usedate - CURDATE()) <![CDATA[<]]> 26 
+		ORDER BY dday ASC LIMIT 5;
+	</select>
+	
+	
 	
 </mapper>

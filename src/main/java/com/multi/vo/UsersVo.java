@@ -45,11 +45,12 @@ public class UsersVo {
 	
 	
 	/**
-	 * Constructor for insert and update
+	 * Constructor for insert
 	 * 제외: regdate, status, qdate
 	 */
 	public UsersVo(String id, String pwd, String name, String email, String birth, String sex, String photo,
 			int utype) {
+		
 		this.id = id;
 		this.pwd = pwd;
 		this.name = name;
@@ -61,14 +62,17 @@ public class UsersVo {
 	}
 
 
-	public UsersVo(String id, String pwd, String name, String email, String birth, String sex) {
+	/**
+	 * Constructor for update
+	 * 제외: regdate, status, qdate, sex, photo
+	 */
+	public UsersVo(String id, String pwd, String name, String email, String birth) {
 		
 		this.id = id;
 		this.pwd = pwd;
 		this.name = name;
 		this.email = email;
 		this.birth = birth;
-		this.sex = sex;
 		
 	}
 	
