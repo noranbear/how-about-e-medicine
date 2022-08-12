@@ -27,6 +27,8 @@
 
 2022. 7. 29.		najune						profile 수정 기능 구현
 
+2022. 8. 12.		najune						plist 추가 기능 구현
+
 -------------------------------------------------------------------------
 -->
 
@@ -64,18 +66,19 @@
 $(document).ready(function(){
 
 	// 데이터 전송
-	$('#add_btn').click(function(){
-		$('#add_form').attr({
-			'method':'post',
-			'action':'addimpl'
+	submitForms = function(){
+		$.ajax({
+			url:'/addimpl',
+			type:"post",
+			data:$('form').serialize(),
+	  		async: false
 		});
-		$('#add_form').submit();
-	})
-
-});
- 
+		$('#frm1').submit(); 
+	};
+	});	
 </script>
 
+</head>
 <style>
 .span{
 font-size:1em;
@@ -170,7 +173,7 @@ font-size:1em;
 							</div>
 							<!-- 회원가입 -->
 							<div class="card-body">
-								<form id="add_form" action="#" class="text-start" method="post">
+								<form id="frm1" class="text-start" method="post" name="frm1">
 									<div class="input-group input-group-outline my-3">
 										<label class="form-label">id</label>
 										<input type="text"  name="uid" class="form-control">
@@ -187,31 +190,30 @@ font-size:1em;
 									</div>								
 									
 									<div class="input-group input-group-outline mb-3">
-										<label class="form-label">days</label>
+										<label class="form-label">1일 *회</label>
 										<input id="days" name="days" type="text"  class="form-control">
 									</div>
                             		
 									<div class="input-group input-group-outline mb-3">
-										<label class="form-label">time</label>
+										<label class="form-label">식전/후 *분</label>
 										<input id="time" name="time" type="text"  class="form-control">
 									</div>
 									
 									<div class="input-group input-group-outline mb-3">
-										<label class="form-label">dtime</label>
+										<label class="form-label">*일</label>
 										<input id="dtime" name="dtime" type="text"  class="form-control">
 									</div>
-									
+		
 									<div class="input-group input-group-outline mb-3">
 										<label class="form-label">medicine</label>
 										<input id="name" name="name" type="text"  class="form-control">
-									</div>
-
+									</div>								
 									<div class="text-center">
-										<button id="add_btn" type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2" >추가하기</button>
+										<button type="button" onclick="submitForms()" class="btn bg-gradient-primary w-100 my-4 mb-2">추가하기</button>
 										<button type="button"  onClick="history.go(-1)" class="btn bg-gradient-primary w-100 my-4 mb-2">취소</button>
 									</div>
 									
-								</form>
+								</form>								
 							</div>
 						</div>
 					</div>

@@ -110,6 +110,8 @@ import com.multi.vo.UsersVo;
  *  2022. 8. 5.			qwaszx357				editstop 생성
  *												editdone 생성
  *	
+ *  2022. 8. 12.		najune				addimpl ajax로 이동
+ *
  * ====================================================================
  */
 
@@ -470,26 +472,6 @@ public class MainController {
     public String padd() {  
         return "padd";
     }
-		
-    @RequestMapping("/addimpl")
-	public String addimpl(Model m, PlistVo plist, String name) {	      
-         int listId = 0;		
-         
-         try {
-         	 plibiz.register(plist);
-    	     plist = plibiz.gettheone(plist);
-     
-             if(plist.getId() != 0) {		
-					listId = plist.getId();
-					PmediVo medi = new PmediVo(name, listId);
-					pmedibiz.register(medi);												
-				}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}                                       
-        m.addAttribute("center", "plist");
-		return "index";
-	}
     /**
 	 * 복약내역상세 페이지 연결
 	 * @return pdetail.html
