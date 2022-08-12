@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 <mapper namespace="com.multi.mapper.PlistMapper">
 	
 	<insert id="insert" parameterType="plistVo">
-		INSERT INTO plist VALUES (NULL,#{uid},#{hospital},#{pdate},#{days},#{time},#{dtime},NULL)
+		INSERT INTO plist VALUES (NULL,#{uid},#{hospital},#{pdate},#{days},#{time},#{dtime},"복용중")
 	</insert>
 	<delete id="delete" parameterType="int">
 		DELETE FROM plist WHERE ID=#{id}
@@ -26,11 +26,18 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		SELECT p.id, p.uid, p.hospital, p.pdate, p.days, p.status, (p.days - (curdate() - p.pdate)) AS dday FROM plist p
 		INNER JOIN users u ON p.uid = u.id WHERE p.uid=#{uid}
 	</select>
+	<!-- 순응도 구현 -->
+	<select id="donegage"  parameterType="int" resultType="plistVo">
+	    SELECT ROUND((COUNT(*) / (SELECT COUNT(*) FROM plist p
+		INNER JOIN alarm a ON p.id = a.pid WHERE p.id=#{pid})) * 100,0) AS gage FROM plist p
+		INNER JOIN alarm a ON p.id = a.pid
+		WHERE p.id=#{id} AND a.button="done"
+	</select>
 	
-  <!-- 동일한 유저 아이디, 조제일자, 병원이름을 가진 처방전 리턴 -->
+  	<!-- 동일한 유저 아이디, 조제일자, 병원이름을 가진 처방전 리턴 -->
 	<select id="selecttheone" parameterType="plistVo" resultType="plistVo">
 		SELECT * FROM plist WHERE UID=#{uid} AND PDATE=#{pdate} AND HOSPITAL=#{hospital}
-  </select>
+  	</select>
 	<!-- 복약알람 끝나는 날짜 반환 -->
 	<select id="selectenddate" parameterType="int" resultType="plistVo">
 		SELECT p.id, p.uid, p.hospital, p.pdate, p.days, DATE_ADD(p.pdate, INTERVAL p.days DAY) AS enddate FROM plist p

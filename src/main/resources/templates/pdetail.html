@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 7.0 -->
+<!-- Version: 7.1 -->
 <!-- Description: 처방상세내역 및 복약관리 페이지
 
 -------------------------------------------------------------------------
@@ -46,7 +46,10 @@
 
 											복약 알람 없을 시 화면 구현
 
-2022. 8. 4.				qwaszx357				순응도 구현											
+2022. 8. 4.				qwaszx357				순응도 구현						
+
+2022. 8. 12.								처방내역 상세 반복 없애기		
+										'복용중'일 경우에만 복용완료 버튼 클릭			
 
 -------------------------------------------------------------------------
 -->
@@ -248,19 +251,22 @@ $(document).ready(function(){
 		// 복약 알람 아이디 가져오기
 		var btaid = $(this).attr("id");
 		var aid = btaid.substr(2);
+		var pstatus = $('#pstatus').text();
 		
-		$.ajax({
-			method: 'GET',
-			url:'/switchbt',
-			data:{'aid':aid},
-			success:function(data){
-				switchBtColor(data);
-			},
-			error: function(error) {
-				alert("error");
-			}
-			
-		});
+		if (pstatus == "복용중") {
+			$.ajax({
+				method: 'GET',
+				url:'/switchbt',
+				data:{'aid':aid},
+				success:function(data){
+					switchBtColor(data);
+				},
+				error: function(error) {
+					alert("error");
+				}
+				
+			});
+		}
 		
 	});
 	
@@ -351,7 +357,7 @@ function switchBtColor(btinfo){
 	<div class="col-lg-6">
     	<div class="row">
     		<!-- 왼쪽: 처방내역 정보 -->
-          	<div class="col-xl-8 mb-xl-0 mb-4" th:each="m:${medi}">
+          	<div class="col-xl-8 mb-xl-0 mb-4">
               <div class="card bg-transparent shadow-xl">
                 <div class="overflow-hidden position-relative border-radius-xl">
                   <img src="../assets/img/illustrations/pattern-tree.svg" class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100" alt="pattern-tree">
@@ -363,7 +369,7 @@ function switchBtColor(btinfo){
                     	<i class="fa fa-file-text-o text-white p-2" style="font-size:24px"></i>
                     	 처방내역 상세
                     </h4>
-                    <h5 class="text-white mt-4 mb-5 pb-2" th:text="${p.pdate} + ' ~ ' + ${#dates.format(m.endday,'yyyy-MM-dd')}"></h5>
+                    <h5 class="text-white mt-4 mb-5 pb-2" th:text="${p.pdate} + ' ~ ' + ${#dates.format(enddate,'yyyy-MM-dd')}"></h5>
                     
                     <div class="d-flex" >
                       <div class="d-flex">
@@ -440,13 +446,13 @@ function switchBtColor(btinfo){
 				</div>
 			</div>
 			<!-- 밑: 처방약 시작 -->
-			<div class="col-md-12 mt-4 mb-xl-0 mb-4" th:each="m:${medi}"> 
+			<div class="col-md-12 mt-4 mb-xl-0 mb-4"> 
 				<div class="card">
 					<div class="card-header pb-0 px-3">
 						<h6 class="mb-0">처방약</h6>
 					</div>
 					<div class="card-body pt-4 p-3">
-						<ul class="list-group">
+						<ul class="list-group" th:each="m:${medi}">
 							<li class="cpoint list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
 								<div class="d-flex flex-column" th:each="p:${dp}">
 									<h6 class="mb-3 text-sm" th:text="${m.name}" onclick='getname(this);' id="mname">약이름 1</h6>						
@@ -608,6 +614,7 @@ function switchBtColor(btinfo){
 								</div>
 							</div>
 							<form id="done-form">
+								<p id="pstatus" th:text="${p.status}" hidden="hidden"></p>
 								<input type="hidden" th:value="${p.id}" name="id">
 								<div class="d-flex align-items-center" th:if="${al.button.equals('undone')}">
 									<button type="button" class="btn done-btn btn-outline-danger mb-0 me-0 btn-sm justify-content-center"
