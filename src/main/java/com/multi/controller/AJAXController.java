@@ -6,6 +6,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,12 +24,14 @@ import com.multi.restapi.OCRBoxAPI;
 import com.multi.restapi.OCREnvelopeAPI;
 import com.multi.vo.AlarmVo;
 import com.multi.vo.MymediVo;
+import com.multi.vo.PlistVo;
+import com.multi.vo.PmediVo;
 import com.multi.vo.SlistVo;
 
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 11.2
+ * @version 11.3
  * @description
  *
  *
