@@ -48,6 +48,6 @@ public class PmediVo {
 		this.id = id;
 		this.name = name;
 	}
-	
+
 	
 }

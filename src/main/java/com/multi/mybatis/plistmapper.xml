@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 <mapper namespace="com.multi.mapper.PlistMapper">
 	
 	<insert id="insert" parameterType="plistVo">
-		INSERT INTO plist VALUES (NULL,#{uid},#{hospital},#{pdate},#{days},#{time},#{dtime},NULL)
+		INSERT INTO plist VALUES (NULL,#{uid},#{hospital},#{pdate},#{days},#{time},#{dtime},"복용중")
 	</insert>
 	<delete id="delete" parameterType="int">
 		DELETE FROM plist WHERE ID=#{id}

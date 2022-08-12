@@ -14,6 +14,7 @@ import com.multi.biz.AlarmBiz;
 import com.multi.biz.DashBiz;
 import com.multi.biz.MymediBiz;
 import com.multi.biz.PlistBiz;
+import com.multi.biz.PmediBiz;
 import com.multi.biz.UsersBiz;
 import com.multi.mapper.UsersMapper;
 import com.multi.restapi.DataAPI;
@@ -64,6 +65,8 @@ import com.multi.vo.SlistVo;
  *
  *	2022. 8. 6.			qwaszx357			donegage 생성
  *
+ *  2022. 8. 12.		najune			 	addimpl 추가 
+ *  
  * =================================================================
  */
 
@@ -102,6 +105,9 @@ public class AJAXController {
 	
 	@Autowired
 	PlistBiz plibiz;
+	
+	@Autowired
+	PmediBiz pmedibiz;
 	
 	
 	/**
@@ -343,5 +349,25 @@ public class AJAXController {
         // System.out.println(gage);
         return gage;
     }
+	
+	 @RequestMapping("/addimpl")
+		public String addimpl(Model m, PlistVo plist, String name) {	      
+	         int listId = 0;
+	         
+	         try {
+	         	 plibiz.register(plist);
+	    	     plist = plibiz.gettheone(plist);
+	     
+	             if(plist.getId() != 0) {		
+						listId = plist.getId();
+						PmediVo medi = new PmediVo(name, listId);
+						pmedibiz.register(medi);						
+					}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}                                       
+	        m.addAttribute("center", "plist");
+			return "plist";
+		}
 
 }
