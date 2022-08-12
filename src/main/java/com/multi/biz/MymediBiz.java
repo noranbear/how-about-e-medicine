@@ -12,7 +12,7 @@ import com.multi.vo.MymediVo;
 /**
  * @author qwaszx357
  * @date 2022. 7. 11.
- * @version 2.0
+ * @version 3.0
  * @description
  *
  *
@@ -24,6 +24,8 @@ import com.multi.vo.MymediVo;
  *	2022. 7. 20.		najune			  get 추가
  *
  *	2022. 7. 29.		qwaszx357			getdday 생성
+ *
+ *	2022. 8. 9.			noranbear			get5medis 생성	
  *
  * =========================================================
  */
@@ -67,6 +69,15 @@ public class MymediBiz implements Biz<Integer, MymediVo> {
 		
 	public List<MymediVo> getusers(String txt) throws Exception {
 		return dao.get(txt);
+	}
+	
+	/**
+	 * 현재 만료일에서 25일 이내인 약리스트를 만료일 순으로 리턴하는 함수
+	 * @param u	유저 아이디
+	 * @return 약명, 만료일, 노트, 만료일로 부터 남은 일수를 포함한 보관함의 약 내역
+	 */
+	public List<MymediVo> get5medis(String u) throws Exception {
+		return dao.select5medis(u);
 	}
 		
 	

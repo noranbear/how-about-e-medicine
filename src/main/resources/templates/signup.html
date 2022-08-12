@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 1.2 -->
+<!-- Version: 1.4 -->
 <!-- Description: 메인페이지
 
 -------------------------------------------------------------------------
@@ -29,7 +29,10 @@
 
 2022. 7. 23.		qwaszx357				   헤더 변경 및 링크 연결
 
-2022. 7. 28.		najune				    아이디 중복체크 기능,이메일 @ 유효성 체크 기능
+2022. 7. 28.		najune				    	아이디 중복체크 기능, 
+											 이메일 @ 유효성 체크 기능
+
+2022. 8. 5.			noranbear					성별 value 수정
 
 -------------------------------------------------------------------------
 -->
@@ -239,13 +242,13 @@ font-size:1em;
 									<h4><span>성별</span></h4>
 		                            <div>							  
 		                              <label for="male">남성</label>
-									  <input id="male" type="radio"  value="남성" name="sex">							
+									  <input id="male" type="radio"  checked value="M" name="sex">							
 									  <label for="female">여성</label>
-									  <input id="female" type="radio" checked value="여성" name="sex">
+									  <input id="female" type="radio" value="F" name="sex">
 		                   			 </div>
 
 									<div class="text-center">
-										<button id="signup_btn" type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2" >회원가입</button>
+										<button id="signup_btn" type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">회원가입</button>
 									</div>
 									
 								</form>

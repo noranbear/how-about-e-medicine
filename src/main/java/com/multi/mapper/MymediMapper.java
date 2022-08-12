@@ -11,7 +11,7 @@ import com.multi.vo.MymediVo;
 /**
  * @author qwaszx357
  * @date 2022. 7. 11.
- * @version 2.0
+ * @version 3.0
  * @description
  *
  *
@@ -23,6 +23,8 @@ import com.multi.vo.MymediVo;
  *	2022. 7. 20.		najune				get 추가 
  *
  *	2022. 7. 29.		qwaszx357		   selectdday 생성
+ *
+ *  2022. 8. 9.         noranbear          select5medis 생성
  *
  * =========================================================
  */
@@ -42,5 +44,8 @@ public interface MymediMapper {
     
  // Mymedi
  	public List<MymediVo> get(String txt) throws Exception;
+ 	
+ 	// 만료일로부터 25일 이내인 약 리스트 리턴
+ 	public List<MymediVo> select5medis(String uid) throws Exception;;
  	
 }

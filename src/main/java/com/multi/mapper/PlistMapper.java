@@ -31,6 +31,8 @@ import com.multi.vo.PlistVo;
  *											editstop 생성
  *											select_end 삭제
  *
+ *	2022. 8. 9.			noranbear		  select5plists 생성
+ *
  *	2022. 8. 11.		qwaszx357			donegage 생성
  *
  * =========================================================
@@ -57,6 +59,9 @@ public interface PlistMapper {
 	// 복약 끝나는 날짜도 같이 출력
 	public PlistVo selectenddate(int id) throws Exception;
 	
+	// 해당 유저의 최대 5개의 복용중 상태인 처방내역 리턴
+	public List<PlistVo> select5plists(String uid) throws Exception;
+
 	// 복용 완료
 	public void editdone(int id) throws Exception;
 	// 복용 중지
