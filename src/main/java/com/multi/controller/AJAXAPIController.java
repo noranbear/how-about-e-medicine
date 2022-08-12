@@ -38,7 +38,7 @@ public class AJAXAPIController {
 	 * @param imgname 이미지 파일 이름
 	 */
 	@RequestMapping("eocrimpl")
-	public Object eocraddimpl(String imgname) {
+	public Object eocrimpl(String imgname) {
 		String mname = "";		// 약이름
 
 		JSONArray cresult = new JSONArray();	// 약이름을 담을 array
