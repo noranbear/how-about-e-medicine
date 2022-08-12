@@ -12,7 +12,7 @@ import com.multi.vo.PlistVo;
 /**
  * @author najune
  * @date 2022. 7. 13.
- * @version 4.0
+ * @version 5.0
  * @description
  *
  *
@@ -30,6 +30,8 @@ import com.multi.vo.PlistVo;
  *
  *  2022. 8. 5.			qwaszx357			editstop 생성
  *											editdone 생성
+ *
+ *	2022. 8. 11.		qwaszx357			donegage 생성
  *
  * =========================================================
  */
@@ -107,6 +109,15 @@ public class PlistBiz implements Biz<Integer, PlistVo>{
 
 	public PlistVo gettheone(PlistVo v) throws Exception{
 		return dao.selecttheone(v);
+	}
+	
+	/**
+	 * 순응도를 계산하여 출력한다.
+	 * @param k 처방전 아이디
+	 * @return AlarmVo
+	 */
+	public PlistVo donegage(Integer k) throws Exception {
+		return dao.donegage(k);
 	}
   
 }

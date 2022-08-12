@@ -11,7 +11,7 @@ import com.multi.vo.PlistVo;
 /**
  * @author najune
  * @date 2022. 7. 13.
- * @version 4.0
+ * @version 5.0
  * @description
  *
  *
@@ -27,9 +27,11 @@ import com.multi.vo.PlistVo;
  *
  *  2022. 8. 5.			najune				selecttheone 생성
  * 
- *                  qwaszx357		    editdone 생성
+ *                  	qwaszx357		    editdone 생성
  *											editstop 생성
  *											select_end 삭제
+ *
+ *	2022. 8. 11.		qwaszx357			donegage 생성
  *
  * =========================================================
  */
@@ -47,8 +49,10 @@ public interface PlistMapper {
 
 	// 처방내역에 출력
 	public List<PlistVo> selectuser(String k) throws Exception;
+	//순응도
+    public PlistVo donegage(int id) throws Exception;
 	
-  // 동일한 유저 아이디, 조제일자, 병원이름을 가진 처방전 리턴
+  	// 동일한 유저 아이디, 조제일자, 병원이름을 가진 처방전 리턴
 	public PlistVo selecttheone(PlistVo plist) throws Exception;
 	// 복약 끝나는 날짜도 같이 출력
 	public PlistVo selectenddate(int id) throws Exception;
