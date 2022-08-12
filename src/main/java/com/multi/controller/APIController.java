@@ -23,7 +23,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 8. 10.
- * @version 2.1
+ * @version 2.2
  * @description
  *
  *
@@ -83,7 +83,8 @@ public class APIController {
 		// [1] 약 이미지 저장
 		// 1-1. 이미지 이름을 가져온다.
 		imgname = mf.getMf().getOriginalFilename();		// mf 앞에 fake path가 붙기 때문에 필요
-
+		m.addAttribute("imgname", imgname);		// ajax에서 쓰기 위해 화면에 보내놓음
+		
 		// 조건 1: 이미지가 존재할 때 실행
 		if(!(imgname.isEmpty())) { 
 			
@@ -166,6 +167,9 @@ public class APIController {
 			}
 		}
 		
+		// 현 함수 실행 여부를 화면에서 확인하기 위해 화면으로 상태를 보낸다.
+		m.addAttribute("start", "ok");
+
 		return "padd";
 
 	}

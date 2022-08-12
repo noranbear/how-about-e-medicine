@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 2.1 -->
+<!-- Version: 3.0 -->
 <!-- Description: 처방내역 추가 페이지
 
 -------------------------------------------------------------------------
@@ -30,6 +30,8 @@
 2022. 8. 8.			ynr1734				  페이지 타이틀 변경 및 favicon 변경
 
 2022. 8. 11.		noranbear			  ocr 버튼 및 기능 구현(DB에 넣기)
+
+2022. 8. 12.								ocr 스캔: 화면 출력 기능 구현
 
 -------------------------------------------------------------------------
 -->
@@ -129,31 +131,54 @@ font-size:1em;
 
 <script>
 /**
+ * 약이름을 화면 input에 출력하는 함수
+ */
+function putmedi(mdata){
+	var html = "";
+	
+	$('#medidiv').empty();
+	
+	// 약이름을 담은 input 생성
+	$.each(mdata, function (i, item){
+		html += "<div class='input-group input-group-outline mb-3'>";
+		html += "<label class='form-label'>medicine</label>";
+		html += "<input id='name' name='name' type='text' value='"+ mdata[i].mediname +"' class='form-control'></div>";	
+	});
+	$('#medidiv').html(html);
+	
+	console.log("What to print out: " + html);
+}
+
+/**
  * ocr 스캔 후 약이름을 가져오는 함수
  */
 function getmedi(imgname) {
+	console.log("The img to scan: " + imgname);
+	
 	$.ajax({
 		method: 'POST',
 		url:'/eocrimpl',
 		data:{'imgname':imgname},
-		//dataType: 'json',
 		// [1] 해당 데이터가 없을 때
 		error: function(error) {
-			console.log("error");
+			console.log("eocr doesn't work.");
 		},
 		// [2] 해당 데이터가 있을 때
 		success:function(data){
-			alert(data);
 		 	console.log(data);
-			//display(data);
+		 	// 해당 데이터를 input에 출력하기
+			putmedi(data);	
 		}
 	});
 	
 }
 
-$(document).ready(function(){
 
-	// 데이터 전송
+$(document).ready(function(){
+	var start = $('#start').text();			// getmedi 실행 여부
+	var imgname = $('#imgname').text();		// eocraddimpl에서 받아온 imgname
+	
+	/* 추가 버튼 클릭 시, 처방내역 추가 */
 	$('#add_btn').click(function(){
 		$('#add_form').attr({
 			'method':'post',
@@ -164,9 +189,6 @@ $(document).ready(function(){
 	
 	/* ocr 창에서 검색 버튼 클릭 시, 해당 사진 저장 */
 	$('#envbt').click(function(){
-		var img = $('#file').val();		// C:/fake path/스캔할 이미지 이름
-		var imgname = img.substr(12);	// 스캔할 이미지 이름
-		console.log(imgname);
 		
 		// envelope 폴더에 ocr 이미지 저장 후 스캔내역 DB에 정보 저장 및 처방정보 가져오기
 		$('#ocrenv').attr({
@@ -176,11 +198,15 @@ $(document).ready(function(){
 		});
 		
 		$('#ocrenv').submit();
-		
+				
+	});
+	
+	// eocraddimpl 실행여부 확인 후, 실행 후이면 getmedi 실행
+	if(start == "ok"){
+		console.log("Execute getmedi? " + start);
 		// ocr 스캔 후 약이름 가져오기
 		getmedi(imgname);
-	
-	});
+	}
 
 });
 
@@ -270,7 +296,12 @@ function readURL(input) {
 							</div>
 							<!-- 처방내역 추가 -->
 							<div class="card-body">
+								<!-- eocraddimpl에서 가져온 값 저장용 -->
+								<p id="start" th:text="${start}" hidden="hidden"></p>
+								<p id="imgname" th:text="${imgname}" hidden="hidden"></p>
+
 								<form id="add_form" action="#" class="text-start" method="post">
+									
 									<div class="input-group input-group-outline my-3">
 										<label class="form-label">id</label>
 										<input type="text" name="uid" class="form-control">
@@ -301,9 +332,12 @@ function readURL(input) {
 										<input id="dtime" name="dtime" type="text" class="form-control">
 									</div>
 									
-									<div class="input-group input-group-outline mb-3">
-										<label class="form-label">medicine</label>
-										<input id="name" name="name" type="text" class="form-control">
+									<!-- 약 input이 출력되는 div -->
+									<div id="medidiv">
+										<div class="input-group input-group-outline mb-3">
+											<label class="form-label">medicine</label>
+											<input id="name" name="name" type="text" class="form-control">
+										</div>
 									</div>
 
 									<div class="text-center">

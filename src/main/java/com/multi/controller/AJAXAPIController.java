@@ -12,7 +12,7 @@ import com.multi.restapi.OCREnvelopeAPI;
 /**
  * @author noranbear
  * @date 2022. 8. 11.
- * @version 1.0
+ * @version 1.1
  * @description
  *
  *
@@ -39,12 +39,9 @@ public class AJAXAPIController {
 	 */
 	@RequestMapping("eocrimpl")
 	public Object eocraddimpl(String imgname) {
-		int	cnt = 0;			// 약갯수
 		String mname = "";		// 약이름
-		int ncnt = 0;			// 약이름갯수
-		
-		JSONArray cresult = new JSONArray();
-		JSONObject emedi = new JSONObject();
+
+		JSONArray cresult = new JSONArray();	// 약이름을 담을 array
 		
 		// 조건 1: 이미지가 존재할 때 실행
 		if(!(imgname.isEmpty())) { 
@@ -71,21 +68,17 @@ public class AJAXAPIController {
 				mname = (String) medi.get("inferText");
 				
 				// 2-6. jsonarray에 넣는다.
+				JSONObject emedi = new JSONObject();
+				
 				// 조건2: 약이름이 null이 아닐 때
 				if(!(mname.equals("") || mname.equals(null))) {
-					ncnt ++;	// 약이름 숫자
-					emedi.put("medi" + ncnt, mname);
-					
-					cnt++;		// 약 갯수 세기
+					emedi.put("mediname", mname);
+					cresult.add(emedi);
 				}
 				
 			}
-			// 2-6-1. 약갯수도 jsonarray에 넣기
-			emedi.put("count", cnt);
-			cresult.add(emedi);
 			
 			System.out.println(cresult.toString());
-			
 		}
 		
 		return cresult;
