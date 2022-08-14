@@ -157,7 +157,10 @@ function plistadd(){
 	
 	// 약을 입력하지 않았을 때
 	if(mnameArr.length == 0){
-		alert("잘못된 입력");
+		$('#sp_medi').text('*처방약을 적어주세요.').css('color','red');
+		return;
+	}else{
+		$('#sp_medi').hide();
 	}
 	
 	$.ajax({
@@ -190,9 +193,8 @@ function putmedi(mdata){
 	
 	// 약이름을 담은 input 생성
 	$.each(mdata, function (i, item){
-		html += "<div class='input-group input-group-outline mb-3'>";
-		html += "<label class='form-label'>medicine</label>";
-		html += "<input id='name' name='name' type='text' value='"+ mdata[i].mediname +"' class='form-control'></div>";	
+		html += "<div class='input-group input-group-outline mb-1'>";
+		html += "<input id='mname' class='form-control' type='text' name='mname' value='"+ mdata[i].mediname +"'></div>";	
 	});
 	$('#medidiv').html(html);
 	
@@ -227,6 +229,9 @@ function getmedi(imgname) {
 $(document).ready(function(){
 	var start = $('#start').text();			// getmedi 실행 여부
 	var imgname = $('#imgname').text();		// eocraddimpl에서 받아온 imgname
+	
+	// 조제일자 max 날짜를 현재날짜로 지정
+	pdate.max = new Date().toISOString().split("T")[0];
 	
 	/* 추가 버튼 클릭 시, 처방내역 추가 */
 	$('#add_btn').click(function(){
@@ -364,7 +369,7 @@ function readURL(input) {
 									<input id="hospital" class="form-control" type="text" name="hospital" th:value="${hos}">
 								</div>
 									 
-								<label class="mb-sm-1" for="pdate" style="font-size: 0.8rem;">조제일자</label>
+								<label class="mb-sm-1" for="pdate" style="font-size: 0.8rem;">처방일자</label>
 								<div class="input-group input-group-outline mb-2">
 									<input id="pdate" class="form-control" type="date" name="pdate" th:value="${pdate}">
 								</div>								
@@ -374,21 +379,34 @@ function readURL(input) {
 									<input id="days" class="form-control" type="text" name="days" th:value="${days}">
 								</div>
                            		
-                           		<label class="mb-sm-1" for="time" style="font-size: 0.8rem;">투약횟수</label>
+                           		<label class="mb-sm-1" for="time" style="font-size: 0.8rem;">투약횟수
+                           			<i class="fa fa-info-circle" data-bs-toggle="tooltip" data-bs-placement="right" 
+                           			title="하루 투약일수"></i>
+                           		</label>
 								<div class="input-group input-group-outline mb-2">
 									<input id="time" class="form-control" type="text" name="time">
 								</div>
 								
-								<label class="mb-sm-1" for="dtime" style="font-size: 0.8rem;">투약시간</label>
+								<label class="mb-sm-1" for="dtime" style="font-size: 0.8rem;">투약시간
+									<i class="fa fa-info-circle" data-bs-toggle="tooltip" data-bs-placement="right" 
+                           			title="예시: '식전 30분'"></i>
+								</label>
 								<div class="input-group input-group-outline mb-2">
 									<input id="dtime" class="form-control" type="text" name="dtime">
 								</div>
 								
 								<label class="mb-sm-1 pt-sm-2 text-sm text-bold" for="mname">처방약</label>
 								<!-- input 추가 버튼 -->
-								<button id="iadd_bt" type="button" class="btn btn-block bg-gradient-primary mb-2 ms-sm-1 py-sm-0 px-sm-2">+</button>
+								<button id="iadd_bt" type="button" class="btn btn-block bg-gradient-primary mb-2 ms-sm-1 py-sm-0 px-sm-2"
+									data-bs-toggle="tooltip" data-bs-placement="bottom" title="처방약 입력추가 버튼">+
+								</button>
 								<!-- OCR 버튼 - OCR Modal 창으로 이동 -->
-								<button id="scan_bt" type="button" class="btn btn-block bg-gradient-primary mb-2" data-bs-toggle="modal" data-bs-target="#modal-default" style="float: right;"><i class="fa fa-camera"></i></button>
+								<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="이미지로 추가" style="display:inline;">
+									<button id="scan_bt" type="button" class="btn btn-block bg-gradient-primary mb-2" 
+										data-bs-toggle="modal" data-bs-target="#modal-default" style="float: right;">
+										<i class="fa fa-camera"></i>
+									</button>
+								</div>
 								<!-- 약 input이 출력되는 div -->
 								<div id="medidiv">
 									<div class="input-group input-group-outline mb-1">
@@ -401,7 +419,7 @@ function readURL(input) {
 										<input id="mname" class="form-control" type="text" name="mname">
 									</div>
 								</div>
-
+								<span id="sp_medi" class="text-xxs"></span>
 								<div class="text-center">
 									<button id="add_btn" type="button" class="btn bg-gradient-primary w-100 my-4 mb-2">추가하기</button>
 									<a class="text-end" href="#" onclick="history.go(-1)" style='font-size: 0.8rem;'>취소</a>
@@ -421,7 +439,7 @@ function readURL(input) {
 		<div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h6 class="modal-title" id="modal-title-default">이미지로 검색하기</h6>
+					<h6 class="modal-title" id="modal-title-default">이미지로 처방내역 추가하기</h6>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
@@ -430,6 +448,7 @@ function readURL(input) {
 				<form id="ocrenv">
 					<div id="modal-body" class="modal-body">
 						<!-- input css 변경 -->
+						<p class="mb-sm-2">약국봉투 이미지를 업로드하세요.</p>
 						<label for="file">
 						  <a class="btn-upload">파일 선택</a>
 						</label>
