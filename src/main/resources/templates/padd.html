@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 4.1 -->
+<!-- Version: 4.3 -->
 <!-- Description: 처방내역 추가 페이지
 
 -------------------------------------------------------------------------
@@ -36,7 +36,10 @@
                 	najune					  plist 추가 기능 구현
 
 2022. 8. 14.		noranbear		   화면 정리 및 약이름 input 추가 기능 구현,
-											 약정보 추가버튼 기능 구현	
+											 약정보 추가버튼 기능 구현
+											 
+										  OCR 추가 기능 수정 및 UX 업데이트
+												   마무리 정리
 				
 -------------------------------------------------------------------------
 -->
@@ -71,31 +74,7 @@
 <!-- 2. 끝 -->
 
 <style>
-.span{
-font-size:1em;
-}
-.sinup_form.input{
-  height : 30px;
-  width : 200px;
-  border : 1px solid #515151;
-  box-sizing : border-box;
-  vertical-align: top;
-  border-radius: 20px;
-  text-indent : 10px;
-  outline : none;
-}
-
-.sinup_form.input{
-  height : 30px;
-  width : 50px;
-  border-radius: 20px;
-  border : 1px solid #515151;
-  box-sizing : border-box;
-  vertical-align: top;
-  outline : none;
-}
-
-/* 5. Modal CSS 시작 ---- */
+/* Modal CSS 시작 ---- */
 #modal-body{
 	text-align:center;
 }
@@ -130,7 +109,7 @@ font-size:1em;
 	width:400px;
 	height:300px;
 }
-/* 5. Modal CSS 끝 --- */
+/* Modal CSS 끝 --- */
 </style>
 
 <script>
@@ -194,7 +173,7 @@ function putmedi(mdata){
 	// 약이름을 담은 input 생성
 	$.each(mdata, function (i, item){
 		html += "<div class='input-group input-group-outline mb-1'>";
-		html += "<input id='mname' class='form-control' type='text' name='mname' value='"+ mdata[i].mediname +"'></div>";	
+		html += "<input id='mname' class='form-control' type='text' name='mname' value='"+ mdata[i].mediname +"'></div>";
 	});
 	$('#medidiv').html(html);
 	
@@ -320,15 +299,15 @@ function readURL(input) {
 									</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link me-2" th:href="@{/profile}">
+									<a class="nav-link me-2" th:href="@{/mypage}">
 										<i class="fa fa-user opacity-6 text-dark me-1"></i>
 										마이페이지
 									</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link me-2" th:href="@{/signin}">
-										<i class="fas fa-key opacity-6 text-dark me-1"></i>
-										로그인
+									<a class="nav-link d-flex align-items-center me-2 active" aria-current="page" th:href="@{/mymedi}">
+										<i class="fas fa-first-aid opacity-6 text-dark me-1"></i>
+										약 보관함
 									</a>
 								</li>
 							</ul>
