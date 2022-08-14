@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 3.0 -->
+<!-- Version: 4.0 -->
 <!-- Description: 처방내역 추가 페이지
 
 -------------------------------------------------------------------------
@@ -33,8 +33,11 @@
 
 2022. 8. 12.								ocr 스캔: 화면 출력 기능 구현
 
-                najune						plist 추가 기능 구현
+                	najune					  plist 추가 기능 구현
 
+2022. 8. 14.		noranbear		   화면 정리 및 약이름 input 추가 기능 구현,
+											 약정보 추가버튼 기능 구현	
+				
 -------------------------------------------------------------------------
 -->
 
@@ -132,6 +135,44 @@ font-size:1em;
 
 <script>
 /**
+ * 처방내역 정보를 가져오고 약이름은 배열로 만들어 Ajax로 Controller에 보낸다.
+ */
+function plistadd(){
+	var hospital = $('#hospital').val();
+	var pdate = $('#pdate').val();
+	var days = $('#days').val();
+	var time = $('#time').val();
+	var dtime = $('#dtime').val();
+	var mnameArr = [];	// 약이름 넣을 배열
+	
+	// 약이름 배열에 넣기
+	$("input[name='mname']").each(function(i){
+		var medi = $(this).val();
+		if(medi != ""){	// input에 값이 있을 때
+			mnameArr.push(medi);
+		}
+		console.log("medi" + i);
+		
+	});
+	
+	$.ajax({
+		method: 'POST',
+	    url: '/plistaddimpl',
+	    data: {
+	        'hospital': hospital,
+	        'pdate': pdate,
+	        'days': days,
+	        'time': time,
+	        'dtime': dtime,
+	        'mediArr': mnameArr
+	    },
+	    success:function(data){
+	        console.log(data);
+	    }
+	});
+}
+
+/**
  * 약이름을 화면 input에 출력하는 함수
  */
 function putmedi(mdata){
@@ -181,11 +222,7 @@ $(document).ready(function(){
 	
 	/* 추가 버튼 클릭 시, 처방내역 추가 */
 	$('#add_btn').click(function(){
-		$('#add_form').attr({
-			'method':'post',
-			'action':'addimpl'
-		});
-		$('#add_form').submit();
+		plistadd();
 	})
 	
 	/* ocr 창에서 검색 버튼 클릭 시, 해당 사진 저장 */
@@ -199,6 +236,19 @@ $(document).ready(function(){
 		});
 		
 		$('#ocrenv').submit();
+				
+	});
+	
+	/* 처방약 input 추가버튼을 눌렀을 때 버튼 */
+	$('#iadd_bt').click(function(){
+		
+		var div = document.createElement('div');
+		// medidiv2라는 아이디를 가진 div를 'div'값으로 복사한다.
+		div.innerHTML = document.getElementById('medidiv2').innerHTML;
+		// 'div'값을 medidiv라는 아이디를 가진 div에 생성한다.
+		document.getElementById('medidiv').appendChild(div);
+		
+		console.log("Input added.");
 				
 	});
 	
@@ -235,7 +285,7 @@ function readURL(input) {
 		<div class="row">
 			<div class="col-12">
 			
-				<!-- Header Start -->
+				<!-- 1. Header Start -->
 				<nav class="navbar navbar-expand-lg blur border-radius-xl top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
 					<div class="container-fluid ps-2 pe-0">
 						<span class="navbar-brand font-weight-bolder ms-lg-0 ms-3 ">
@@ -277,77 +327,78 @@ function readURL(input) {
 						</div>
 					</div>
 				</nav>
-				<!-- End Header -->
+				<!-- 1. Header End -->
 				
 			</div>
 		</div>
 	</div>
-	<!-- Main Start -->
-	<main class="main-content  mt-0">
+	<!-- 2. Main Start -->
+	<main class="main-content mt-0">
 		<div class="page-header align-items-start min-vh-100" style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');">
 			<span class="mask bg-gradient-dark opacity-6"></span>
 			<div class="container my-auto">
 				<div class="row">
 					<div class="col-lg-4 col-md-8 col-12 mx-auto">
-						<div class="card z-index-0 fadeIn3 fadeInBottom">
+						<div class="card mt-8 z-index-0 fadeIn3 fadeInBottom">
 							<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 								<div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
 									<h4 class="text-white font-weight-bolder text-center mt-2 mb-0">처방내역 추가</h4>
 								</div>
 							</div>
-							<!-- 처방내역 추가 -->
+							<!-- 2-1. 처방내역 추가 시작-->
 							<div class="card-body">
 								<!-- eocraddimpl에서 가져온 값 저장용 -->
 								<p id="start" th:text="${start}" hidden="hidden"></p>
 								<p id="imgname" th:text="${imgname}" hidden="hidden"></p>
+								<!-- 처방내역 추가 input -->
+								<label class="mb-sm-1" for="hospital" style="font-size: 0.8rem;">병원명</label>
+								<div class="input-group input-group-outline mb-2">
+									<input id="hospital" class="form-control" type="text" name="hospital" th:value="${hos}">
+								</div>
+									 
+								<label class="mb-sm-1" for="pdate" style="font-size: 0.8rem;">조제일자</label>
+								<div class="input-group input-group-outline mb-2">
+									<input id="pdate" class="form-control" type="date" name="pdate" th:value="${pdate}">
+								</div>								
+								
+								<label class="mb-sm-1" for="days" style="font-size: 0.8rem;">투약일수</label>
+								<div class="input-group input-group-outline mb-2">
+									<input id="days" class="form-control" type="text" name="days" th:value="${days}">
+								</div>
+                           		
+                           		<label class="mb-sm-1" for="time" style="font-size: 0.8rem;">투약횟수</label>
+								<div class="input-group input-group-outline mb-2">
+									<input id="time" class="form-control" type="text" name="time">
+								</div>
+								
+								<label class="mb-sm-1" for="dtime" style="font-size: 0.8rem;">투약시간</label>
+								<div class="input-group input-group-outline mb-2">
+									<input id="dtime" class="form-control" type="text" name="dtime">
+								</div>
+								
+								<label class="mb-sm-1 pt-sm-2 text-sm text-bold" for="mname">처방약</label>
+								<!-- input 추가 버튼 -->
+								<button id="iadd_bt" type="button" class="btn btn-block bg-gradient-primary mb-2 ms-sm-1 py-sm-0 px-sm-2">+</button>
+								<!-- OCR 버튼 - OCR Modal 창으로 이동 -->
+								<button id="scan_bt" type="button" class="btn btn-block bg-gradient-primary mb-2" data-bs-toggle="modal" data-bs-target="#modal-default" style="float: right;"><i class="fa fa-camera"></i></button>
+								<!-- 약 input이 출력되는 div -->
+								<div id="medidiv">
+									<div class="input-group input-group-outline mb-1">
+										<input id="mname" class="form-control" type="text" name="mname">
+									</div>
+								</div>
+								<!-- 약 input 복사용 div -->
+								<div id="medidiv2" hidden="hidden">
+									<div class="input-group input-group-outline mb-1">
+										<input id="mname" class="form-control" type="text" name="mname">
+									</div>
+								</div>
 
-								<form id="add_form" action="#" class="text-start" method="post">
-									<div class="input-group input-group-outline my-3">
-										<label class="form-label">id</label>
-										<input type="text" name="uid" class="form-control">
-									</div>
-									
-									<div class="input-group input-group-outline mb-3">
-										<label class="form-label">hospital</label>
-										<input type="text" id="hospital" name="hospital" th:value="${hos}" class="form-control">
-									</div>
-										 
-									<div class="input-group input-group-outline mb-3">
-										<label class="form-label">pdate</label>
-										<input id="pdate" type="date" name="pdate" th:value="${pdate}" class="form-control">
-									</div>								
-									
-									<div class="input-group input-group-outline mb-3">
-										<label class="form-label">days</label>
-										<input id="days" name="days" type="text" th:value="${days}" class="form-control">
-									</div>
-                            		
-									<div class="input-group input-group-outline mb-3">
-										<label class="form-label">time</label>
-										<input id="time" name="time" type="text" class="form-control">
-									</div>
-									
-									<div class="input-group input-group-outline mb-3">
-										<label class="form-label">dtime</label>
-										<input id="dtime" name="dtime" type="text" class="form-control">
-									</div>
-									
-									<!-- 약 input이 출력되는 div -->
-									<div id="medidiv">
-										<div class="input-group input-group-outline mb-3">
-											<label class="form-label">medicine</label>
-											<input id="name" name="name" type="text" class="form-control">
-										</div>
-									</div>
-
-									<div class="text-center">
-										<button id="add_btn" type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2" >추가하기</button>
-										<!-- OCR 버튼 - OCR Modal 창으로 이동 -->
-										<button id="scan_bt" type="button" class="btn btn-block bg-gradient-primary mb-3" data-bs-toggle="modal" data-bs-target="#modal-default"><i class="fa fa-camera"></i></button>
-										<a class="text-end" href="#" onclick="history.go(-1)" style='font-size: 0.8rem;'>취소</a>
-									</div>
-									
-								</form>								
+								<div class="text-center">
+									<button id="add_btn" type="button" class="btn bg-gradient-primary w-100 my-4 mb-2">추가하기</button>
+									<a class="text-end" href="#" onclick="history.go(-1)" style='font-size: 0.8rem;'>취소</a>
+								</div>
+								<!-- 2-2. 처방내역 추가 끝-->							
 							</div>
 						</div>
 					</div>
@@ -355,9 +406,9 @@ function readURL(input) {
 			</div>	
 		</div>
 	</main>
-	<!-- End Main -->
+	<!-- 2. Main End-->
 	
-	<!-- OCR Modal 창 -->
+	<!-- 3. OCR Modal 창 시작 -->
 	<div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
 		<div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
 			<div class="modal-content">
@@ -377,10 +428,7 @@ function readURL(input) {
 						<div class="form-group">
 							<input type="file" id="file" name="mf" accept="image/*" onchange="readURL(this);">
 						</div>
-						<img id="preview">
-						<h6>OR</h6>
-						<!-- 이미지 링크 -->
-						<input type="url" id="url-search" placeholder="이미지 링크"><!-- name 없애놓음 -->
+						<img id="preview"><!-- 이미지가 프리뷰 되는 곳 -->
 					</div>
 					<div class="modal-footer">
 						<a id="envbt" class="btn bg-gradient-primary">검색</a>
@@ -390,7 +438,7 @@ function readURL(input) {
 			</div>
 		</div>
 	</div>
-	<!-- OCR Modal 끝 -->
+	<!-- 3. OCR Modal 끝 -->
 
 	
 	<!--   Core JS Files   -->

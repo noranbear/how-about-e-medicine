@@ -2,12 +2,14 @@ package com.multi.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.multi.biz.AlarmBiz;
@@ -24,14 +26,12 @@ import com.multi.restapi.OCRBoxAPI;
 import com.multi.restapi.OCREnvelopeAPI;
 import com.multi.vo.AlarmVo;
 import com.multi.vo.MymediVo;
-import com.multi.vo.PlistVo;
-import com.multi.vo.PmediVo;
 import com.multi.vo.SlistVo;
 
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 11.3
+ * @version 11.4
  * @description
  *
  *
@@ -69,6 +69,9 @@ import com.multi.vo.SlistVo;
  *
  *  2022. 8. 12.		najune			 	addimpl 추가 
  *  
+ *	2022. 8. 14.		noranbear		   addimpl 삭제 및 
+ *										  plistaddimpl 추가
+ *	
  * =================================================================
  */
 
@@ -329,24 +332,24 @@ public class AJAXController {
         return gage;
     }
 	
-	 @RequestMapping("/addimpl")
-		public String addimpl(Model m, PlistVo plist, String name) {	      
-	         int listId = 0;
-	         
-	         try {
-	         	 plibiz.register(plist);
-	    	     plist = plibiz.gettheone(plist);
-	     
-	             if(plist.getId() != 0) {		
-						listId = plist.getId();
-						PmediVo medi = new PmediVo(name, listId);
-						pmedibiz.register(medi);						
-					}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}                                       
-	        m.addAttribute("center", "plist");
-			return "plist";
-		}
+	/**
+	 * 
+	 * @param hospital
+	 * @param pdate
+	 * @param days
+	 * @param time
+	 * @param dtime
+	 * @param mediArr
+	 * @return
+	 */
+	@RequestMapping("/plistaddimpl")
+    public String plistaddimpl(String hospital, String pdate, String days, String time, String dtime,
+    		@RequestParam(value="mediArr[]") ArrayList<String> mediArr, HttpSession session) {
+    	
+    	System.out.println(mediArr.toString());
+    	System.out.println(session.getAttribute("signinusers").toString());
+    	
+    	return "ok";
+    }
 
 }
