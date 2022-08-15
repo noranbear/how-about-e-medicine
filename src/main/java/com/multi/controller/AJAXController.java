@@ -2,12 +2,14 @@ package com.multi.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.multi.biz.AlarmBiz;
@@ -27,11 +29,12 @@ import com.multi.vo.MymediVo;
 import com.multi.vo.PlistVo;
 import com.multi.vo.PmediVo;
 import com.multi.vo.SlistVo;
+import com.multi.vo.UsersVo;
 
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 12
+ * @version 13.0
  * @description
  *
  *
@@ -69,7 +72,13 @@ import com.multi.vo.SlistVo;
  *
  *  2022. 8. 12.		najune			 	addimpl 추가 
  *  
+ *	2022. 8. 14.		noranbear		   addimpl 삭제 및 
+ *										  plistaddimpl 추가
+ *										  
+ *										  plistaddimple 구현
+ *
  *  2022. 8. 15.		qwaszx357			주의사항에 정규표현식 적용
+ *
  * =================================================================
  */
 
@@ -110,7 +119,7 @@ public class AJAXController {
 	PlistBiz plibiz;
 	
 	@Autowired
-	PmediBiz pmedibiz;
+	PmediBiz pmbiz;
 	
 	
 	/**
@@ -330,25 +339,50 @@ public class AJAXController {
         return gage;
     }
 	
-	 @RequestMapping("/addimpl")
-		public String addimpl(Model m, PlistVo plist, String name) {	      
-	         int listId = 0;
-	         
-	         try {
-	         	 plibiz.register(plist);
-	    	     plist = plibiz.gettheone(plist);
-	     
-	             if(plist.getId() != 0) {		
-						listId = plist.getId();
-						PmediVo medi = new PmediVo(name, listId);
-						pmedibiz.register(medi);						
-					}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}                                       
-	        m.addAttribute("center", "plist");
-			return "plist";
+	/**
+	 * 전달받은 처방내역 정보 및 처방약 정보를 DB:plist,pmedi에 저장한다.
+	 * @param hospital 병원명
+	 * @param pdate 조제일자
+	 * @param days 투약일수
+	 * @param time 투약횟수
+	 * @param dtime 투약시간
+	 * @param mediArr 약이름 배열
+	 * @return 완료유무
+	 */
+	@RequestMapping("/plistaddimpl")
+    public String plistaddimpl(String hospital, String pdate, int days, int time, String dtime,
+    		@RequestParam(value="mediArr[]") ArrayList<String> mediArr, HttpSession session) {
+    	
+		int pliid = 0;	// 생성된 plist id를 담을 변수
+		UsersVo users = null;
+		PlistVo plist = null;
+		//System.out.println(mediArr.toString());
+		
+		try {
+        	// 1. DB:plist에 값 넣기
+            users = (UsersVo) session.getAttribute("signinusers");
+            plist = new PlistVo(users.getId(), hospital, pdate, days, time, dtime);
+    		
+			plibiz.register(plist);
+			
+			// 2. plist의 id 구하기
+			plist = plibiz.gettheone(plist);
+			pliid = plist.getId();
+			
+			// 3. plist id로 DB:pmedi에 값넣기
+			if(plist.getId() != 0) {	// slist tbl에 해당 정보가 존재할 때
+				for (int i = 0; i < mediArr.size(); i++) {
+					PmediVo pmedi = new PmediVo(mediArr.get(i), pliid);
+					pmbiz.register(pmedi);
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		
+    	return "ok"; 
+    }
 
 		/**
 		 * 주의사항 경고에 정규표현식으로 강조한다.

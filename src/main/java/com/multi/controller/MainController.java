@@ -39,7 +39,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 15.1
+ * @version 16.0
  * @description
  *
  *
@@ -117,6 +117,8 @@ import com.multi.vo.UsersVo;
  *	2022. 8. 11.								plist 수정
  *	
  *  2022. 8. 12.		najune				addimpl ajax로 이동
+ *  
+ *                  qwaszx357				admin 생성
  *
  * ====================================================================
  */
@@ -227,6 +229,63 @@ public class MainController {
 		}
     
     m.addAttribute("center", "dashboard");
+		return "index";
+	}
+	
+	/**
+	 * 관리자 페이지 연결
+	 * @return admin.html
+	 */
+	@RequestMapping("/admin")
+	public String admin(Model m) {
+		int userscnt = 0;
+		UsersVo usersgrowth = null;
+		int paccession = 0;
+		int accession = 0;
+		int psecession = 0;
+		int secession = 0;
+		List<SlistVo> monthmedi = null;
+		int monthcnt = 0;
+		List<UsersVo> users = null;
+		
+		try {
+			// 총 회원 수
+			userscnt = ubiz.userscnt();
+			m.addAttribute("userscnt", userscnt);
+			// 전월 대비 증감
+			usersgrowth = ubiz.usersgrowth();
+			m.addAttribute("usersgrowth", usersgrowth);
+			
+			// 이번달 가입 회원 수
+			accession = ubiz.accession();
+			m.addAttribute("accession", accession);
+			// 전월 대비 가입 회원 수
+			paccession = accession - ubiz.paccession();
+			m.addAttribute("paccession", paccession);
+			
+			// 이번달 탈퇴 회원 수
+			secession = ubiz.secession();
+			m.addAttribute("secession", secession);
+			// 전월 대비 탈퇴 회원 수
+			psecession = secession - ubiz.psecession();
+			m.addAttribute("psecession", psecession);
+			
+			// 이달의 약 트렌드
+			monthmedi = dbiz.getmonthmedi();
+			m.addAttribute("monthmedi", monthmedi);
+			// 이번달 스캔 횟수
+			monthcnt = dbiz.getmonthcnt();
+			m.addAttribute("monthcnt", monthcnt);
+
+			// 이용중인 유저정보
+			users = ubiz.getusers();
+			m.addAttribute("users", users);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    
+		m.addAttribute("center", "admin");
 		return "index";
 	}
 	
@@ -454,9 +513,9 @@ public class MainController {
     }
     
     /**
-	 * 처방내역 페이지 연결
-	 * @throws Exception 
-	 */
+     * 처방내역 페이지 연결
+     * @return padd.html
+     */
     @RequestMapping("/padd")
     public String padd() {  
         return "padd";

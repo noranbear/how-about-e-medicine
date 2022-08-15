@@ -20,15 +20,41 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<select id="selectall" resultType="usersVo">
 		SELECT * FROM users
 	</select>
-	
+
 	<select id="getid" parameterType="String" resultType="int">
 		SELECT count(*) FROM users WHERE ID=#{id}
 	</select>
+
+	<!-- 이용중인 유저만 조회 -->
+	<select id="selectusers" resultType="usersVo">
+		SELECT * FROM users WHERE UTYPE=20 AND STATUS=1
+	</select>
+	
+	<!-- 전월 가입 회원 수 -->
+	<select id="paccession" resultType="int">
+		SELECT COUNT(*) FROM users WHERE UTYPE=20 and EXTRACT(MONTh FROM regdate) = EXTRACT(MONTh FROM CURDATE()) - 1
+	</select>
+	<!-- 이번달 가입 회원 수 -->
+	<select id="accession" resultType="int">
+		SELECT COUNT(*) FROM users WHERE UTYPE=20 and EXTRACT(MONTh FROM regdate) = EXTRACT(MONTh FROM CURDATE())
+	</select>
+	
+	<!-- 전월 탈퇴 회원 수 -->
+	<select id="psecession" resultType="int">
+		SELECT COUNT(*) FROM users WHERE UTYPE=20 and STATUS=2 and EXTRACT(MONTh FROM qdate) = EXTRACT(MONTh FROM CURDATE()) - 1
+	</select>
+	<!-- 이번달 탈퇴 회원 수 -->
+	<select id="secession" resultType="int">
+		SELECT COUNT(*) FROM users WHERE UTYPE=20 and STATUS=2 and EXTRACT(MONTh FROM qdate) = EXTRACT(MONTh FROM CURDATE())
+	</select>
+	
+	<!-- 총 회원 수 -->
+	<select id="userscnt" resultType="int">
+		SELECT COUNT(*) FROM users WHERE UTYPE=20 and STATUS=1
+	</select>
+	<!-- 전월 대비 회원 수 증감 -->
+	<select id="usersgrowth" resultType="usersVo">
+		SELECT * FROM month_growth_users WHERE month = EXTRACT(MONTh FROM CURDATE())
+	</select>
 	
 </mapper>
-
-
-
-
-
-
