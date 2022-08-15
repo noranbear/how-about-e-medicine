@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 5.0 -->
+<!-- Version: 6.0 -->
 <!-- Description: 약 디테일 페이지
 
 -----------------------------------------------------------------------------
@@ -39,6 +39,8 @@
 									추가 완료 modal 지우고 현재 modal에 출력
 									
 2022. 8. 4.										부작용, 관련약 출력
+
+2022. 8. 15.									주의사항에 강조효과
 
 -------------------------------------------------------------------------
 -->
@@ -70,6 +72,47 @@ function mymedi(uid){
 }
 
 $(document).ready(function(){
+	/* 사용상의 주의사항에 정규표현식 적용 */
+	// 주의사항 경고
+	var atpnwarn = $('#atpnwarn').text();
+	$.ajax({
+		url:'/atpnwarn',
+		data:{'atpnwarn':atpnwarn},
+		success:function(data){
+			$('#atpnWarnQesitm').html(data);
+		}
+	});
+	
+	// 주의사항
+	var atpn = $('#atpn').text();
+	$.ajax({
+		url:'/qesitm',
+		data:{'atpn':atpn},
+		success:function(data){
+			$('#atpnQesitm').html(data);
+		}
+	});
+
+	// 상호작용
+	var intrc = $('#intrc').text();
+	$.ajax({
+		url:'/intrc',
+		data:{'intrc':intrc},
+		success:function(data){
+			$('#intrcQesitm').html(data);
+		}
+	});
+	
+	// 부작용
+	var se = $('#se').text();
+	$.ajax({
+		url:'/se',
+		data:{'se':se},
+		success:function(data){
+			$('#seQesitm').html(data);
+		}
+	});
+
 	// 내 약 리스트에 추가하기
 	$('#addmymedi').click(function(){
 		var uid = $('#uid').val();
@@ -211,19 +254,22 @@ $(document).ready(function(){
 					<li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
 						<div class="d-flex flex-column">
 							<h6 class="mb-3 text-sm">주의사항 경고</h6>
-							<span class="mb-2" th:utext="${i.atpnWarnQesitm}">만 12세 이상</span>
+							<span class="mb-2" id="atpnWarnQesitm">만 12세 이상</span>
+							<p id="atpnwarn" th:text="${i.atpnWarnQesitm}" hidden="hidden"></p>
 						</div>
 					</li>
 					<li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
 						<div class="d-flex flex-column">
 							<h6 class="mb-3 text-sm">주의사항</h6>
-							<span class="mb-2" th:utext="${i.atpnQesitm}">만 12세 이상</span>
+							<span class="mb-2" id="atpnQesitm">만 12세 이상</span>
+							<p id="atpn" th:text="${i.atpnQesitm}" hidden="hidden"></p>
 						</div>
 					</li>
 					<li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
 						<div class="d-flex flex-column">
 							<h6 class="mb-3 text-sm">상호작용</h6>
-							<span class="mb-2" th:utext="${i.intrcQesitm}">만 12세 이상</span>
+							<span class="mb-2" id="intrcQesitm">만 12세 이상</span>
+							<p id="intrc" th:text="${i.intrcQesitm}" hidden="hidden"></p>
 						</div>
 						
 					</li>
@@ -244,7 +290,8 @@ $(document).ready(function(){
 			<div class="card-body pt-4 p-3">
 				<ul class="list-group">
 					<li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
-						<h6 class="text-uppercase text-body text-xs font-weight-bolder mb-2" th:utext="${i.seQesitm}">Newest</h6>
+						<h6 class="text-uppercase text-body text-xs font-weight-bolder mb-2" id="seQesitm">Newest</h6>
+						<p id="se" th:text="${i.seQesitm}" hidden="hidden"></p>
 					</li>
 				</ul>
 			</div>

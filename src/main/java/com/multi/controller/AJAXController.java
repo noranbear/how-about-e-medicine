@@ -34,7 +34,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 12.0
+ * @version 13.0
  * @description
  *
  *
@@ -76,6 +76,8 @@ import com.multi.vo.UsersVo;
  *										  plistaddimpl 추가
  *										  
  *										  plistaddimple 구현
+ *
+ *  2022. 8. 15.		qwaszx357			주의사항에 정규표현식 적용
  *
  * =================================================================
  */
@@ -318,7 +320,7 @@ public class AJAXController {
 	
 	// 순응도
 	@RequestMapping("/donegage")
-    public double donegage(int pid) {
+    public int donegage(int pid) {
 		AlarmVo alarm = null;
 		int gage = 0;
 			
@@ -382,4 +384,72 @@ public class AJAXController {
     	return "ok"; 
     }
 
+		/**
+		 * 주의사항 경고에 정규표현식으로 강조한다.
+		 * @param atpnwarn
+		 * @return text
+		 */
+		@RequestMapping("atpnwarn")
+		public String atpnwarn(String atpnwarn) {
+			String text = atpnwarn.replace("복용하지 마십시오.", "<b><span class='text-danger'>복용하지 마십시오.</span></b>")
+					.replace("사용하지 마십시오.", "<b><span class='text-danger'>사용하지 마십시오.</span></b>")
+					.replace("즉시", "<b><span class='text-danger'>즉시</span></b>")
+					.replace("복용을 중단", "<b><span class='text-danger'>복용을 중단</span></b>")
+					.replace("이 약을 복용하기 전", "<b>이 약을 복용하기 전</b>")
+					.replace("이 약을 복용하는 동안", "<b>이 약을 복용하는 동안</b>")
+					.replace("복용 중", "<b>복용 중</b>")
+					.replace("복용 후", "<b>복용 후</b>")
+					.replace("이 약 복용 후", "<b>이 약 복용 후</b>");
+			return text;
+		}
+		
+		/**
+		 * 주의사항에 정규표현식으로 강조한다.
+		 * @param atpn
+		 * @return text
+		 */
+		@RequestMapping("qesitm")
+		public String qesitm(String atpn) {
+			String text = atpn.replace("복용하지 마십시오.", "<b><span class='text-danger'>복용하지 마십시오.</span></b>")
+					.replace("사용하지 마십시오.", "<b><span class='text-danger'>사용하지 마십시오.</span></b>")
+					.replace("즉시", "<b><span class='text-danger'>즉시</span></b>")
+					.replace("복용을 중단", "<b><span class='text-danger'>복용을 중단</span></b>")
+					.replace("이 약을 복용하기 전", "<b>이 약을 복용하기 전</b>")
+					.replace("이 약을 복용하는 동안", "<b>이 약을 복용하는 동안</b>")
+					.replace("복용 중", "<b>복용 중</b>")
+					.replace("복용 후", "<b>복용 후</b>")
+					.replace("이 약 복용 후", "<b>이 약 복용 후</b>");
+			return text;
+		}
+		
+		/**
+		 * 상호작용에 정규표현식으로 강조한다.
+		 * @param intrc
+		 * @return text
+		 */
+		@RequestMapping("intrc")
+		public String intrc(String intrc) {
+			String text = intrc.replace("복용하지 마십시오.", "<b><span class='text-danger'>복용하지 마십시오.</span></b>")
+					.replace("사용하지 마십시오.", "<b><span class='text-danger'>사용하지 마십시오.</span></b>")
+					.replace("즉시", "<b><span class='text-danger'>즉시</span></b>")
+					.replace("복용을 중단", "<b><span class='text-danger'>복용을 중단</span></b>")
+					.replace("이 약을 복용하기 전", "<b>이 약을 복용하기 전</b>")
+					.replace("이 약을 복용하는 동안", "<b>이 약을 복용하는 동안</b>")
+					.replace("복용 중", "<b>복용 중</b>")
+					.replace("복용 후", "<b>복용 후</b>")
+					.replace("이 약 복용 후", "<b>이 약 복용 후</b>");
+			return text;
+		}
+		
+		/**
+		 * 부작용에 정규표현식으로 강조한다.
+		 * @param se
+		 * @return text
+		 */
+		@RequestMapping("se")
+		public String se(String se) {
+			String text = se.replace("복용을 즉각 중지", "<b><span class='text-danger'>복용을 즉각 중지</span></b>")
+					.replace("즉시 복용을 중지", "<b><span class='text-danger'>즉시 복용을 중지</span></b>");
+			return text;
+		}
 }
