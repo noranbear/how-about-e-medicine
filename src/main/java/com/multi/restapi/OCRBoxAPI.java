@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 /**
  * @author noranbear
  * @date 2022. 7. 14.
- * @version 1.0
+ * @version 2.0
  * @description
  *
  *
@@ -28,8 +28,12 @@ import org.springframework.stereotype.Component;
  * ---------------------------------------------------------
  *  2022. 7. 14.		noranbear		   First Creation
  *
+ *	2022. 8. 11.						ncp 서버 업로드용 코드 
+ *											 주석으로 추가
+ *
  * =========================================================
  */
+
 @Component
 public class OCRBoxAPI {
 
@@ -37,9 +41,15 @@ public class OCRBoxAPI {
 		String apiURL = "https://7ta4am1gms.apigw.ntruss.com/custom/v1/17191/6732cdb65525e63044589dbd96362ae92f7cc94f3878c10399e1afead5e3f0cd/infer";
 		String secretKey = "bFp6dG5Ga2lSSUlhamVxT2tubElRQmJNYk9HaFlIaFA=";
 		
-	    String imgpath = Paths.get(System.getProperty("user.dir"), "src", "main", "resources", "static","img","box").toString();
-	    // imgname은 "\\image_name.jpg"의 형식을 가지고 있어야 한다.
-	    String imageFile = imgpath + "\\" + imgname;
+		// local
+		String imgpath = Paths.get(System.getProperty("user.dir"), "src", "main", "resources", "static","img","box").toString();
+		// imgname은 "\\image_name.jpg"의 형식을 가지고 있어야 한다.
+		String imageFile = imgpath + "\\" + imgname;
+		
+		// ncp
+		//String imgpath = "/root/apache-tomcat-8.5.27/webapps/ROOT/WEB-INF/classes/static/img/box/";
+		//String imageFile = imgpath + imgname;
+		
 	    StringBuffer response = new StringBuffer();
 		try {
 			URL url = new URL(apiURL);

@@ -116,7 +116,9 @@ import com.multi.vo.UsersVo;
  *
  *	2022. 8. 11.								plist 수정
  *	
- *	2022. 8. 12.		qwaszx357				admin 생성
+ *  2022. 8. 12.		najune				addimpl ajax로 이동
+ *  
+ *                  qwaszx357				admin 생성
  *
  * ====================================================================
  */
@@ -511,33 +513,13 @@ public class MainController {
     }
     
     /**
-	 * 처방내역 페이지 연결
-	 * @throws Exception 
-	 */
+     * 처방내역 페이지 연결
+     * @return padd.html
+     */
     @RequestMapping("/padd")
     public String padd() {  
         return "padd";
     }
-		
-    @RequestMapping("/addimpl")
-	public String addimpl(Model m, PlistVo plist, String name) {	      
-         int listId = 0;		
-         
-         try {
-         	 plibiz.register(plist);
-    	     plist = plibiz.gettheone(plist);
-     
-             if(plist.getId() != 0) {		
-					listId = plist.getId();
-					PmediVo medi = new PmediVo(name, listId);
-					pmedibiz.register(medi);												
-				}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}                                       
-        m.addAttribute("center", "plist");
-		return "index";
-	}
     
     /**
 	 * 복약내역상세 페이지 연결

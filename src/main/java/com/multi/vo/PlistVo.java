@@ -9,7 +9,7 @@ import lombok.ToString;
 /**
  * @author najune
  * @date 2022. 7. 13.
- * @version 5.2
+ * @version 5.3
  * @description
  *
  *
@@ -41,7 +41,7 @@ public class PlistVo {
 	private int days;		// 투약일수
 	private int time;		// 투약횟수
 	private String dtime;	// 투약시간
-  private String status;  // 복약상태
+	private String status;  // 복약상태
 	
 	private int dday;		// 남은 복용일
 	private String enddate;	// 복약 끝나는 날

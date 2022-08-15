@@ -2,18 +2,21 @@ package com.multi.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.multi.biz.AlarmBiz;
 import com.multi.biz.DashBiz;
 import com.multi.biz.MymediBiz;
 import com.multi.biz.PlistBiz;
+import com.multi.biz.PmediBiz;
 import com.multi.biz.UsersBiz;
 import com.multi.mapper.UsersMapper;
 import com.multi.restapi.DataAPI;
@@ -26,11 +29,12 @@ import com.multi.vo.MymediVo;
 import com.multi.vo.PlistVo;
 import com.multi.vo.PmediVo;
 import com.multi.vo.SlistVo;
+import com.multi.vo.UsersVo;
 
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 11.1
+ * @version 12.0
  * @description
  *
  *
@@ -63,6 +67,15 @@ import com.multi.vo.SlistVo;
  *											 switchbt 생성
  *
  *	2022. 8. 6.			qwaszx357			donegage 생성
+ *
+ *	2022. 8. 11.		noranbear		boxscan, envelope 스캔 삭제
+ *
+ *  2022. 8. 12.		najune			 	addimpl 추가 
+ *  
+ *	2022. 8. 14.		noranbear		   addimpl 삭제 및 
+ *										  plistaddimpl 추가
+ *										  
+ *										  plistaddimple 구현
  *
  * =================================================================
  */
@@ -102,6 +115,9 @@ public class AJAXController {
 	
 	@Autowired
 	PlistBiz plibiz;
+	
+	@Autowired
+	PmediBiz pmbiz;
 	
 	
 	/**
@@ -172,29 +188,6 @@ public class AJAXController {
         //System.out.println("items 뽑아내기 : " + ja);
         return ja;
     } 
-	
-	/**
-	 * 약봉투에서 스캔한 텍스트 데이터를 보내준다.
-	 * @param imgname
-	 * @return Json text of photo of envelope
-	 */
-	@RequestMapping("envelopescan")
-	public Object envelopescan(String imgname) {
-		Object result = eapi.envelopeapi(imgname);
-		return result;
-	}
-	
-	/**
-	 * 약곽에서 스캔한 텍스트 데이터를 보내준다.
-	 * @param imgname
-	 * @return Json text of photo of box
-	 */
-	@RequestMapping("boxscan")
-	public Object boxscan(String imgname) {
-		//System.out.println(imgname);
-		Object result = bapi.boxapi(imgname);
-		return result;
-	}
 	
 	/**
 	 * mymedi에 약을 추가한다.
@@ -342,6 +335,51 @@ public class AJAXController {
         }
         // System.out.println(gage);
         return gage;
+    }
+	
+	/**
+	 * 전달받은 처방내역 정보 및 처방약 정보를 DB:plist,pmedi에 저장한다.
+	 * @param hospital 병원명
+	 * @param pdate 조제일자
+	 * @param days 투약일수
+	 * @param time 투약횟수
+	 * @param dtime 투약시간
+	 * @param mediArr 약이름 배열
+	 * @return 완료유무
+	 */
+	@RequestMapping("/plistaddimpl")
+    public String plistaddimpl(String hospital, String pdate, int days, int time, String dtime,
+    		@RequestParam(value="mediArr[]") ArrayList<String> mediArr, HttpSession session) {
+    	
+		int pliid = 0;	// 생성된 plist id를 담을 변수
+		UsersVo users = null;
+		PlistVo plist = null;
+		//System.out.println(mediArr.toString());
+		
+		try {
+        	// 1. DB:plist에 값 넣기
+            users = (UsersVo) session.getAttribute("signinusers");
+            plist = new PlistVo(users.getId(), hospital, pdate, days, time, dtime);
+    		
+			plibiz.register(plist);
+			
+			// 2. plist의 id 구하기
+			plist = plibiz.gettheone(plist);
+			pliid = plist.getId();
+			
+			// 3. plist id로 DB:pmedi에 값넣기
+			if(plist.getId() != 0) {	// slist tbl에 해당 정보가 존재할 때
+				for (int i = 0; i < mediArr.size(); i++) {
+					PmediVo pmedi = new PmediVo(mediArr.get(i), pliid);
+					pmbiz.register(pmedi);
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+    	return "ok"; 
     }
 
 }
