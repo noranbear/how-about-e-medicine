@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<!--
+=========================================================
+* Material Dashboard 2 - v3.0.4
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/material-dashboard
+* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://www.creative-tim.com/license)
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!-- Version: 1.0 -->
+<!-- Description: 메인페이지
+
+-------------------------------------------------------------------------
+	Date			 Author							Note
+-------------------------------------------------------------------------								    
+2022. 8. 12.		qwaszx357					dashboard 복사
+
+-------------------------------------------------------------------------
+-->
+
+<html lang="ko">
+<meta charset="utf-8">
+<title>
+	Material Dashboard 2 by Creative Tim
+</title>
+    
+	<div class="row">
+		<!-- 오늘 방문자 수 시작 -->
+		<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+     		    <div class="card">
+				<div class="card-header p-3 pt-2">
+					<div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+						<i class="fa fa-capsules"></i>
+					</div>
+					<div class="text-end pt-1">
+						<p class="text-sm mb-0 text-capitalize">오늘 방문자 수</p>
+						<h4 class="mb-0">35</h4>
+					</div>
+				</div>
+				<hr class="dark horizontal my-0">
+				<!-- 전일 대비 증감률 -->
+				<div class="card-footer p-3">
+					<p class="mb-0">
+					<span class="text-success text-sm font-weight-bolder">+55% </span>
+					전일 대비</p>
+				</div>
+			</div>
+		</div>
+		<!-- 오늘 방문자 수 끝 -->
+		
+		<!-- 총 회원 수 시작 -->
+		<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+			<div class="card">
+				<div class="card-header p-3 pt-2">
+					<div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+						<i class="fa fa-tablets"></i>
+					</div>
+					<div class="text-end pt-1">
+						<p class="text-sm mb-0 text-capitalize">총 회원 수</p>
+						<h4 class="mb-0" th:text="${userscnt}">2,300</h4>
+					</div>
+				</div>
+				<hr class="dark horizontal my-0">
+				<!-- 전월 대비 증감률 -->
+				<div class="card-footer p-3" th:if="${usersgrowth != null}">
+					<p class="mb-0">
+					<span class="text-success text-sm font-weight-bolder" th:if="${usersgrowth.mgrowth >= 0}" th:text="'+' + ${#numbers.formatInteger(usersgrowth.mgrowth,0)} + '%'">+55% </span>
+					<span class="text-danger text-sm font-weight-bolder" th:unless="${usersgrowth.mgrowth >= 0}" th:text="${#numbers.formatInteger(usersgrowth.mgrowth,0)} + '%'">+55% </span>
+					전월 대비</p>
+				</div>
+				<div class="card-footer p-3" th:unless="${usersgrowth != null}">
+					<p class="mb-0">
+					<span class="text-success text-sm font-weight-bolder">+100% </span>
+					전월 대비</p>
+				</div>
+			</div>
+		</div>
+		<!-- 총 회원 수 끝 -->
+		
+		<!-- 이번달 가입 회원 수 시작 -->
+		<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+			<div class="card">
+				<div class="card-header p-3 pt-2">
+					<div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
+						<i class="fa fa-capsules"></i>
+					</div>
+					<div class="text-end pt-1">
+						<p class="text-sm mb-0 text-capitalize">이번달 가입 회원 수</p>
+						<h4 class="mb-0" th:text="${accession}">3,462</h4>
+					</div>
+				</div>
+				<hr class="dark horizontal my-0">
+				<!-- 전월 대비 증감 -->
+				<div class="card-footer p-3">
+					<p class="mb-0">
+					<span class="text-success text-sm font-weight-bolder" th:if="${paccession >= 0}" th:text="'+' + ${paccession}">+55% </span>
+					<span class="text-danger text-sm font-weight-bolder" th:unless="${paccession >= 0}" th:text="${paccession}">+55% </span>
+					전월 대비</p>
+				</div>
+			</div>
+		</div>
+		<!-- 이번달 가입 회원 수 끝 -->
+		
+		<!-- 이번달 탈퇴 회원 수 시작 -->
+		<div class="col-xl-3 col-sm-6">
+			<div class="card">
+				<div class="card-header p-3 pt-2">
+					<div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+						<i class="fa fa-tablets"></i>
+					</div>
+					<div class="text-end pt-1">
+						<p class="text-sm mb-0 text-capitalize">이번달 탈퇴 회원 수</p>
+						<h4 class="mb-0" th:text="${secession}">2,105</h4>
+					</div>
+				</div>
+				<hr class="dark horizontal my-0">
+				<!-- 전월 대비 증감 -->
+				<div class="card-footer p-3">
+					<p class="mb-0">
+					<span class="text-success text-sm font-weight-bolder" th:if="${psecession >= 0}" th:text="'+' + ${psecession}">+55% </span>
+					<span class="text-danger text-sm font-weight-bolder" th:unless="${psecession >= 0}" th:text="${psecession}">+55% </span>
+					전월 대비</p>
+				</div>
+			</div>
+		</div>
+		<!-- 이번달 탈퇴 회원 수 끝 -->
+	</div>
+	<div class="row mt-4">
+		<!-- 요일별 스캔 횟수 시작 -->
+		<div class="col-lg-4 col-md-6 mt-4 mb-4">
+			<div class="card z-index-2 ">
+				<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+					<div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+						<div class="chart">
+							<canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<h6 class="mb-0 ">요일별 스캔 횟수</h6>
+					<p class="text-sm ">2022년 8월 1주 기준</p>
+					<hr class="dark horizontal">
+					<div class="d-flex ">
+						<i class="material-icons text-sm my-auto me-1">schedule</i>
+						<p class="mb-0 text-sm"> 이번주 업데이트 </p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 요일별 스캔 횟수 끝 -->
+		
+		<!-- 월별 스캔 횟수 시작 -->
+		<div class="col-lg-4 col-md-6 mt-4 mb-4">
+			<div class="card z-index-2  ">
+				<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+					<div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
+						<div class="chart">
+							<canvas id="chart-line" class="chart-canvas" height="170"></canvas>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<h6 class="mb-0 "> 월별 스캔 횟수 </h6>
+					<p class="text-sm ">2022년 8월 기준</p>
+					<hr class="dark horizontal">
+					<div class="d-flex ">
+						<i class="material-icons text-sm my-auto me-1">schedule</i>
+						<p class="mb-0 text-sm"> 이번달 업데이트 </p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 월별 스캔 횟수 끝 -->
+		
+		<!-- 지역별 코로나 관련 약 스캔 수 시작 -->
+		<div class="col-lg-4 mt-4 mb-3">
+			<div class="card z-index-2 ">
+				<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+					<div class="bg-gradient-dark shadow-dark border-radius-lg py-3 pe-1">
+						<div class="chart">
+							<canvas id="chart-line-tasks" class="chart-canvas" height="170"></canvas>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<h6 class="mb-0 ">코로나바이러스-19</h6>
+					<p class="text-sm ">지역별 코로나 관련 약 스캔 수</p>
+					<hr class="dark horizontal">
+					<div class="d-flex ">
+						<i class="material-icons text-sm my-auto me-1">schedule</i>
+						<p class="mb-0 text-sm"> 오늘 업데이트 </p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 지역별 코로나 관련 약 스캔 수 끝 -->
+	</div>
+	<div class="row mb-4">
+		<!-- 사용자 정보 조회 시작 -->
+		<div class="col-lg-8 col-md-6 mb-md-0 mb-4">
+			<div class="card">
+				<div class="card-header pb-0">
+					<div class="row">
+						<div class="col-lg-6 col-7">
+							<h6>사용자</h6>
+							<p class="text-sm mb-0">
+								<i class="fa fa-check text-info" aria-hidden="true"></i>
+								<span class="font-weight-bold ms-1">이용중인 사용자 정보</span>
+							</p>
+						</div>
+						<div class="col-lg-6 col-5 my-auto text-end">
+							<div class="dropdown float-lg-end pe-4">
+								<a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
+									<i class="fa fa-ellipsis-v text-secondary"></i>
+								</a>
+								<ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
+									<li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
+									<li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
+									<li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-body px-0 pb-2">
+					<div class="table-responsive">
+						<table class="table align-items-center mb-0">
+							<thead>
+								<tr>
+									<th class="text-center text-uppercase text-secondary font-weight-bolder">사용자</th>
+									<th class="text-center text-uppercase text-secondary font-weight-bolder">이름</th>
+									<th class="text-center text-uppercase text-secondary font-weight-bolder">이메일</th>
+									<th class="text-center text-uppercase text-secondary font-weight-bolder">생년월일</th>
+									<th class="text-center text-uppercase text-secondary font-weight-bolder">가입일</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="u:${users}">
+									<td class="align-middle text-center text-sm">
+											<a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" th:title="${u.id}">
+												<img  th:src="'../../img/' + ${u.photo}" alt="/">
+											</a>
+									</td>
+									<td class="align-middle text-center text-sm">
+										<span class="font-weight-bold" th:text="${u.name}">이름</span>
+									</td>
+									<td class="align-middle text-center text-sm">
+										<span class="font-weight-bold" th:text="${u.email}">이메일</span>
+									</td>
+									<td class="align-middle text-center text-sm">
+										<span class="font-weight-bold" th:text="${u.birth}">생년월일</span>
+									</td>
+									<td class="align-middle text-center text-sm">
+										<span class="font-weight-bold" th:text="${#dates.format(u.regdate,'yyyy-MM-dd')}">가입일</span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 사용자 정보 조회 끝 -->
+
+		<!-- 이번달 약 트렌드 시작 -->
+		<div class="col-lg-4 col-md-6">
+			<div class="card h-100">
+				<div class="card-header pb-0">
+					<h6>이달의 약</h6>
+					<p class="text-sm">
+						<i class="fa fa-arrow-up text-success" aria-hidden="true"></i>
+						<span class="font-weight-bold" th:text="' ' + ${monthcnt}">24%</span> 총 스캔 수
+					</p>
+				</div>
+				<div class="card-body p-3">
+					<div class="timeline timeline-one-side" th:each="mm:${monthmedi}">
+						<div class="timeline-block mb-3">
+							<span class="timeline-step" th:switch="${mm.rownum}">
+								<i th:case="1" class="fa fa-capsules text-success text-gradient"></i>
+								<i th:case="2" class="fa fa-tablets text-danger text-gradient"></i>
+								<i th:case="3" class="fa fa-capsules text-info text-gradient"></i>
+								<i th:case="4" class="fa fa-tablets text-dark text-gradient"></i>
+								<i th:case="5" class="fa fa-capsules text-warning text-gradient"></i>
+							</span>
+							<div class="timeline-content">
+								<h6 class="text-dark text-sm font-weight-bold mb-0" th:text="${mm.name}">제품명</h6>
+								<p class="text-secondary text-xs mt-1 mb-0" th:text="'스캔 수 : ' + ${mm.cnt}">갯수</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 이번달 약 트렌드 끝 -->
+	</div>
+
+	
+  <!--   Core JS Files   -->
+  <script src="../assets/js/plugins/chartjs.min.js"></script>
+  <script>
+  // 요일별 스캔 횟수 차트
+  function display1(data){
+    var ctx = document.getElementById("chart-bars").getContext("2d");
+
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: ["월", "화", "수", "목", "금", "토", "일"],
+        datasets: [{
+          label: "count",
+          tension: 0.4,
+          borderWidth: 0,
+          borderRadius: 4,
+          borderSkipped: false,
+          backgroundColor: "rgba(255, 255, 255, .8)",
+          data: data,
+          maxBarThickness: 6
+        }, ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: 'rgba(255, 255, 255, .2)'
+            },
+            ticks: {
+              suggestedMin: 0,
+              suggestedMax: 500,
+              beginAtZero: true,
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+              color: "#fff"
+            },
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: 'rgba(255, 255, 255, .2)'
+            },
+            ticks: {
+              display: true,
+              color: '#f8f9fa',
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+  };  	
+
+  // 월별 스캔 횟수 차트
+  function display2(data){
+	  var ctx2 = document.getElementById("chart-line").getContext("2d");
+	
+	  new Chart(ctx2, {
+	    type: "line",
+	    data: {
+	      labels: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월"],
+	      datasets: [{
+	        label: "count",
+	        tension: 0,
+	        borderWidth: 0,
+	        pointRadius: 5,
+	        pointBackgroundColor: "rgba(255, 255, 255, .8)",
+	        pointBorderColor: "transparent",
+	        borderColor: "rgba(255, 255, 255, .8)",
+	        borderColor: "rgba(255, 255, 255, .8)",
+	        borderWidth: 4,
+	        backgroundColor: "transparent",
+	        fill: true,
+	        data: data,
+	        maxBarThickness: 6
+	
+	      }],
+	    },
+	    options: {
+	      responsive: true,
+	      maintainAspectRatio: false,
+	      plugins: {
+	        legend: {
+	          display: false,
+	        }
+	      },
+	      interaction: {
+	        intersect: false,
+	        mode: 'index',
+	      },
+	      scales: {
+	        y: {
+	          grid: {
+	            drawBorder: false,
+	            display: true,
+	            drawOnChartArea: true,
+	            drawTicks: false,
+	            borderDash: [5, 5],
+	            color: 'rgba(255, 255, 255, .2)'
+	          },
+	          ticks: {
+	            display: true,
+	            color: '#f8f9fa',
+	            padding: 10,
+	            font: {
+	              size: 14,
+	              weight: 300,
+	              family: "Roboto",
+	              style: 'normal',
+	              lineHeight: 2
+	            },
+	          }
+	        },
+	        x: {
+	          grid: {
+	            drawBorder: false,
+	            display: false,
+	            drawOnChartArea: false,
+	            drawTicks: false,
+	            borderDash: [5, 5]
+	          },
+	          ticks: {
+	            display: true,
+	            color: '#f8f9fa',
+	            padding: 10,
+	            font: {
+	              size: 14,
+	              weight: 300,
+	              family: "Roboto",
+	              style: 'normal',
+	              lineHeight: 2
+	            },
+	          }
+	        },
+	      },
+	    },
+	  });
+  };
+  
+  function getdata2(){
+	  $.ajax({
+			url:'/chart2',
+			success:function(data){
+				display2(data);
+				// alert(data);
+			}
+		});
+		display2(data);
+  };
+  
+  $(document).ready(function(){
+
+	  $.ajax({
+			url:'/chart1',
+			async:false,
+			success:function(data){
+				// alert(data);
+				display1(data);
+				getdata2(data);
+			}
+		});
+		display1(data);
+
+  });
+
+    var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
+
+    new Chart(ctx3, {
+      type: "bar",
+      data: {
+        labels: ["서울", "경기", "인천", "강원", "충청", "전라", "경상", "부산", "제주"],
+        datasets: [{
+          label: "",
+          tension: 0,
+          borderWidth: 0,
+          pointRadius: 5,
+          pointBackgroundColor: "rgba(255, 255, 255, .8)",
+          pointBorderColor: "transparent",
+          borderColor: "rgba(255, 255, 255, .8)",
+          borderWidth: 4,
+          backgroundColor: "transparent",
+          fill: true,
+          data: [7003, 10526, 3120, 2413, 3728, 2861, 4654, 2059, 2016],
+          maxBarThickness: 6
+
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: 'rgba(255, 255, 255, .2)'
+            },
+            ticks: {
+              display: true,
+              padding: 10,
+              color: '#f8f9fa',
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              color: '#f8f9fa',
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+  </script>
+  
