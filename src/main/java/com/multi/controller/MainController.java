@@ -454,9 +454,9 @@ public class MainController {
     }
     
     /**
-	 * 처방내역 페이지 연결
-	 * @throws Exception 
-	 */
+     * 처방내역 페이지 연결
+     * @return padd.html
+     */
     @RequestMapping("/padd")
     public String padd() {  
         return "padd";
