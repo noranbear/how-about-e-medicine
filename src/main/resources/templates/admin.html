@@ -68,15 +68,15 @@
 				</div>
 				<hr class="dark horizontal my-0">
 				<!-- 전월 대비 증감률 -->
-				<div class="card-footer p-3" th:if="${usersgrowth != null}" th:each="u:${usersgrowth}">
+				<div class="card-footer p-3" th:if="${usersgrowth != null}">
 					<p class="mb-0">
-					<span class="text-success text-sm font-weight-bolder" th:if="${u.mgrowth >= 0}" th:text="'+' + ${#numbers.formatInteger(u.mgrowth,0)} + '%'">+55% </span>
-					<span class="text-danger text-sm font-weight-bolder" th:unless="${u.mgrowth >= 0}" th:text="${#numbers.formatInteger(u.mgrowth,0)} + '%'">+55% </span>
+					<span class="text-success text-sm font-weight-bolder" th:if="${usersgrowth.mgrowth >= 0}" th:text="'+' + ${#numbers.formatInteger(usersgrowth.mgrowth,0)} + '%'">+55% </span>
+					<span class="text-danger text-sm font-weight-bolder" th:unless="${usersgrowth.mgrowth >= 0}" th:text="${#numbers.formatInteger(usersgrowth.mgrowth,0)} + '%'">+55% </span>
 					전월 대비</p>
 				</div>
 				<div class="card-footer p-3" th:unless="${usersgrowth != null}">
 					<p class="mb-0">
-					<span class="text-danger text-sm font-weight-bolder">-100% </span>
+					<span class="text-success text-sm font-weight-bolder">+100% </span>
 					전월 대비</p>
 				</div>
 			</div>
@@ -96,7 +96,7 @@
 					</div>
 				</div>
 				<hr class="dark horizontal my-0">
-				<!-- 전월 대비 증감률 -->
+				<!-- 전월 대비 증감 -->
 				<div class="card-footer p-3">
 					<p class="mb-0">
 					<span class="text-success text-sm font-weight-bolder" th:if="${paccession >= 0}" th:text="'+' + ${paccession}">+55% </span>
@@ -120,7 +120,7 @@
 					</div>
 				</div>
 				<hr class="dark horizontal my-0">
-				<!-- 전월 대비 증감률 -->
+				<!-- 전월 대비 증감 -->
 				<div class="card-footer p-3">
 					<p class="mb-0">
 					<span class="text-success text-sm font-weight-bolder" th:if="${psecession >= 0}" th:text="'+' + ${psecession}">+55% </span>
@@ -498,9 +498,6 @@
 		display1(data);
 
   });
-  
-
-  
 
     var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
 
