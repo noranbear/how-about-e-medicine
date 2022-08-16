@@ -13,14 +13,17 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 8. 6.
- * @version 1.0
+ * @version 2.0
  * @description 마이페이지 Controller
  *
  *
  * =========================================================
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
- *  2022. 7. 21.		noranbear		 	First Creation			  
+ *  2022. 7. 21.		noranbear		 	First Creation		
+ *  
+ *  2022. 8. 16.		qwaszx357			   mypage 수정
+ *  										deleteuser 생성	  
  *
  * =========================================================
  */
@@ -37,7 +40,37 @@ public class MypageController {
 	 * @return mypage.html
 	 */
 	@RequestMapping("")
-	public String mypage(Model m) {
+	public String mypage(Model m, HttpSession session) {
+		UsersVo users = null;
+		UsersVo gusers = null;
+		double gage = 0;
+		int scnt = 0;
+		int pcnt = 0;
+		String age = null;
+		
+		if(session.getAttribute("signinusers") != null){
+            users = (UsersVo) session.getAttribute("signinusers");
+	        try {
+	        	gusers = ubiz.usersgage(users.getId());
+	        	if (gusers != null) {
+	        		gage = gusers.getGage();
+	        	} else {
+	        		gage = 0;
+	        	}
+	            
+	            m.addAttribute("gage", gage);
+	            scnt = ubiz.slistcnt(users.getId());
+	            m.addAttribute("scnt", scnt);
+	            pcnt = ubiz.plistcnt(users.getId());
+	            m.addAttribute("pcnt", pcnt);
+	            age = ubiz.agegroup(users.getId());
+	            m.addAttribute("age", age);
+	            
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+        }
+
 		m.addAttribute("center", "mypage/mypage");	
 		return "index";
 	}
@@ -72,7 +105,24 @@ public class MypageController {
 		return "redirect:/mypage";
 	}
 	
-	
+	/**
+	 * 회원 상태를 탈퇴로 변경
+	 * @param id
+	 * @return index.html
+	 */
+	@RequestMapping("/deleteuser")
+	public String deleteuser(HttpSession session) {
+		UsersVo users = null;
+		
+		try {
+			users = (UsersVo) session.getAttribute("signinusers");
+			ubiz.deleteuser(users.getId());
+			session.removeAttribute("signinusers");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/";
+	}
 
 
 }

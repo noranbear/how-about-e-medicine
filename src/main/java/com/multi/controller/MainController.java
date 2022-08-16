@@ -448,7 +448,7 @@ public class MainController {
 	 * @return mymedi.html
 	 */
 	@RequestMapping("/editmymedi")
-	public String editmymedi(Model m, MymediVo medi) {
+	public String editmymedi(MymediVo medi) {
 		try {
 			mbiz.modify(medi);
 		} catch (Exception e) {

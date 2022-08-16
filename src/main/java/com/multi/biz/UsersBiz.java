@@ -12,7 +12,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author najune
  * @date 2022. 7. 11.
- * @version 2.0
+ * @version 3.0
  * @description
  *
  *
@@ -24,6 +24,8 @@ import com.multi.vo.UsersVo;
  *	2022. 7. 28.		 najune		  		getid 삭제
  *
  *	2022. 8. 12.		qwaszx357	  admin.html 출력 정보 생성
+ *
+ *	2022. 8. 15.						mypage 출력 정보 생성
  *
  * =========================================================
  */
@@ -86,5 +88,25 @@ public class UsersBiz implements Biz<String, UsersVo>{
 	
 	public UsersVo usersgrowth() throws Exception {		
 		return dao.usersgrowth();
+	}
+	
+	public UsersVo usersgage(String k) throws Exception {		
+		return dao.usersgage(k);
+	}
+	
+	public int slistcnt(String k) throws Exception {		
+		return dao.slistcnt(k);
+	}
+	
+	public int plistcnt(String k) throws Exception {		
+		return dao.plistcnt(k);
+	}
+	
+	public void deleteuser(String k) throws Exception {		
+		dao.deleteuser(k);
+	}
+	
+	public String agegroup(String k) throws Exception {		
+		return dao.agegroup(k);
 	}
 }
