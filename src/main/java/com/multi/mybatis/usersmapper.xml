@@ -57,4 +57,47 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		SELECT * FROM month_growth_users WHERE month = EXTRACT(MONTh FROM CURDATE())
 	</select>
 	
+	<!-- 총 순응도 -->
+	<select id="usersgage" parameterType="String" resultType="usersVo">
+		SELECT ROUND((COUNT(*) / (SELECT COUNT(*) FROM users u
+		INNER JOIN plist p ON p.uid = u.id
+        INNER JOIN alarm a ON a.pid = p.id
+        WHERE u.id=#{id})) * 100,1) AS gage FROM users u
+		INNER JOIN plist p ON p.uid = u.id
+        INNER JOIN alarm a ON a.pid = p.id
+		WHERE u.id=#{id} AND a.button="done"
+	</select>
+	<!-- 총 스캔 횟수 -->
+	<select id="slistcnt" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM users u
+		INNER JOIN slist s ON s.uid = u.id
+		WHERE u.id=#{id}
+	</select>
+	<!-- 총 처방 내역 수 -->
+	<select id="plistcnt" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM users u
+		INNER JOIN plist p ON p.uid = u.id
+		WHERE u.id=#{id}
+	</select>
+	<!-- 연령대 -->
+	<select id="agegroup" parameterType="String" resultType="String">
+		SELECT CASE
+			WHEN 20 > age THEN '10대'
+	        WHEN 30 > age THEN '20대'
+	        WHEN 40 > age THEN '30대'
+	        WHEN 50 > age THEN '40대'
+	        WHEN 60 > age THEN '50대'
+	        WHEN 70 > age THEN '60대'
+	    END AS age_group
+		FROM (SELECT *, FLOOR(date_format(now(), '%Y')-substring(birth,1,4)) age FROM users
+		WHERE utype=20 AND status=1 AND id=#{id}) a
+		GROUP BY age_group
+		ORDER BY age_group
+	</select>
+	
+	<!-- 탈퇴하기 -->
+	<update id="deleteuser" parameterType="String">
+		UPDATE users SET STATUS=2, QDATE=CURDATE() WHERE ID=#{id}
+	</update>
+	
 </mapper>

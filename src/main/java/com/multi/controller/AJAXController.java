@@ -449,7 +449,8 @@ public class AJAXController {
 		@RequestMapping("se")
 		public String se(String se) {
 			String text = se.replace("복용을 즉각 중지", "<b><span class='text-danger'>복용을 즉각 중지</span></b>")
-					.replace("즉시 복용을 중지", "<b><span class='text-danger'>즉시 복용을 중지</span></b>");
+					.replace("즉시 복용을 중지", "<b><span class='text-danger'>즉시 복용을 중지</span></b>")
+					.replace("즉각 복용을 중지", "<b><span class='text-danger'>즉각 복용을 중지</span></b>");
 			return text;
 		}
 }

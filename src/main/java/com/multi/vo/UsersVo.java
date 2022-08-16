@@ -11,7 +11,7 @@ import lombok.ToString;
 /**
  * @author najune
  * @date 2022. 7. 11.
- * @version 2.1
+ * @version 2.2
  * @description
  *
  *
@@ -25,6 +25,9 @@ import lombok.ToString;
  *  2022. 7. 17.	    noranbear		 DB V5 변경으로 인한 수정
  *
  *	2022. 8. 12.		qwaszx357			mgrowth 생성
+ *
+ *	2022. 8. 15.							  gage 생성
+ *
  * ===========================================================
  */
 @NoArgsConstructor
@@ -46,6 +49,7 @@ public class UsersVo {
 	private Date qdate;		// 탈퇴날짜: Null 가능
 	
 	private double mgrowth;		// 전월 대비 증감
+	private double gage;	// 순응도
 	
 	/**
 	 * Constructor for insert
