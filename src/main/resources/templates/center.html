@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 9.1 -->
+<!-- Version: 10.2 -->
 <!-- Description: 메인 페이지의 기본 중간 화면 (검색창)
 
 -------------------------------------------------------------------------------
@@ -37,8 +37,11 @@
 2022. 7. 29.		qwaszx357			검색 결과 div 크기 변경, 대체 이미지 출력
 
 2022. 8. 4.			noranbear					indentation	수정				 
+	
+2022. 8. 17.								ocrbox 자동 검색으로 수정
 
-2022. 8. 17.		qwaszx357					검색 결과 테이블 수정
+
+                qwaszx357					검색 결과 테이블 수정
 			  							 
 -------------------------------------------------------------------------------
 -->
@@ -127,7 +130,7 @@ function remove(){
 	//$('#this_div2').html("");	
 }
 /**
- * 검색된 결과를 받아 해당하는 약 데이터를 ajax로 가져오는 함수
+ * 검색된 결과를 받아 해당하는 약 데이터를 ajax로 가져오는 함수 1: 제품명
  */
 function getData(param){
 	$.ajax({
@@ -159,7 +162,9 @@ function getData(param){
 	});
 	
 };
-
+/**
+ * 검색된 결과를 받아 해당하는 약 데이터를 ajax로 가져오는 함수 2: 회사명
+ */
 function getData2(param){
 	$.ajax({
 		method: 'GET',
@@ -173,7 +178,7 @@ function getData2(param){
 
 			// 1. 검색 결과 없음 메세지 생성
 			html += "<div class='card-body px-0 pb-2' style='text-align:center;'>"; 
-			html += "<h5>''에 대한 검색 결과가 없습니다.</h5>";
+			html += "<h5>'"+ param + "'에 대한 검색 결과가 없습니다.</h5>";
 			// close
 			html += "</div>";
 			
@@ -190,7 +195,9 @@ function getData2(param){
 	});
 	
 };
-
+/**
+ * 검색된 결과를 받아 해당하는 약 데이터를 ajax로 가져오는 함수 3: 효능명
+ */
 function getData3(param){
 	$.ajax({
 		method: 'GET',
@@ -204,7 +211,7 @@ function getData3(param){
 
 			// 1. 검색 결과 없음 메세지 생성
 			html += "<div class='card-body px-0 pb-2' style='text-align:center;'>"; 
-			html += "<h5>''에 대한 검색 결과가 없습니다.</h5>";
+			html += "<h5>'"+ param + "'에 대한 검색 결과가 없습니다.</h5>";
 			// close
 			html += "</div>";
 			
@@ -223,6 +230,12 @@ function getData3(param){
 };
 
 $(document).ready(function(){
+	var ocr = $('#ocrresult').text();		// ocr controller 작동완료 상태
+	var rname = $('#resultname').text();	// ocrbox로 스캔된 약이름
+	// ocrbox를 실행 했을 때, 결과(약이름)으로 바로 검색하기
+	if(ocr == "ok"){
+		getData(rname);
+	}
 	
 	/* 검색버튼 클릭 시, 약 데이터 불러오기 */
 	$('#search_bt').click(function(){
@@ -230,7 +243,7 @@ $(document).ready(function(){
 		var a = $("#sort").val(); // The text content of the selected option
 		//alert(param); 	
     
-	    if(param != ""){	// 검색어가 존재하지 않을 때
+	    if(param != "" || param != null){	// 검색어가 존재하지 않을 때
 	        if(a == "dataget3"){									
 	        	getData3(param);
 	        	
@@ -292,16 +305,24 @@ function readURL(input) {
 				<select class="select-control" id="sort" name="sort">
 					<option value="dataget">제품명</option>
 					<option value="dataget2">업체명</option>
-					<option value="dataget3">효능</option>
+					<option value="dataget3">효능명</option>
 				</select>
 				<!-- 검색창 -->
 				<div class="input-group input-group-lg input-group-outline py-3">
-			  		<input type="text" id="param" class="form-control form-control-lg" th:value="${resultname}" placeholder="어떤 약을 찾으시나요?">
+					<!-- ocrbox Controller에서 받은 값 저장하기 -->
+					<p id="ocrresult" th:text="${ocrresult}" hidden="hidden"></p>
+					<p id="resultname" th:text="${resultname}" hidden="hidden"></p>
+			  		<input type="text" id="param" class="form-control form-control-lg" placeholder="어떤 약을 찾으시나요?">
 			  	</div>
-			  	<a id="search_bt" class="btn bg-gradient-primary w-auto me-2"><i class="fas fa-search" aria-hidden="true"></i></a>
+			  	<a id="search_bt" class="btn bg-gradient-primary w-auto me-2" data-bs-placement="bottom" 
+                	title="검색"><i class="fas fa-search" aria-hidden="true"></i>
+                </a>
 				
 				<!-- OCR 스캔 시작 -->
-			    <button id="scan_bt" type="button" class="btn btn-block bg-gradient-primary mb-3" data-bs-toggle="modal" data-bs-target="#modal-default"><i class="fa fa-camera"></i></button>
+			    <button id="scan_bt" type="button" class="btn btn-block bg-gradient-primary mb-3" data-bs-toggle="modal" data-bs-target="#modal-default"
+			    	data-bs-placement="bottom" title="이미지로 검색">
+			    	<i class="fa fa-camera"></i>
+			    </button>
 				<!-- OCR Modal 창(2-2)으로 연결 -->
 			</div>
 		</div>
@@ -323,6 +344,7 @@ function readURL(input) {
 			<form id="ocrpic">
 				<div id="modal-body" class="modal-body">
 					<!-- input css 변경 -->
+					<p class="mb-sm-2">구매한 약의 제품명이 잘 보이는 이미지를 업로드하세요.</p>
 					<label for="file">
 					  <a class="btn-upload">파일 선택</a>
 					</label>
@@ -330,13 +352,10 @@ function readURL(input) {
 						<input type="file" name="mf" id="file" accept="image/*" onchange="readURL(this);">
 					</div>
 					<img id="preview">
-					<h6>OR</h6>
-					<!-- 이미지 링크 -->
-					<input type="url" id="url-search" placeholder="이미지 링크"><!-- name 없애놓음 -->
 				</div>
 				<div class="modal-footer">
 					<a id="ocr_bt" class="btn bg-gradient-primary">검색</a>
-					<button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">닫기</button>
+					<button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal">닫기</button>
 				</div>
 			</form>
 		</div>

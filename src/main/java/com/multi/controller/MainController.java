@@ -122,6 +122,8 @@ import com.multi.vo.UsersVo;
  *                  
  *	2022. 8. 17.						signup, signupimpl 수정
  *
+ *	2022. 8. 17.		noranbear		페이지의 breadcrumb 기능 구현 	
+ *
  * ====================================================================
  */
 
@@ -170,7 +172,10 @@ public class MainController {
 	 * @return index
 	 */
 	@RequestMapping("/")
-	public String main() {
+	public String main(Model m) {
+		// page breadcrumb
+		m.addAttribute("pagename", "검색");
+		m.addAttribute("pagename2", "검색");
 		return "index";
 	}
 	
@@ -230,7 +235,11 @@ public class MainController {
 			e.printStackTrace();
 		}
     
-    m.addAttribute("center", "dashboard");
+		// page breadcrumb
+		m.addAttribute("pagename", "대시보드");
+		m.addAttribute("pagename2", "대시보드");
+		
+		m.addAttribute("center", "dashboard");
 		return "index";
 	}
 	
@@ -298,7 +307,7 @@ public class MainController {
 	@RequestMapping("/signin")
 	public String signin(Model m, String msg) {
 		if(msg != null && msg.equals("f")) {
-			m.addAttribute("msg", "ID 혹은 PWD가 일치하지 않습니다.");
+			m.addAttribute("msg", "아이디 또는 비밀번호가 일치하지 않습니다.");
 		}
 		return "signin";
 	}
@@ -324,6 +333,10 @@ public class MainController {
 		} catch (Exception e) {
 			return "redirect:/signin?msg=f";
 		}
+		// page breadcrumb
+		m.addAttribute("pagename", "검색");
+		m.addAttribute("pagename2", "검색");
+		
 		return "index";
 	}
 	
@@ -345,6 +358,9 @@ public class MainController {
 		if(session != null) {
 			session.invalidate();
 		}
+		// page breadcrumb
+		m.addAttribute("pagename", "검색");
+		m.addAttribute("pagename2", "검색");
 		return "index";
 	}
 	
@@ -393,6 +409,9 @@ public class MainController {
 		} catch (Exception e) {
 			return "redirect:/signup";
 		}
+		// page breadcrumb
+		m.addAttribute("pagename", "검색");
+		m.addAttribute("pagename2", "검색");
 		return "index";
 	}
 	
@@ -413,7 +432,7 @@ public class MainController {
        //System.out.println("JSONObject로 변환 : " + jo);
        
        // jo에서 JSONObject으로 body 뽑아내기
-       JSONObject jo1 = new  JSONObject();
+       JSONObject jo1 = new JSONObject();
        jo1 = (JSONObject) jo.get("body");
        //System.out.println("body 뽑아내기 : " + jo1);
        
@@ -423,6 +442,11 @@ public class MainController {
        // System.out.println("items 뽑아내기 : " + ja);
        
        m.addAttribute("item", ja);
+       
+		// page breadcrumb
+		m.addAttribute("pagename", "약 상세정보");
+		m.addAttribute("pagename2", item);
+	
        m.addAttribute("center", "medidetail");
        return "index";
    }
@@ -449,6 +473,11 @@ public class MainController {
 		        }
 	        
 	        }
+	    
+	    // page breadcrumb
+		m.addAttribute("pagename", "약 보관함");
+		m.addAttribute("pagename2", "약 보관함");
+		
 	    m.addAttribute("center", "mymedi");
 	    return "index";
 		
@@ -520,6 +549,11 @@ public class MainController {
                 e.printStackTrace();
             }
         }
+        
+        // page breadcrumb
+ 		m.addAttribute("pagename", "처방내역");
+ 		m.addAttribute("pagename2", "처방내역");
+        
         m.addAttribute("center", "plist");
         return "index";
     }
@@ -564,6 +598,10 @@ public class MainController {
             e.printStackTrace();
         }
 		
+        // page breadcrumb
+ 		m.addAttribute("pagename", "처방내역");
+ 		m.addAttribute("pagename2", "상세 처방내역");
+ 		
         m.addAttribute("center", "pdetail"); 
         return "index";
     }
@@ -661,6 +699,7 @@ public class MainController {
 				//System.out.println("4 : " + name);
 				
 				// 3-3. 구한 약이름을 화면으로 보낸다.
+				m.addAttribute("ocrresult", "ok");
 				m.addAttribute("resultname", name);
 				
 				// 2-3. 스캔약 tbl에 데이터를 넣는다.
@@ -678,6 +717,9 @@ public class MainController {
 				e.printStackTrace();
 			}
 		}
+		// page breadcrumb
+		m.addAttribute("pagename", "검색");
+		m.addAttribute("pagename2", "검색");
 		
 		return "index";
 
@@ -698,6 +740,10 @@ public class MainController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		// page breadcrumb
+		m.addAttribute("pagename", "상세 처방내역");
+		m.addAttribute("pagename2", "지도");
+		
 		m.addAttribute("center", "location");
 		return "index";
   }

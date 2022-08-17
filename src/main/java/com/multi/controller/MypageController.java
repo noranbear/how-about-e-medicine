@@ -13,7 +13,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 8. 6.
- * @version 2.0
+ * @version 2.1
  * @description 마이페이지 Controller
  *
  *
@@ -24,6 +24,8 @@ import com.multi.vo.UsersVo;
  *  
  *  2022. 8. 16.		qwaszx357			   mypage 수정
  *  										deleteuser 생성	  
+ *
+ *	2022. 8. 17.						   Breadcrumbs 구현
  *
  * =========================================================
  */
@@ -70,7 +72,11 @@ public class MypageController {
 	            e.printStackTrace();
 	        }
         }
-
+        
+    // page breadcrumb
+		m.addAttribute("pagename", "마이페이지");
+		m.addAttribute("pagename2", "마이페이지");
+    
 		m.addAttribute("center", "mypage/mypage");	
 		return "index";
 	}
