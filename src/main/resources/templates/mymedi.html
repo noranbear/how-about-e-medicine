@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 2.0 -->
+<!-- Version: 3.0 -->
 <!-- Description: 내 약 리스트 페이지
 
 -------------------------------------------------------------------------
@@ -32,12 +32,16 @@
 2022. 7. 29.		qwaszx357					수정, 삭제 기능 구현
 											대체 이미지 출력, modal 추가
 
+2022. 8. 17.		noranbear				 화면 마무리 수정사항 구현										]
+
 -------------------------------------------------------------------------
 -->
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+
 <style>
 .btn-div {
 	display: inline-flex;
@@ -53,7 +57,21 @@
   height: auto;
 }
 </style>
+
 <script>
+/**
+ * 선택된 아이템이름에 대한 디테일 페이지로 이동
+ */
+function getname(item){
+	var text = $(item).text();
+	//alert(text);
+	
+	location.href="/medidetail?item=" + text;
+}
+
+/**
+ * 약 삭제하기
+ */
 function deletemymedi(mid){
 	location.href='deletemymedi?id='+mid;
 }
@@ -84,9 +102,8 @@ $(document).ready(function(){
 	<!-- 내약리스트 -->
 	<div class="col-md-4 mt-4" th:each="m:${mymedi}">
 		<div class="card">
-		
-			<div class="card-header pb-0 px-3">
-				<h5 class="mb-0" th:text="${m.name}"></h5>	
+			<div class="card-header pb-0 px-3 mb-3">
+				<a class="mb-0 text-lg text-bold" th:text="${m.name}" th:onclick='getname(this);' style='cursor: pointer;'></a>	
 			</div>			
 			<div class="card-body pt-4 p-3" >
 				<div class="card-group">
@@ -94,21 +111,20 @@ $(document).ready(function(){
 						<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 							<!-- 이미지, 대체 이미지 출력 -->
 							<a class="d-block blur-shadow-image"> <img th:src="${m.image}"
-								alt="/" class="img-fluid shadow border-radius-lg" onerror="this.onerror=null; this.src='img/logo.png';">
+								alt="약이미지" class="img-fluid shadow border-radius-lg" onerror="this.onerror=null; this.src='img/logo.png';">
 							</a>
 							<div class="colored-shadow"
-								style="background-image: url(&quot;https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg&quot;);"></div>
+								style="background-image: url(&quot;https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg&quot;);">
+							</div>
 						</div>
 						<div class="card-body text-center">
-							<div class="btn-div mt-n6 mx-auto">
-							
+							<div class="btn-div d-flex mt-n6 mx-auto">
 								<!-- 삭제하기 시작-->
-								<div>
-									<a class="btn btn-link text-primary ms-auto border-0"
-										data-bs-toggle="modal" data-bs-placement="bottom"
-										title="delete" th:data-bs-target="'#deletemodal'+${m.id}"> <i class="material-icons text-lg">delete</i>
-									</a>
-								</div>
+								<a class="btn btn-link text-primary ms-auto border-0"
+									data-bs-toggle="modal" data-bs-placement="bottom"
+									title="삭제하기" th:data-bs-target="'#deletemodal'+${m.id}">
+									<i class="material-icons text-lg">delete</i>
+								</a>
 								<!-- Modal 창 -->
 							    <div class="modal fade" th:id="'deletemodal'+${m.id}" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
 									<div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
@@ -121,7 +137,7 @@ $(document).ready(function(){
 											</div>
 											<div class="modal-footer">
 												<button id="delete_btn" th:onclick="deletemymedi([[${m.id}]])" type="button" class="btn bg-gradient-primary">삭제하기</button>
-												<button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
+												<button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal">취소</button>
 											</div>
 										</div>
 									</div>
@@ -130,48 +146,49 @@ $(document).ready(function(){
 							    <!-- 삭제하기 끝-->
 								
 								<!-- 수정하기 시작 -->
-								<div>
-									<button class="btn btn-link text-info me-auto border-0"
-										data-bs-toggle="modal" data-bs-placement="bottom"
-										title="Edit" th:data-bs-target="'#editmodal'+${m.id}">
-										<i class="material-icons text-lg">edit</i>
-									</button>
-									
-									<form id="edit_form" method="post" th:action="@{/editmymedi}">
-										<!-- Modal 창 -->
-									    <div class="modal fade" th:id="'editmodal'+${m.id}" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
-											<div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
-												<div class="modal-content">
-													<div class="modal-header">
-														<span th:text="${m.name}" id="name"></span>
-														<input type="hidden" th:value="${m.id}" id="id" name="id">
+								<button class="btn btn-link text-info me-auto border-0"
+									data-bs-toggle="modal" data-bs-placement="bottom"
+									title="수정하기" th:data-bs-target="'#editmodal'+${m.id}">
+									<i class="material-icons text-lg">edit</i>
+								</button>
+								
+								<form id="edit_form" method="post" th:action="@{/editmymedi}">
+									<!-- Modal 창 -->
+								    <div class="modal fade" th:id="'editmodal'+${m.id}" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+										<div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<span th:text="${m.name}" id="name"></span>
+													<input type="hidden" th:value="${m.id}" id="id" name="id">
+												</div>
+												<div class="modal-body">
+													<div>
+														<p align="left">사용기한</p>
+														<input id="usedate" name="usedate" type="date" th:value="${m.usedate}" style="width:470px;">
 													</div>
-													<div class="modal-body">
-														<div>
-															<p align="left">사용기한</p>
-															<input id="usedate" name="usedate" type="date" th:value="${m.usedate}" style="width:470px;">
-														</div>
-														<div>
-															<br><p align="left">note</p>
-															<input id="note" name="note" type="text" th:value="${m.note}" style="width:470px;">
-														</div>
-													</div>
-													<div class="modal-footer">
-														<button id="edit_btn" type="submit" class="btn bg-gradient-primary">수정하기</button>
-														<button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
+													<div>
+														<br><p align="left">메모</p>
+														<input id="note" name="note" type="text" th:value="${m.note}" style="width:470px;">
 													</div>
 												</div>
+												<div class="modal-footer">
+													<button id="edit_btn" type="submit" class="btn bg-gradient-primary">수정하기</button>
+													<button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal">취소</button>
+												</div>
 											</div>
-									    </div>
-									    <!-- Modal 끝 -->
-									</form>
-								</div>
+										</div>
+								    </div>
+								    <!-- Modal 끝 -->
+								</form>
 								<!-- 수정하기 끝 -->
 							</div>
 							
 							<!-- 제품 정보 출력 시작 -->
 							<div th:if="${m.note != null and m.note != ''}">
-								<span class="mb-2" th:text="'note : ' + ${m.note}">note</span> 
+								<span class="mb-2" th:text="'메모 : ' + ${m.note}">note</span> 
+							</div>
+							<div th:unless="${m.note != null and m.note != ''}">
+								<span class="mb-2" th:text="'메모 : 메모를 추가해 보세요.'">note</span> 
 							</div>
 							<div>
 								<span th:text="'사용기한 : ' + ${m.usedate}">사용기한</span>

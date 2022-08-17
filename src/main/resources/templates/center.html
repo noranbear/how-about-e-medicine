@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 10.0 -->
+<!-- Version: 10.1 -->
 <!-- Description: 메인 페이지의 기본 중간 화면 (검색창)
 
 -------------------------------------------------------------------------------
@@ -169,7 +169,7 @@ function getData2(param){
 
 			// 1. 검색 결과 없음 메세지 생성
 			html += "<div class='card-body px-0 pb-2' style='text-align:center;'>"; 
-			html += "<h5>''에 대한 검색 결과가 없습니다.</h5>";
+			html += "<h5>'"+ param + "'에 대한 검색 결과가 없습니다.</h5>";
 			// close
 			html += "</div>";
 			
@@ -202,7 +202,7 @@ function getData3(param){
 
 			// 1. 검색 결과 없음 메세지 생성
 			html += "<div class='card-body px-0 pb-2' style='text-align:center;'>"; 
-			html += "<h5>''에 대한 검색 결과가 없습니다.</h5>";
+			html += "<h5>'"+ param + "'에 대한 검색 결과가 없습니다.</h5>";
 			// close
 			html += "</div>";
 			
@@ -306,10 +306,15 @@ function readURL(input) {
 					<p id="resultname" th:text="${resultname}" hidden="hidden"></p>
 			  		<input type="text" id="param" class="form-control form-control-lg" placeholder="어떤 약을 찾으시나요?">
 			  	</div>
-			  	<a id="search_bt" class="btn bg-gradient-primary w-auto me-2"><i class="fas fa-search" aria-hidden="true"></i></a>
+			  	<a id="search_bt" class="btn bg-gradient-primary w-auto me-2" data-bs-placement="bottom" 
+                	title="검색"><i class="fas fa-search" aria-hidden="true"></i>
+                </a>
 				
 				<!-- OCR 스캔 시작 -->
-			    <button id="scan_bt" type="button" class="btn btn-block bg-gradient-primary mb-3" data-bs-toggle="modal" data-bs-target="#modal-default"><i class="fa fa-camera"></i></button>
+			    <button id="scan_bt" type="button" class="btn btn-block bg-gradient-primary mb-3" data-bs-toggle="modal" data-bs-target="#modal-default"
+			    	data-bs-placement="bottom" title="이미지로 검색">
+			    	<i class="fa fa-camera"></i>
+			    </button>
 				<!-- OCR Modal 창(2-2)으로 연결 -->
 			</div>
 		</div>
