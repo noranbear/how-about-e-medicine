@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 3.1 -->
+<!-- Version: 4.0 -->
 <!-- Description: 처방내역 페이지
 
 -------------------------------------------------------------------------
@@ -31,6 +31,8 @@
 													
 2022. 8. 11.									   순응도 구현
 
+2022. 8. 18.		noranbear				로그인 전 modal 창 띄우기
+
 -------------------------------------------------------------------------
 -->
 
@@ -40,6 +42,45 @@
 
 <!-- CSS Files -->
 <link href="./assets/ezocss/plistcss.css" rel="stylesheet" />
+
+
+<script>
+$(document).ready(function(){
+	var session = $('#ssave').text();	// 아이디 담기
+
+	// 로그인이 안 되어 있는 경우
+	if(session == null || session == ""){
+		// 로그인 후 이용 가능한 서비스라고 modal 띄우기
+		$('#nouserModal').modal("show");
+	}
+	
+});
+</script>
+
+<!-- 로그인되어 있는 아이디 담기 -->
+<p id="ssave" th:text=${session.signinusers} hidden="hidden"></p>
+<!-- 로그인이 아닐 시 보여질 modal 시작 -->
+<div class="modal fade" id="nouserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">로그인 후 이용 가능한 서비스</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        처방내역 서비스는 로그인 후 이용이 가능합니다. <br>
+        로그인 페이지로 이동하시겠습니까?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn bg-gradient-primary" th:onclick="|location.href='@{/signin}'|">이동</button>
+        <button type="button" class="btn bg-gradient-secondary" onclick="history.go(-1)">뒤로가기</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 로그인이 아닐 시 보여질 modal 끝 -->
 
 <!-- 추가 버튼 -->
 <div class="btn-div">
@@ -67,7 +108,7 @@
 							<tr>
 								<th class="align-middle text-center">병원명</th>
 								<th class="align-middle text-center">남은 복용일</th>
-								<th class="align-middle text-center">복용 상태</th>
+								<th class="align-middle text-center">복용상태</th>
 								<th class="align-middle text-center">처방일자</th>
 							</tr>
 						</thead>
