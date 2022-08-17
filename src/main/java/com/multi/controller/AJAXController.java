@@ -33,7 +33,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 13.1
+ * @version 13.2
  * @description
  *
  *
@@ -404,8 +404,8 @@ public class AJAXController {
 		 */
 		@RequestMapping("atpnwarn")
 		public String atpnwarn(String atpnwarn) {
-			String text = atpnwarn.replace("복용하지 마십시오.", "<b><span class='text-danger'>복용하지 마십시오.</span></b>")
-					.replace("사용하지 마십시오.", "<b><span class='text-danger'>사용하지 마십시오.</span></b>")
+			String text = atpnwarn.replace("복용하지 마십시오.", "<span class='text-danger text-normal'>복용하지 마십시오.</span>")
+					.replace("사용하지 마십시오.", "<span class='text-danger text-normal'>사용하지 마십시오.</span>")
 					.replace("즉시", "<b><span class='text-danger'>즉시</span></b>")
 					.replace("복용을 중단", "<b><span class='text-danger'>복용을 중단</span></b>")
 					.replace("이 약을 복용하기 전", "<b>이 약을 복용하기 전</b>")
@@ -423,8 +423,8 @@ public class AJAXController {
 		 */
 		@RequestMapping("qesitm")
 		public String qesitm(String atpn) {
-			String text = atpn.replace("복용하지 마십시오.", "<b><span class='text-danger'>복용하지 마십시오.</span></b>")
-					.replace("사용하지 마십시오.", "<b><span class='text-danger'>사용하지 마십시오.</span></b>")
+			String text = atpn.replace("복용하지 마십시오.", "<span class='text-danger text-normal'>복용하지 마십시오.</span>")
+					.replace("사용하지 마십시오.", "<span class='text-danger text-normal'>사용하지 마십시오.</span>")
 					.replace("즉시", "<b><span class='text-danger'>즉시</span></b>")
 					.replace("복용을 중단", "<b><span class='text-danger'>복용을 중단</span></b>")
 					.replace("이 약을 복용하기 전", "<b>이 약을 복용하기 전</b>")
@@ -442,8 +442,8 @@ public class AJAXController {
 		 */
 		@RequestMapping("intrc")
 		public String intrc(String intrc) {
-			String text = intrc.replace("복용하지 마십시오.", "<b><span class='text-danger'>복용하지 마십시오.</span></b>")
-					.replace("사용하지 마십시오.", "<b><span class='text-danger'>사용하지 마십시오.</span></b>")
+			String text = intrc.replace("복용하지 마십시오.", "<span class='text-danger text-normal'>복용하지 마십시오.</span>")
+					.replace("사용하지 마십시오.", "<span class='text-danger text-normal'>사용하지 마십시오.</span>")
 					.replace("즉시", "<b><span class='text-danger'>즉시</span></b>")
 					.replace("복용을 중단", "<b><span class='text-danger'>복용을 중단</span></b>")
 					.replace("이 약을 복용하기 전", "<b>이 약을 복용하기 전</b>")
