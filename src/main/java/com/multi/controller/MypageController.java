@@ -22,7 +22,7 @@ import com.multi.vo.UsersVo;
  * ---------------------------------------------------------
  *  2022. 7. 21.		noranbear		 	First Creation		
  *  
- *  2022. 8. 16.		qwaszx357			   mypage 수정
+ *  2022. 8. 16.		qwaszx357			 mypage 수정
  *  										deleteuser 생성	  
  *
  *	2022. 8. 17.						   Breadcrumbs 구현

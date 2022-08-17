@@ -31,7 +31,7 @@ import com.multi.vo.PlistVo;
  *  2022. 8. 5.			qwaszx357			editstop 생성
  *											editdone 생성
  *
- *  2022. 8. 9.			noranbear     get5plist 생성
+ *  2022. 8. 9.			noranbear     		get5plist 생성
  *
  *	2022. 8. 11.		qwaszx357			donegage 생성
  * 

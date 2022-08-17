@@ -21,16 +21,17 @@ import com.multi.vo.UsersVo;
  * --------------------------------------------------------------
  *  2022. 7. 11.		 najune		  		First Creation
  *
- *	2022. 7. 28.		 najune		  		getid 삭제
+ *	2022. 7. 28.		 					  getid 삭제
  *
- *	2022. 8. 12.		qwaszx357	  admin.html 출력 정보 생성
+ *	2022. 8. 12.		qwaszx357	   admin.html 출력 정보 생성
  *
- *	2022. 8. 15.						mypage 출력 정보 생성
+ *	2022. 8. 15.						 mypage 출력 정보 생성
  *
  *	2022. 8. 17.		noranbear	  getagegroup을 getage로 수정
  *
  * ==============================================================
  */
+
 @Service
 public class UsersBiz implements Biz<String, UsersVo>{
 

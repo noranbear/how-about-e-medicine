@@ -28,6 +28,6 @@ import lombok.ToString;
 @ToString
 public class MfVo {
 	
-	private MultipartFile mf;
+	private MultipartFile mf;	// 이미지 파일
 	
 }

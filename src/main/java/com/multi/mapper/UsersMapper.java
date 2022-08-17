@@ -19,16 +19,17 @@ import com.multi.vo.UsersVo;
  * ---------------------------------------------------------------
  *  2022. 7. 11.		 najune		  		First Creation
  *	
- *  2022. 7. 28.		 najune		  		getid 추가
+ *  2022. 7. 28.		 					 getid 추가
  *  
- *	2022. 8. 12.		qwaszx357	  admin.html 출력 정보 생성
+ *	2022. 8. 12.		qwaszx357	    admin.html 출력 정보 생성
  *
- *	2022. 8. 15.						mypage 출력 정보 생성
+ *	2022. 8. 15.						 mypage 출력 정보 생성
  *
- *	2022. 8. 17.		noranbear		agegroup을 selectage로 변경
+ *	2022. 8. 17.		noranbear	   agegroup을 selectage로 변경
  *
  * ===============================================================
  */
+
 @Repository
 @Mapper
 public interface UsersMapper {
