@@ -246,7 +246,7 @@ public class MainController {
 	@RequestMapping("/signin")
 	public String signin(Model m, String msg) {
 		if(msg != null && msg.equals("f")) {
-			m.addAttribute("msg", "ID 혹은 PWD가 틀렸습니다.");
+			m.addAttribute("msg", "아이디 또는 비밀번호가 틀렸습니다.");
 		}
 		return "signin";
 	}
