@@ -39,7 +39,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 16.0
+ * @version 16.1
  * @description
  *
  *
@@ -119,6 +119,8 @@ import com.multi.vo.UsersVo;
  *  2022. 8. 12.		najune				addimpl ajax로 이동
  *  
  *                  qwaszx357				admin 생성
+ *                  
+ *	2022. 8. 17.						signup, signupimpl 수정
  *
  * ====================================================================
  */
@@ -296,7 +298,7 @@ public class MainController {
 	@RequestMapping("/signin")
 	public String signin(Model m, String msg) {
 		if(msg != null && msg.equals("f")) {
-			m.addAttribute("msg", "ID 혹은 PWD가 틀렸습니다.");
+			m.addAttribute("msg", "ID 혹은 PWD가 일치하지 않습니다.");
 		}
 		return "signin";
 	}
@@ -351,7 +353,14 @@ public class MainController {
 	 * @return signup.html
 	 */
 	@RequestMapping("/signup")
-	public String signup(Model m) {
+	public String signup(Model m, String msg) {
+		if(msg != null && msg.equals("id")) {
+			m.addAttribute("idmsg", "아이디를 입력해 주세요.");
+		} else if(msg != null && msg.equals("pwd")) {
+			m.addAttribute("pwdmsg", "비밀번호를 입력해 주세요.");
+		} else if(msg != null && msg.equals("name")) {
+			m.addAttribute("namemsg", "이름을 입력해 주세요.");
+		}
 		return "signup";
 	}
 	
@@ -364,10 +373,13 @@ public class MainController {
 	public String signupimpl(Model m, UsersVo users, HttpSession session) {
 		
 		if (users.getId().equals("") || users.getId() == null) {
-			return "redirect:/signup?msg=f";
+			return "redirect:/signup?msg=id";
 		}
 		if (users.getPwd().equals("") || users.getPwd() == null) {
-			return "redirect:/signup?msg=f";
+			return "redirect:/signup?msg=pwd";
+		}
+		if (users.getName().equals("") || users.getName() == null) {
+			return "redirect:/signup?msg=name";
 		}
 		try {
 			// 회원가입 시 default 프로필 사진으로 지정해놓기
