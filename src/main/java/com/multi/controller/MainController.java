@@ -39,7 +39,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 16.0
+ * @version 16.1
  * @description
  *
  *
@@ -628,6 +628,7 @@ public class MainController {
 				//System.out.println("4 : " + name);
 				
 				// 3-3. 구한 약이름을 화면으로 보낸다.
+				m.addAttribute("ocrresult", "ok");
 				m.addAttribute("resultname", name);
 				
 				// 2-3. 스캔약 tbl에 데이터를 넣는다.
