@@ -14,6 +14,15 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		UPDATE plist SET TIME=#{time},DTIME=#{dtime},STATUS=#{status} WHERE ID=#{id}
 	</update>
 	
+	<!-- 복용 완료 시 -->
+	<update id="editdone" parameterType="int">
+		UPDATE plist SET STATUS="복용 완료" WHERE ID=#{id}
+	</update>
+	<!-- 복용 중지 버튼 클릭 시 -->
+	<update id="editstop" parameterType="int">
+		UPDATE plist SET DAYS=curdate()-pdate, STATUS="복용 중지" WHERE ID=#{id}
+	</update>
+	
 	<select id="select" parameterType="int" resultType="plistVo">
 		SELECT * FROM plist WHERE ID=#{id}
 	</select>
@@ -50,15 +59,10 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		WHERE UID = #{uid}  AND status = "복용중" ORDER BY pdate ASC LIMIT 5;
 	</select>
 		
-	<!-- 복용 완료 시 -->
-	<update id="editdone" parameterType="int">
-		UPDATE plist SET STATUS="복용 완료" WHERE ID=#{id}
-	</update>
-	<!-- 복용 중지 버튼 클릭 시 -->
-	<update id="editstop" parameterType="int">
-		UPDATE plist SET DAYS=curdate()-pdate, STATUS="복용 중지" WHERE ID=#{id}
-	</update>
-
+	<!-- 현재 복용일 구함 -->
+	<select id="selectgday" parameterType="int" resultType="int">
+		SELECT ((curdate() - pdate) + 1) AS gday FROM plist WHERE ID=#{id}
+	</select>	
 	
 </mapper>
 

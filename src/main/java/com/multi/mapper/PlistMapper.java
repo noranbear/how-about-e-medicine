@@ -11,7 +11,7 @@ import com.multi.vo.PlistVo;
 /**
  * @author najune
  * @date 2022. 7. 13.
- * @version 5.0
+ * @version 6.0
  * @description
  *
  *
@@ -35,6 +35,8 @@ import com.multi.vo.PlistVo;
  *
  *	2022. 8. 11.		qwaszx357			donegage 생성
  *
+ *	2022. 8. 17.		noranbear			selectgday 생성
+ *
  * =========================================================
  */
 
@@ -49,6 +51,11 @@ public interface PlistMapper {
 	public PlistVo select(int id) throws Exception;
 	public List<PlistVo> selectall() throws Exception;
 
+	// 복용 완료
+	public void editdone(int id) throws Exception;
+	// 복용 중지
+	public void editstop(int id) throws Exception;
+		
 	// 처방내역에 출력
 	public List<PlistVo> selectuser(String k) throws Exception;
 	//순응도
@@ -62,9 +69,7 @@ public interface PlistMapper {
 	// 해당 유저의 최대 5개의 복용중 상태인 처방내역 리턴
 	public List<PlistVo> select5plists(String uid) throws Exception;
 
-	// 복용 완료
-	public void editdone(int id) throws Exception;
-	// 복용 중지
-	public void editstop(int id) throws Exception;
+	// 현재 복용일 구함
+	public int selectgday(int id) throws Exception;
 	
 }

@@ -39,7 +39,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 16.1
+ * @version 16.2
  * @description
  *
  *
@@ -123,6 +123,8 @@ import com.multi.vo.UsersVo;
  *	2022. 8. 17.						signup, signupimpl 수정
  *
  *	2022. 8. 17.		noranbear		페이지의 breadcrumb 기능 구현 	
+ *
+ *											처방상세정보의 복약일 구현
  *
  * ====================================================================
  */
@@ -573,6 +575,7 @@ public class MainController {
 	 */
 	@RequestMapping("/pdetail")
     public String pdetail(Model m, Integer id) {
+		int gday = 0;
 		PlistVo obj = null;
 		List<PmediVo> mlist = null;
 		List<AlarmVo> alist = null;
@@ -594,6 +597,10 @@ public class MainController {
             // 3. 복약이 끝나는 날
             enddate = mlist.get(0).getEndday();
             m.addAttribute("enddate", enddate);
+            
+            // 4. 남은 복용일
+            gday = plibiz.getgday(id);
+            m.addAttribute("dday", gday);
         } catch (Exception e) {
             e.printStackTrace();
         }
