@@ -21,10 +21,6 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		SELECT * FROM users
 	</select>
 
-	<select id="getid" parameterType="String" resultType="int">
-		SELECT count(*) FROM users WHERE ID=#{id}
-	</select>
-
 	<!-- 이용중인 유저만 조회 -->
 	<select id="selectusers" resultType="usersVo">
 		SELECT * FROM users WHERE UTYPE=20 AND STATUS=1

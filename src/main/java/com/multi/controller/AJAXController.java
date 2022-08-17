@@ -18,7 +18,6 @@ import com.multi.biz.MymediBiz;
 import com.multi.biz.PlistBiz;
 import com.multi.biz.PmediBiz;
 import com.multi.biz.UsersBiz;
-import com.multi.mapper.UsersMapper;
 import com.multi.restapi.DataAPI;
 import com.multi.restapi.DataAPI2;
 import com.multi.restapi.DataAPI3;
@@ -34,7 +33,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 13.0
+ * @version 13.1
  * @description
  *
  *
@@ -78,6 +77,8 @@ import com.multi.vo.UsersVo;
  *										  plistaddimple 구현
  *
  *  2022. 8. 15.		qwaszx357			주의사항에 정규표현식 적용
+ *  
+ *  										checkid 수정
  *
  * =================================================================
  */
@@ -108,9 +109,6 @@ public class AJAXController {
   
 	@Autowired
 	UsersBiz ubiz;
-	
-	@Autowired
-	UsersMapper mapper;
 	
 	@Autowired
 	DashBiz dbiz;
@@ -279,8 +277,23 @@ public class AJAXController {
 	
 	// ID 중복 확인
 	@RequestMapping("/checkid")
-	public int checkid(String id) {
-		int result = mapper.getid(id);	
+	public String checkid(String id) {
+		String result = "";
+		UsersVo users = null;
+		
+		if (id.equals("") || id == null) {
+			return "1";
+		}
+		try {
+			users = ubiz.get(id);
+			if (users == null) {
+				result = "0";
+			}else {
+				result = "1";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return result;
 	}
 	

@@ -37,9 +37,7 @@ public interface UsersMapper {
 	
 	public UsersVo select(String id) throws Exception;
 	public List<UsersVo> selectall() throws Exception;
-	
-	public int getid(String id);
-	
+		
 	public List<UsersVo> selectusers() throws Exception;
 
 	public int paccession() throws Exception;
