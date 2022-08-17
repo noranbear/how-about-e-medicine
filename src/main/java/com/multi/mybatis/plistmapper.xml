@@ -49,13 +49,13 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
   	</select>
 	<!-- 복약알람 끝나는 날짜 반환 -->
 	<select id="selectenddate" parameterType="int" resultType="plistVo">
-		SELECT p.id, p.uid, p.hospital, p.pdate, p.days, DATE_ADD(p.pdate, INTERVAL p.days DAY) AS enddate FROM plist p
+		SELECT p.id, p.uid, p.hospital, p.pdate, p.days, DATE_ADD(p.pdate, INTERVAL p.days - 1 DAY) AS enddate FROM plist p
 		WHERE ID=#{id}
 	</select>
 	
 	<!-- 해당 유저의 최대 5개의 복용중 상태인 처방내역 리턴 -->
 	<select id="select5plists" parameterType="String" resultType="plistVo">
-		SELECT id, hospital, pdate, dtime, DATE_ADD(pdate, INTERVAL days DAY) AS enddate FROM plist
+		SELECT id, hospital, pdate, dtime, DATE_ADD(pdate, INTERVAL days - 1 DAY) AS enddate FROM plist
 		WHERE UID = #{uid}  AND status = "복용중" ORDER BY pdate ASC LIMIT 5;
 	</select>
 		

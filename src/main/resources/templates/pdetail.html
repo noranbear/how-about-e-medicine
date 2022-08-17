@@ -56,7 +56,7 @@
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>처방내역 > 처방상세</title>
 
 <!-- 1. FullCalendar import 시작 -->
 <link href='./fullcalendar/main.css' rel='stylesheet' />
@@ -199,7 +199,7 @@ $(document).ready(function(){
 			caldisplay(data);		
 			
 			// 설정된 알람이 없을 때
-			if(data == ""){
+			if(data == "" || data == null){
 				// 1. 복용 알람 리스트에 알람이 없다는 메세지 쓰기
 				var html= "";	// 출력할 html을 담을 변수  
 
@@ -360,7 +360,7 @@ function switchBtColor(btinfo){
                     	<i class="fa fa-file-text-o text-white p-2" style="font-size:24px"></i>
                     	 처방내역 상세
                     </h4>
-                    <h5 class="text-white mt-4 mb-5 pb-2" th:text="${p.pdate} + ' ~ ' + ${#dates.format(enddate,'yyyy-MM-dd')}"></h5>
+                    <h5 class="text-white mt-4 mb-5 pb-2" th:text="${p.pdate} + ' ~ ' + ${enddate}"></h5>
                     
                     <div class="d-flex" >
                       <div class="d-flex">

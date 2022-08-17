@@ -51,6 +51,7 @@ public class PlistVo {
 	private String enddate;	// 복약 끝나는 날
 	private int gage;	// 순응도
 
+	
 	// Constructor for insert
 	public PlistVo(String uid, String hospital, String pdate, int days, int time, String dtime) {
 		this.uid = uid;

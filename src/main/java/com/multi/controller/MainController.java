@@ -39,7 +39,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 16.2
+ * @version 16.3
  * @description
  *
  *
@@ -309,7 +309,7 @@ public class MainController {
 	@RequestMapping("/signin")
 	public String signin(Model m, String msg) {
 		if(msg != null && msg.equals("f")) {
-			m.addAttribute("msg", "아이디 또는 비밀번호가 일치하지 않습니다.");
+			m.addAttribute("msg", "* 아이디 또는 비밀번호가 일치하지 않습니다.");
 		}
 		return "signin";
 	}
@@ -579,7 +579,7 @@ public class MainController {
 		PlistVo obj = null;
 		List<PmediVo> mlist = null;
 		List<AlarmVo> alist = null;
-		Date enddate = null;
+		String enddate = null;
 	
 		plistid = id;		// 현재 처방내역 id를 저장 - 다른 함수에서 쓰기 위해
 		
@@ -595,7 +595,7 @@ public class MainController {
             m.addAttribute("alist", alist);
             
             // 3. 복약이 끝나는 날
-            enddate = mlist.get(0).getEndday();
+            enddate = plibiz.getenddate(id).getEnddate();
             m.addAttribute("enddate", enddate);
             
             // 4. 남은 복용일
