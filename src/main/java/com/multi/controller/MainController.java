@@ -373,11 +373,11 @@ public class MainController {
 	@RequestMapping("/signup")
 	public String signup(Model m, String msg) {
 		if(msg != null && msg.equals("id")) {
-			m.addAttribute("idmsg", "아이디를 입력해 주세요.");
+			m.addAttribute("idmsg", "* 아이디를 입력해 주세요.");
 		} else if(msg != null && msg.equals("pwd")) {
-			m.addAttribute("pwdmsg", "비밀번호를 입력해 주세요.");
+			m.addAttribute("pwdmsg", "* 비밀번호를 입력해 주세요.");
 		} else if(msg != null && msg.equals("name")) {
-			m.addAttribute("namemsg", "이름을 입력해 주세요.");
+			m.addAttribute("namemsg", "* 이름을 입력해 주세요.");
 		}
 		return "signup";
 	}

@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 3.0 -->
+<!-- Version: 3.1 -->
 <!-- Description: 메인페이지
 
 -------------------------------------------------------------------------
@@ -84,7 +84,7 @@ $(document).ready(function(){
 			data:{id: id},
 			success:function(result){
 				if (result == '1') {
-					$('#id_msg').text('사용 불가능한 ID 입니다.');						        
+					$('#id_msg').text('* 사용 불가능한 아이디 입니다.');						        
 				} else {
 					$('#id_msg').text('');
 				}
@@ -97,7 +97,7 @@ $(document).ready(function(){
 	$('#pwd').blur(function(){
 		var pwd = $(this).val();
 		if (pwd.length < 4){
-			$('#pwd_msg').text("Password는 4글자 이상 입력해주세요.");
+			$('#pwd_msg').text("* 4글자 이상 입력해주세요.");
 		} else {
 			$('#pwd_msg').text("");
 		}
@@ -199,7 +199,7 @@ $(document).ready(function(){
 										<input type="text" id="name" name="name" class="form-control">
 									</div>
 									<div>
-										<span id="name_msg" th:text="${namemsg}"></span>
+										<span class="text-xs text-primary" id="name_msg" th:text="${namemsg}"></span>
 									</div>
 									
 									<label class="mb-sm-1" for="id" style='font-size: 0.8rem;'>아이디</label>
@@ -207,7 +207,7 @@ $(document).ready(function(){
 										<input type="text" id="id" name="id" class="form-control">
 									</div>	
 									<div>
-                            			<span id="id_msg" th:text="${idmsg}"></span>
+                            			<span class="text-xs text-primary" id="id_msg" th:text="${idmsg}"></span>
                             		</div>
                             		
 									<label class="mb-sm-1" for="pwd" style='font-size: 0.8rem;'>비밀번호</label>
@@ -215,7 +215,7 @@ $(document).ready(function(){
 										<input type="password" id="pwd" name="pwd" class="form-control">
 									</div>
 									<div>
-                            			<span id="pwd_msg" th:text="${pwdmsg}"></span>
+                            			<span class="text-xs text-primary" id="pwd_msg" th:text="${pwdmsg}"></span>
                             		</div>
                             		
                             		<label class="mb-sm-1" for="mail" style='font-size: 0.8rem;'>이메일</label>

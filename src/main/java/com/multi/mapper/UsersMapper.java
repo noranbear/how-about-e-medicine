@@ -10,13 +10,13 @@ import com.multi.vo.UsersVo;
 /**
  * @author najune
  * @date 2022. 7. 11.
- * @version 3.0
+ * @version 3.1
  * @description
  *
  *
- * =========================================================
+ * ===============================================================
  * 	    DATE			 AUTHOR				    NOTE
- * ---------------------------------------------------------
+ * ---------------------------------------------------------------
  *  2022. 7. 11.		 najune		  		First Creation
  *	
  *  2022. 7. 28.		 najune		  		getid 추가
@@ -25,7 +25,9 @@ import com.multi.vo.UsersVo;
  *
  *	2022. 8. 15.						mypage 출력 정보 생성
  *
- * =========================================================
+ *	2022. 8. 17.		noranbear		agegroup을 selectage로 변경
+ *
+ * ===============================================================
  */
 @Repository
 @Mapper
@@ -54,6 +56,7 @@ public interface UsersMapper {
 	public int plistcnt(String id) throws Exception;
 	
 	public void deleteuser(String id) throws Exception;
-	public String agegroup(String id) throws Exception;
+	// 유저 연령 구하기
+	public String selectage(String id) throws Exception;
 	
 }

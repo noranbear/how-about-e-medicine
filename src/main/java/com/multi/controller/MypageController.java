@@ -13,7 +13,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 8. 6.
- * @version 2.1
+ * @version 2.2
  * @description 마이페이지 Controller
  *
  *
@@ -65,7 +65,9 @@ public class MypageController {
 	            m.addAttribute("scnt", scnt);
 	            pcnt = ubiz.plistcnt(users.getId());
 	            m.addAttribute("pcnt", pcnt);
-	            age = ubiz.agegroup(users.getId());
+	            // 연령대 구하기
+	            age = ubiz.getage(users.getId());
+	            age = age.substring(0,1);
 	            m.addAttribute("age", age);
 	            
 	        } catch (Exception e) {
@@ -73,7 +75,7 @@ public class MypageController {
 	        }
         }
         
-    // page breadcrumb
+		// page breadcrumb
 		m.addAttribute("pagename", "마이페이지");
 		m.addAttribute("pagename2", "마이페이지");
     
