@@ -10,7 +10,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author najune
  * @date 2022. 7. 11.
- * @version 1.0
+ * @version 3.0
  * @description
  *
  *
@@ -21,6 +21,10 @@ import com.multi.vo.UsersVo;
  *	
  *  2022. 7. 28.		 najune		  		getid 추가
  *  
+ *	2022. 8. 12.		qwaszx357	  admin.html 출력 정보 생성
+ *
+ *	2022. 8. 15.						mypage 출력 정보 생성
+ *
  * =========================================================
  */
 @Repository
@@ -33,6 +37,23 @@ public interface UsersMapper {
 	
 	public UsersVo select(String id) throws Exception;
 	public List<UsersVo> selectall() throws Exception;
+		
+	public List<UsersVo> selectusers() throws Exception;
 
-	public int getid(String id);
+	public int paccession() throws Exception;
+	public int accession() throws Exception;
+	
+	public int psecession() throws Exception;
+	public int secession() throws Exception;
+	
+	public int userscnt() throws Exception;
+	public UsersVo usersgrowth() throws Exception;
+
+	public UsersVo usersgage(String id) throws Exception;
+	public int slistcnt(String id) throws Exception;
+	public int plistcnt(String id) throws Exception;
+	
+	public void deleteuser(String id) throws Exception;
+	public String agegroup(String id) throws Exception;
+	
 }

@@ -14,7 +14,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 
-<!-- Version: 8.1 -->
+<!-- Version: 8.2 -->
 <!-- Description: 메인페이지
 
 ----------------------------------------------------------------------------
@@ -65,6 +65,8 @@
 												링크 mypage에 연결
 											  
 2022. 8. 8.			 ynr1734			페이지 타이틀 변경 및 favicon 변경		
+
+2022. 8. 12.		qwaszx357						링크 수정
 
 ----------------------------------------------------------------------------
 -->
@@ -178,7 +180,7 @@ footer {
 				</li>
 				<div th:if="${session.signinusers != null}">
 					<li class="nav-item">
-						<a class="nav-link text-white" th:if="${session.signinusers.utype == 10}" th:href="@{/dashboard}">
+						<a class="nav-link text-white " th:if="${session.signinusers.utype == 10}" th:href="@{/admin}">
 							<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
 								<i class="material-icons opacity-10">person</i>
 							</div>
@@ -211,7 +213,7 @@ footer {
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link text-white" th:href="@{/signout}">
+						<a class="nav-link text-white" th:href="@{/signup}">
 							<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
 								<i class="material-icons opacity-10">assignment</i>
 							</div>

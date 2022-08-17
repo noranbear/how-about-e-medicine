@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 10.1 -->
+<!-- Version: 10.2 -->
 <!-- Description: 메인 페이지의 기본 중간 화면 (검색창)
 
 -------------------------------------------------------------------------------
@@ -40,6 +40,9 @@
 	
 2022. 8. 17.								ocrbox 자동 검색으로 수정
 
+
+                qwaszx357					검색 결과 테이블 수정
+			  							 
 -------------------------------------------------------------------------------
 -->
 
@@ -72,7 +75,7 @@ function display(data){
 
 	// 1. 테이블 생성
 	html += "<div class='card-body px-0 pb-2'>";
-	html += "<div class='table-responsive'>";
+	html += "<div class='table-div table-responsive'>";
 	html += "<table class='table-fixed table align-items-center mb-0'>";
 	// 헤더
 	html += "<thead><tr>";
@@ -90,12 +93,18 @@ function display(data){
 		var imgurl = data[i].itemImage;
 		var company = data[i].entpName;
 		var efficacy = data[i].efcyQesitm;
+		if (efficacy.length >= 62) {
+			efficacy = efficacy.substr(3,60) + "...";
+		} else {
+			efficacy = efficacy.substr(3,efficacy.length);
+		}
+		
 
-		html += "<tr class='tr-height'>"
+		html += "<tr class='tr-height td-height'>"
 		html += "<td class='align-middle text-center'><img style='height:100px; width: 100px;' src='" + imgurl + "' onerror=this.src='img/logo.png';></td>";
-		html += "<td class='align-middle text-center'><a href='#' onclick='getname(this);'>"+ itemname +"</a></td>";
-		html += "<td class='align-middle text-center'>"+ company +"</td>";
-		html += "<td class='td-height align-middle text-center'>"+ efficacy +"</td>";
+		html += "<td class='td-height align-middle text-center'><a href='#' onclick='getname(this);'>"+ itemname +"</a></td>";
+		html += "<td class='td-height align-middle text-center'>"+ company +"</td>";
+		html += "<td class='td-height td-height1 align-middle text-center'>"+ efficacy +"</td>";
 		html += "</tr>";
 	});
 	
@@ -294,7 +303,6 @@ function readURL(input) {
 			<div class="search_box">
 				<!-- 검색 분류 -->
 				<select class="select-control" id="sort" name="sort">
-					<option>전체</option>
 					<option value="dataget">제품명</option>
 					<option value="dataget2">업체명</option>
 					<option value="dataget3">효능명</option>

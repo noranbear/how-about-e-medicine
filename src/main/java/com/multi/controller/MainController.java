@@ -117,6 +117,10 @@ import com.multi.vo.UsersVo;
  *	2022. 8. 11.								plist 수정
  *	
  *  2022. 8. 12.		najune				addimpl ajax로 이동
+ *  
+ *                  qwaszx357				admin 생성
+ *                  
+ *	2022. 8. 17.						signup, signupimpl 수정
  *
  *	2022. 8. 17.		noranbear		페이지의 breadcrumb 기능 구현 	
  *
@@ -240,13 +244,70 @@ public class MainController {
 	}
 	
 	/**
+	 * 관리자 페이지 연결
+	 * @return admin.html
+	 */
+	@RequestMapping("/admin")
+	public String admin(Model m) {
+		int userscnt = 0;
+		UsersVo usersgrowth = null;
+		int paccession = 0;
+		int accession = 0;
+		int psecession = 0;
+		int secession = 0;
+		List<SlistVo> monthmedi = null;
+		int monthcnt = 0;
+		List<UsersVo> users = null;
+		
+		try {
+			// 총 회원 수
+			userscnt = ubiz.userscnt();
+			m.addAttribute("userscnt", userscnt);
+			// 전월 대비 증감
+			usersgrowth = ubiz.usersgrowth();
+			m.addAttribute("usersgrowth", usersgrowth);
+			
+			// 이번달 가입 회원 수
+			accession = ubiz.accession();
+			m.addAttribute("accession", accession);
+			// 전월 대비 가입 회원 수
+			paccession = accession - ubiz.paccession();
+			m.addAttribute("paccession", paccession);
+			
+			// 이번달 탈퇴 회원 수
+			secession = ubiz.secession();
+			m.addAttribute("secession", secession);
+			// 전월 대비 탈퇴 회원 수
+			psecession = secession - ubiz.psecession();
+			m.addAttribute("psecession", psecession);
+			
+			// 이달의 약 트렌드
+			monthmedi = dbiz.getmonthmedi();
+			m.addAttribute("monthmedi", monthmedi);
+			// 이번달 스캔 횟수
+			monthcnt = dbiz.getmonthcnt();
+			m.addAttribute("monthcnt", monthcnt);
+
+			// 이용중인 유저정보
+			users = ubiz.getusers();
+			m.addAttribute("users", users);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    
+		m.addAttribute("center", "admin");
+		return "index";
+	}
+	
+	/**
 	 * 로그인 페이지 연결
 	 * @return signin.html
 	 */
 	@RequestMapping("/signin")
 	public String signin(Model m, String msg) {
 		if(msg != null && msg.equals("f")) {
-			m.addAttribute("msg", "아이디 또는 비밀번호가 틀렸습니다.");
+			m.addAttribute("msg", "아이디 또는 비밀번호가 일치하지 않습니다.");
 		}
 		return "signin";
 	}
@@ -308,7 +369,14 @@ public class MainController {
 	 * @return signup.html
 	 */
 	@RequestMapping("/signup")
-	public String signup(Model m) {
+	public String signup(Model m, String msg) {
+		if(msg != null && msg.equals("id")) {
+			m.addAttribute("idmsg", "아이디를 입력해 주세요.");
+		} else if(msg != null && msg.equals("pwd")) {
+			m.addAttribute("pwdmsg", "비밀번호를 입력해 주세요.");
+		} else if(msg != null && msg.equals("name")) {
+			m.addAttribute("namemsg", "이름을 입력해 주세요.");
+		}
 		return "signup";
 	}
 	
@@ -321,10 +389,13 @@ public class MainController {
 	public String signupimpl(Model m, UsersVo users, HttpSession session) {
 		
 		if (users.getId().equals("") || users.getId() == null) {
-			return "redirect:/signup?msg=f";
+			return "redirect:/signup?msg=id";
 		}
 		if (users.getPwd().equals("") || users.getPwd() == null) {
-			return "redirect:/signup?msg=f";
+			return "redirect:/signup?msg=pwd";
+		}
+		if (users.getName().equals("") || users.getName() == null) {
+			return "redirect:/signup?msg=name";
 		}
 		try {
 			// 회원가입 시 default 프로필 사진으로 지정해놓기
@@ -361,7 +432,7 @@ public class MainController {
        //System.out.println("JSONObject로 변환 : " + jo);
        
        // jo에서 JSONObject으로 body 뽑아내기
-       JSONObject jo1 = new  JSONObject();
+       JSONObject jo1 = new JSONObject();
        jo1 = (JSONObject) jo.get("body");
        //System.out.println("body 뽑아내기 : " + jo1);
        
@@ -373,8 +444,8 @@ public class MainController {
        m.addAttribute("item", ja);
        
 		// page breadcrumb
-		m.addAttribute("pagename", "검색");
-		m.addAttribute("pagename2", "약 상세정보");
+		m.addAttribute("pagename", "약 상세정보");
+		m.addAttribute("pagename2", item);
 	
        m.addAttribute("center", "medidetail");
        return "index";
@@ -418,7 +489,7 @@ public class MainController {
 	 * @return mymedi.html
 	 */
 	@RequestMapping("/editmymedi")
-	public String editmymedi(Model m, MymediVo medi) {
+	public String editmymedi(MymediVo medi) {
 		try {
 			mbiz.modify(medi);
 		} catch (Exception e) {
