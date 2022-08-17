@@ -13,7 +13,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 8. 6.
- * @version 1.0
+ * @version 1.1
  * @description 마이페이지 Controller
  *
  *
@@ -21,6 +21,8 @@ import com.multi.vo.UsersVo;
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
  *  2022. 7. 21.		noranbear		 	First Creation			  
+ *
+ *	2022. 8. 17.						   Breadcrumbs 구현
  *
  * =========================================================
  */
@@ -38,6 +40,9 @@ public class MypageController {
 	 */
 	@RequestMapping("")
 	public String mypage(Model m) {
+		// page breadcrumb
+		m.addAttribute("pagename", "마이페이지");
+		m.addAttribute("pagename2", "마이페이지");
 		m.addAttribute("center", "mypage/mypage");	
 		return "index";
 	}

@@ -39,7 +39,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 15.1
+ * @version 16.0
  * @description
  *
  *
@@ -118,6 +118,8 @@ import com.multi.vo.UsersVo;
  *	
  *  2022. 8. 12.		najune				addimpl ajax로 이동
  *
+ *	2022. 8. 17.		noranbear		페이지의 breadcrumb 기능 구현 	
+ *
  * ====================================================================
  */
 
@@ -166,7 +168,10 @@ public class MainController {
 	 * @return index
 	 */
 	@RequestMapping("/")
-	public String main() {
+	public String main(Model m) {
+		// page breadcrumb
+		m.addAttribute("pagename", "검색");
+		m.addAttribute("pagename2", "검색");
 		return "index";
 	}
 	
@@ -226,7 +231,11 @@ public class MainController {
 			e.printStackTrace();
 		}
     
-    m.addAttribute("center", "dashboard");
+		// page breadcrumb
+		m.addAttribute("pagename", "대시보드");
+		m.addAttribute("pagename2", "대시보드");
+		
+		m.addAttribute("center", "dashboard");
 		return "index";
 	}
 	
@@ -263,6 +272,10 @@ public class MainController {
 		} catch (Exception e) {
 			return "redirect:/signin?msg=f";
 		}
+		// page breadcrumb
+		m.addAttribute("pagename", "검색");
+		m.addAttribute("pagename2", "검색");
+		
 		return "index";
 	}
 	
@@ -284,6 +297,9 @@ public class MainController {
 		if(session != null) {
 			session.invalidate();
 		}
+		// page breadcrumb
+		m.addAttribute("pagename", "검색");
+		m.addAttribute("pagename2", "검색");
 		return "index";
 	}
 	
@@ -322,6 +338,9 @@ public class MainController {
 		} catch (Exception e) {
 			return "redirect:/signup";
 		}
+		// page breadcrumb
+		m.addAttribute("pagename", "검색");
+		m.addAttribute("pagename2", "검색");
 		return "index";
 	}
 	
@@ -352,6 +371,11 @@ public class MainController {
        // System.out.println("items 뽑아내기 : " + ja);
        
        m.addAttribute("item", ja);
+       
+		// page breadcrumb
+		m.addAttribute("pagename", "검색");
+		m.addAttribute("pagename2", "약 상세정보");
+	
        m.addAttribute("center", "medidetail");
        return "index";
    }
@@ -378,6 +402,11 @@ public class MainController {
 		        }
 	        
 	        }
+	    
+	    // page breadcrumb
+		m.addAttribute("pagename", "약 보관함");
+		m.addAttribute("pagename2", "약 보관함");
+		
 	    m.addAttribute("center", "mymedi");
 	    return "index";
 		
@@ -449,6 +478,11 @@ public class MainController {
                 e.printStackTrace();
             }
         }
+        
+        // page breadcrumb
+ 		m.addAttribute("pagename", "처방내역");
+ 		m.addAttribute("pagename2", "처방내역");
+        
         m.addAttribute("center", "plist");
         return "index";
     }
@@ -493,6 +527,10 @@ public class MainController {
             e.printStackTrace();
         }
 		
+        // page breadcrumb
+ 		m.addAttribute("pagename", "처방내역");
+ 		m.addAttribute("pagename2", "상세 처방내역");
+ 		
         m.addAttribute("center", "pdetail"); 
         return "index";
     }
@@ -607,6 +645,9 @@ public class MainController {
 				e.printStackTrace();
 			}
 		}
+		// page breadcrumb
+		m.addAttribute("pagename", "검색");
+		m.addAttribute("pagename2", "검색");
 		
 		return "index";
 
@@ -627,6 +668,10 @@ public class MainController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		// page breadcrumb
+		m.addAttribute("pagename", "상세 처방내역");
+		m.addAttribute("pagename2", "지도");
+		
 		m.addAttribute("center", "location");
 		return "index";
   }
