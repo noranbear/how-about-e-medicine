@@ -30,7 +30,7 @@ class UsersAgeGroupTests {
 		String str = null;
 		
 		try {
-			str = biz.agegroup("id06");		
+			str = biz.getage("id06");		
 			System.out.println(str);
 			
 		} catch (Exception e) {

@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.multi.biz.PlistBiz;
-import com.multi.vo.PlistVo;
 
 /**
  * @author qwaszx357

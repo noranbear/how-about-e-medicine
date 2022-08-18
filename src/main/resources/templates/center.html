@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 10.2 -->
+<!-- Version: 10.3 -->
 <!-- Description: 메인 페이지의 기본 중간 화면 (검색창)
 
 -------------------------------------------------------------------------------
@@ -76,7 +76,7 @@ function display(data){
 
 	// 1. 테이블 생성
 	html += "<div class='card-body px-0 pb-2'>";
-	html += "<div class='table-div table-responsive'>";
+	html += "<div class='table-div table-responsive' style='overflow-y: hidden;'>";
 	html += "<table class='table-fixed table align-items-center mb-0'>";
 	// 헤더
 	html += "<thead><tr>";
@@ -313,7 +313,7 @@ function readURL(input) {
 					<!-- ocrbox Controller에서 받은 값 저장하기 -->
 					<p id="ocrresult" th:text="${ocrresult}" hidden="hidden"></p>
 					<p id="resultname" th:text="${resultname}" hidden="hidden"></p>
-			  		<input type="text" id="param" class="form-control form-control-lg" placeholder="어떤 약을 찾으시나요?">
+			  		<input type="text" id="param" class="form-control form-control-lg" th:value="${resultname}" placeholder="어떤 약을 찾으시나요?">
 			  	</div>
 			  	<a id="search_bt" class="btn bg-gradient-primary w-auto me-2" data-bs-placement="bottom" 
                 	title="검색"><i class="fas fa-search" aria-hidden="true"></i>
