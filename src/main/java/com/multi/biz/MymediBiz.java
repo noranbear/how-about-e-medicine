@@ -21,9 +21,9 @@ import com.multi.vo.MymediVo;
  * ---------------------------------------------------------
  *  2022. 7. 11.		qwaszx357		  First Creation
  *  
- *	2022. 7. 20.		najune			  get 추가
+ *	2022. 7. 20.		najune			  	  get 추가
  *
- *	2022. 7. 29.		qwaszx357			getdday 생성
+ *	2022. 7. 29.		qwaszx357			 getdday 생성
  *
  *	2022. 8. 9.			noranbear			get5medis 생성	
  *

@@ -16,6 +16,7 @@ import java.util.List;
  *
  * =========================================================
  */
+
 public interface Biz<K,V> {
 	
 	public void register(V v) throws Exception;

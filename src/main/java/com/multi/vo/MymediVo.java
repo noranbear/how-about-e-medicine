@@ -26,8 +26,10 @@ import lombok.ToString;
  *  
  *  2022. 7. 29.				   Constructor for update 수정
  *  										dday 생성
+ *  
  * =========================================================
  */
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter

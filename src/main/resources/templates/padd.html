@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 4.3 -->
+<!-- Version: 4.4 -->
 <!-- Description: 처방내역 추가 페이지
 
 -------------------------------------------------------------------------
@@ -21,7 +21,7 @@
 -------------------------------------------------------------------------								    
 2022. 7. 18			noranbear					First Creation
 
-2022. 7. 22.		najune			 	         profile 화면 구현
+2022. 7. 22.		najune			 	        profile 화면 구현
 
 2022. 7. 22.		qwaszx357					footer 지우기
 
@@ -56,7 +56,7 @@
 <link rel="icon" type="image/png" href="../assets/img/favicon.png">
 <!-- 1. 끝 -->
 
-<title>e약어때</title>
+<title>처방내역 > 처방내역 추가</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <!-- 2. Bootstrap import 시작 -->
@@ -281,9 +281,10 @@ function readURL(input) {
 				<nav class="navbar navbar-expand-lg blur border-radius-xl top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
 					<div class="container-fluid ps-2 pe-0">
 						<span class="navbar-brand font-weight-bolder ms-lg-0 ms-3 ">
-						e약어때
+							e약어때
 						</span>
-						<button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+						<button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" 
+							data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
 							<span class="navbar-toggler-icon mt-2">
 								<span class="navbar-toggler-bar bar1"></span>
 								<span class="navbar-toggler-bar bar2"></span>
@@ -299,15 +300,15 @@ function readURL(input) {
 									</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link me-2" th:href="@{/mypage}">
-										<i class="fa fa-user opacity-6 text-dark me-1"></i>
-										마이페이지
-									</a>
-								</li>
-								<li class="nav-item">
 									<a class="nav-link d-flex align-items-center me-2 active" aria-current="page" th:href="@{/mymedi}">
 										<i class="fas fa-first-aid opacity-6 text-dark me-1"></i>
 										약 보관함
+									</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link me-2" th:href="@{/mypage}">
+										<i class="fa fa-user opacity-6 text-dark me-1"></i>
+										마이페이지
 									</a>
 								</li>
 							</ul>

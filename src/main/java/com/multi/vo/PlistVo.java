@@ -9,7 +9,7 @@ import lombok.ToString;
 /**
  * @author najune
  * @date 2022. 7. 13.
- * @version 5.3
+ * @version 6.0
  * @description
  *
  *
@@ -24,7 +24,10 @@ import lombok.ToString;
  *
  *	2022. 8. 5.			qwaszx357		DB변동으로 status 추가
  *
- *	2022. 8. 11.		qwaszx357			  gage 생성
+ *	2022. 8. 11.							  gage 생성
+ *
+ *	2022. 8. 17.		noranbear			  gday 생성
+ *
  * =========================================================
  */
 
@@ -43,10 +46,12 @@ public class PlistVo {
 	private String dtime;	// 투약시간
 	private String status;  // 복약상태
 	
+	private int gday;		// 현재 복용일
 	private int dday;		// 남은 복용일
 	private String enddate;	// 복약 끝나는 날
 	private int gage;	// 순응도
 
+	
 	// Constructor for insert
 	public PlistVo(String uid, String hospital, String pdate, int days, int time, String dtime) {
 		this.uid = uid;

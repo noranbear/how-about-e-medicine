@@ -27,7 +27,7 @@ import com.multi.vo.UsersVo;
  * =================================================================
  * 	    DATE			 AUTHOR				    NOTE
  * -----------------------------------------------------------------
- *  2022. 8. 8.		    noranbear		     First Creation
+ *  2022. 8. 8.		    noranbear		    First Creation
  *											get5alarms 추가
  *
  *	2022. 8. 9.								get5plists 추가
@@ -48,7 +48,6 @@ public class AJAXMypageController {
 	
 	@Autowired
 	AlarmBiz abiz;
-	
 	
 	
 	/**

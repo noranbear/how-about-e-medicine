@@ -12,7 +12,7 @@ import com.multi.vo.PlistVo;
 /**
  * @author najune
  * @date 2022. 7. 13.
- * @version 5.0
+ * @version 6.0
  * @description
  *
  *
@@ -31,10 +31,12 @@ import com.multi.vo.PlistVo;
  *  2022. 8. 5.			qwaszx357			editstop 생성
  *											editdone 생성
  *
- *  2022. 8. 9.			noranbear     get5plist 생성
+ *  2022. 8. 9.			noranbear     		get5plist 생성
  *
  *	2022. 8. 11.		qwaszx357			donegage 생성
  * 
+ *	2022. 8. 17. 		noranbear			getgday 생성
+ *
  * =========================================================
  */
 
@@ -125,11 +127,19 @@ public class PlistBiz implements Biz<Integer, PlistVo>{
 	/**
 	 * 순응도를 계산하여 출력한다.
 	 * @param k 처방전 아이디
-	 * @return AlarmVo
+	 * @return PlistVo
 	 */
 	public PlistVo donegage(Integer k) throws Exception {
 		return dao.donegage(k);
 	}
 
+	/**
+	 * 현재 복용일을 출력한다.
+	 * @param k 처방전 아이디
+	 * @return 남은 복용일
+	 */
+	public int getgday(Integer k) throws Exception {
+		return dao.selectgday(k);
+	}
   
 }

@@ -17,14 +17,15 @@ import com.multi.vo.PmediVo;
  * =========================================================
  * 	    DATE			 AUTHOR				    NOTE
  * ---------------------------------------------------------
- *  2022. 7. 13.		qwaszx357		  First Creation
+ *  2022. 7. 13.		qwaszx357		   First Creation
  *  
- *  2022. 7. 25.		 najune			  select_medi 추가
+ *  2022. 7. 25.		 najune			   select_medi 추가
  *  
- *  2022. 8. 05.				  			add 추가
+ *  2022. 8. 05.				  			   add 추가
  *  
  * =========================================================
  */
+
 @Repository
 @Mapper
 public interface PmediMapper {

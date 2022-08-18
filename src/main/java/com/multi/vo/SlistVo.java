@@ -49,6 +49,7 @@ public class SlistVo {
 	private double mgrowth;		// 전월 대비 증감률
 	private double dgrowth;		// 전일 대비 증감률
 	
+	
 	/**
 	 * Constructor for insert
 	 * 제외: id, regdate

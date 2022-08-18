@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 3.0 -->
+<!-- Version: 4.0 -->
 <!-- Description: 내 약 리스트 페이지
 
 -------------------------------------------------------------------------
@@ -21,25 +21,27 @@
 -------------------------------------------------------------------------								    
 2022. 7. 16.		noranbear				  medidetail.html 복붙
 
-2022. 7. 18.		najune				  		내약리스트 화면 구현
+2022. 7. 18.		najune				  	   내약리스트 화면 구현
 
-2022. 7. 20.						  			내약리스트 기능 구현
+2022. 7. 20.						  		   내약리스트 기능 구현
 
-2022. 7. 22.		qwaszx357					head, html 지우기
+2022. 7. 22.		qwaszx357				   head, html 지우기
 
 2022. 7. 26.									image src 수정
 
-2022. 7. 29.		qwaszx357					수정, 삭제 기능 구현
-											대체 이미지 출력, modal 추가
+2022. 7. 29.								   수정, 삭제 기능 구현
+										   대체 이미지 출력, modal 추가
 
 2022. 8. 17.		noranbear				 화면 마무리 수정사항 구현										]
+
+2022. 8. 18.								로그인 전 modal 창 띄우기
 
 -------------------------------------------------------------------------
 -->
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>약 보관함</title>
 
 
 <style>
@@ -47,7 +49,7 @@
 	display: inline-flex;
 }
 
-.modal-header {
+.modal-header2 {
 	text-align: center;
 	display: inline;
 }
@@ -76,7 +78,15 @@ function deletemymedi(mid){
 	location.href='deletemymedi?id='+mid;
 }
 
-$(document).ready(function(){	
+$(document).ready(function(){
+	var session = $('#ssave').text();	// 아이디 담기
+
+	// 로그인이 안 되어 있는 경우
+	if(session == null || session == ""){
+		// 로그인 후 이용 가능한 서비스라고 modal 띄우기
+		$('#nouserModal').modal("show");
+	}
+	
 	$('#edit_btn').click(function(){
 		$('#edit_form').attr({
 			'method':'post',
@@ -88,6 +98,31 @@ $(document).ready(function(){
 </script>
 
 
+<!-- 로그인되어 있는 아이디 담기 -->
+<p id="ssave" th:text=${session.signinusers} hidden="hidden"></p>
+<!-- 로그인이 아닐 시 보여질 modal 시작 -->
+<div class="modal fade" id="nouserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">로그인 후 이용 가능한 서비스</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        약 보관함 서비스는 로그인 후 이용이 가능합니다. <br>
+        로그인 페이지로 이동하시겠습니까?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn bg-gradient-primary" th:onclick="|location.href='@{/signin}'|">이동</button>
+        <button type="button" class="btn bg-gradient-secondary" onclick="history.go(-1)">뒤로가기</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 로그인이 아닐 시 보여질 modal 끝 -->
+	
 <div class="row">
 	<!-- 사용기한 알림창 -->
 	<div class="alert alert-primary alert-dismissible text-white"
@@ -129,7 +164,7 @@ $(document).ready(function(){
 							    <div class="modal fade" th:id="'deletemodal'+${m.id}" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
 									<div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
 										<div class="modal-content">
-											<div class="modal-header">
+											<div class="modal-header modal-header2">
 												<input type="hidden" th:text="${m.name}" id="name">
 											</div>
 											<div class="modal-body">
@@ -157,7 +192,7 @@ $(document).ready(function(){
 								    <div class="modal fade" th:id="'editmodal'+${m.id}" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
 										<div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
 											<div class="modal-content">
-												<div class="modal-header">
+												<div class="modal-header modal-header2">
 													<span th:text="${m.name}" id="name"></span>
 													<input type="hidden" th:value="${m.id}" id="id" name="id">
 												</div>

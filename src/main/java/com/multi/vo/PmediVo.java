@@ -25,6 +25,7 @@ import lombok.ToString;
  *  
  * =========================================================
  */
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
@@ -36,6 +37,7 @@ public class PmediVo {
 	private int pid;
 	
 	private Date endday;
+	
 	
 	// Constructor for insert
 	public PmediVo(String name, int pid) {

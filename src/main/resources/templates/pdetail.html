@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 7.1 -->
+<!-- Version: 7.2 -->
 <!-- Description: 처방상세내역 및 복약관리 페이지
 
 -------------------------------------------------------------------------
@@ -25,18 +25,18 @@
 												  
 2022. 7. 22.		qwaszx357					footer 지우기
 
-2022. 7. 25. 		najune						    기능구현
+2022. 7. 25. 		najune						   기능구현
 
-2022. 7. 30.		                  처방약 기능 구현
+2022. 7. 30.		                  			처방약 기능 구현
                 
-                noranbear					알람 추가 창 구현
+               		noranbear					알람 추가 창 구현
 
-2022. 8. 2. 								화면 로드될 때, 해당 알람내역이
-												캘린더에 뜨게 구현
+2022. 8. 2. 							  화면 로드될 때, 해당 알람내역이
+											   캘린더에 뜨게 구현
 
-2022. 8. 4.									복약 버튼 리스트 화면 구현 완료												
+2022. 8. 4.								  복약 버튼 리스트 화면 구현 완료												
 
-											calendar 불필요한 코드 정리
+										   calendar 불필요한 코드 정리
 
 											 복약 알람 화면 구현 및 
 												알람 띄우기 완료
@@ -46,7 +46,7 @@
 
 											복약 알람 없을 시 화면 구현
 
-2022. 8. 4.				qwaszx357				순응도 구현						
+2022. 8. 4.			qwaszx357				  	  순응도 구현						
 
 2022. 8. 12.								처방내역 상세 반복 없애기		
 										'복용중'일 경우에만 복용완료 버튼 클릭			
@@ -56,7 +56,7 @@
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>처방내역 > 처방상세</title>
 
 <!-- 1. FullCalendar import 시작 -->
 <link href='./fullcalendar/main.css' rel='stylesheet' />
@@ -124,14 +124,6 @@ function caldisplay(data) {
 			right: 'dayGridMonth'
 		},
 		fixedWeekCount: false,		// 보여주는 날짜 수
-		dateClick: function(info) {
-			//alert('clicked ' + info.dateStr);
-			
-		},
-		select: function(info) {
-			//alert('selected ' + info.startStr + ' to ' + info.endStr);
-		},
-		// 날짜 selection 끝
 		// schedule 가져오기 시작
 		timeZone: 'local',
 		headerToolbar: {
@@ -188,7 +180,6 @@ function donegage() {
 		
 	});
 	
-	
 }
 
 
@@ -208,7 +199,7 @@ $(document).ready(function(){
 			caldisplay(data);		
 			
 			// 설정된 알람이 없을 때
-			if(data == ""){
+			if(data == "" || data == null){
 				// 1. 복용 알람 리스트에 알람이 없다는 메세지 쓰기
 				var html= "";	// 출력할 html을 담을 변수  
 
@@ -342,8 +333,8 @@ function switchBtColor(btinfo){
   * 약 디테일 페이지로 이동
   */
  function getname(item){
-	var text = $(item).text();	
-	//alert(text);
+	var text = $(item).text();
+	console.log(item);
 	
 	location.href="/medidetail?item=" + text;
 }
@@ -369,14 +360,13 @@ function switchBtColor(btinfo){
                     	<i class="fa fa-file-text-o text-white p-2" style="font-size:24px"></i>
                     	 처방내역 상세
                     </h4>
-                    <h5 class="text-white mt-4 mb-5 pb-2" th:text="${p.pdate} + ' ~ ' + ${#dates.format(enddate,'yyyy-MM-dd')}"></h5>
+                    <h5 class="text-white mt-4 mb-5 pb-2" th:text="${p.pdate} + ' ~ ' + ${enddate}"></h5>
                     
                     <div class="d-flex" >
                       <div class="d-flex">
                         <div class="me-4">
                           <p class="text-white text-sm opacity-8 mb-0">복약일</p>
-                          <h6 class="text-white mb-0" th:text="${p.days} + '일째'">(9일째/</h6>
-               
+                          <h6 class="text-white mb-0" th:text="${dday} + '일째'">9일째</h6>
                         </div>
                         <div>
                           <p class="text-white text-sm opacity-8 mb-0">약국</p>
@@ -419,8 +409,10 @@ function switchBtColor(btinfo){
 								<h6 class="mb-0">병원 정보</h6>
 							</div>
 							<div class="col-6 text-end">
-								<a class="btn bg-gradient-dark mb-0" th:onclick="|location.href='@{/location(id=${p.id})}'|"><i class="fas fa-map-marker-alt text-sm"></i>&nbsp;&nbsp;지도로 보기</a>
-								
+								<a class="btn bg-gradient-dark mb-0" th:onclick="|location.href='@{/location(id=${p.id})}'|">
+									<i class="fas fa-map-marker-alt text-sm"></i>
+									&nbsp;&nbsp;지도로 보기
+								</a>
 							</div>
 						</div>
 					</div>
@@ -455,7 +447,7 @@ function switchBtColor(btinfo){
 						<ul class="list-group" th:each="m:${medi}">
 							<li class="cpoint list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
 								<div class="d-flex flex-column" th:each="p:${dp}">
-									<h6 class="mb-3 text-sm" th:text="${m.name}" onclick='getname(this);' id="mname">약이름 1</h6>						
+									<h6 class="mb-3 text-sm" th:text="${m.name}" onclick='getname(this);' id="mname">약이름</h6>						
 									<span class="mb-2 text-xs">복약횟수: <span class="text-dark ms-sm-2 font-weight-bold" th:text="'1일 ' + ${p.time} + '회'"></span></span>
 									<span class="mb-2 text-xs">복약시간: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${p.dtime}"></span></span>
 									<span class="text-xs">복약일수: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${p.days}  + '일'"></span></span>
@@ -464,7 +456,6 @@ function switchBtColor(btinfo){
 									<img class="mpic" src="../img/main-logo.png">
 								</div>
 							</li>
-			
 						</ul>
 					</div>
 				</div>
@@ -510,7 +501,7 @@ function switchBtColor(btinfo){
 											<div class="modal-footer">
 												<input type="hidden" th:value="${p.id}" name="id">
 												<button id="stop-btn" type="submit" class="btn bg-gradient-primary">확인</button>
-												<button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal">닫기</button>
+												<button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal">취소</button>
 											</div>
 										</form>
 									</div>

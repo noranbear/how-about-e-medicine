@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,11 +17,6 @@ import com.multi.biz.MymediBiz;
 import com.multi.biz.PlistBiz;
 import com.multi.biz.PmediBiz;
 import com.multi.biz.UsersBiz;
-import com.multi.restapi.DataAPI;
-import com.multi.restapi.DataAPI2;
-import com.multi.restapi.DataAPI3;
-import com.multi.restapi.OCRBoxAPI;
-import com.multi.restapi.OCREnvelopeAPI;
 import com.multi.vo.AlarmVo;
 import com.multi.vo.MymediVo;
 import com.multi.vo.PlistVo;
@@ -33,7 +27,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 13.2
+ * @version 14.0
  * @description
  *
  *
@@ -42,32 +36,32 @@ import com.multi.vo.UsersVo;
  * -----------------------------------------------------------------
  *  2022. 7. 6.		    noranbear		     getdata 생성
  *  
- *  2022. 7. 14.				   			evelopescan 생성
+ *  2022. 7. 14.				   		   evelopescan 생성
  *											 boxscan 생성
  *
  *  2022. 7. 20.	    qwaszx357		dataget controller 수정
  * 
  *  2022. 7. 21.		noranbear	 dataget을 test controller로 옮기기
- *  									dataget을 test controller로 
+ *  								  dataget을 test controller로 
  *  										  다시 가져오기
  *  
  *  2022. 7. 26.		qwaszx357			addmymedi 생성
  *
  *            	   		najune			ataget2, dataget3 추가
  *
- *  2022. 7. 28.		              id 중복체크 구현
+ *  2022. 7. 28.		                   id 중복체크 구현
  *            
- *  2022. 8. 3.			qwaszx357			chart1, chart2 생성
+ *  2022. 8. 3.			qwaszx357		 chart1, chart2 생성
  *
- *                  noranbear			loadalarm 추가
+ *                  	noranbear		   loadalarm 추가
  * 
- *	2022. 8. 4.								loadalarm 수정
+ *	2022. 8. 4.							   loadalarm 수정
  *
- *											 switchbt 생성
+ *											switchbt 생성
  *
  *	2022. 8. 6.			qwaszx357			donegage 생성
  *
- *	2022. 8. 11.		noranbear		boxscan, envelope 스캔 삭제
+ *	2022. 8. 11.		noranbear	boxscan, envelope 스캔 삭제
  *
  *  2022. 8. 12.		najune			 	addimpl 추가 
  *  
@@ -76,30 +70,17 @@ import com.multi.vo.UsersVo;
  *										  
  *										  plistaddimple 구현
  *
- *  2022. 8. 15.		qwaszx357			주의사항에 정규표현식 적용
+ *  2022. 8. 15.		qwaszx357		주의사항에 정규표현식 적용
  *  
  *  										checkid 수정
+ *  
+ *  2022. 8. 17.		noranbear		 API 관련 컨트롤러 이동
  *
  * =================================================================
  */
 
 @RestController
 public class AJAXController {
-	
-	@Autowired
-	DataAPI dapi;
-	
-	@Autowired
-	DataAPI2 dapi2;
-	
-	@Autowired
-	DataAPI3 dapi3;
-	
-	@Autowired
-	OCREnvelopeAPI eapi;
-	
-	@Autowired
-	OCRBoxAPI bapi;
 	
 	@Autowired
 	MymediBiz mbiz;
@@ -119,75 +100,6 @@ public class AJAXController {
 	@Autowired
 	PmediBiz pmbiz;
 	
-	
-	/**
-     * 공공 데이터 포털에 있는 약 데이터를 가져온다.
-     * @param item
-     * @return Json item info
-     * @throws Exception
-     */
-    @RequestMapping("dataget")
-    public Object dataget(String item) throws Exception {
-        Object obj = dapi.dataapi(item);
-        System.out.println("result 값 : " + obj);
-        
-        // Object를 JSONObject으로 변환
-        JSONObject jo = (JSONObject) JSONValue.parse(obj.toString());
-        //System.out.println("JSONObject로 변환 : " + jo);
-        
-        // jo에서 JSONObject으로 body 뽑아내기
-        JSONObject jo1 = new  JSONObject();
-        jo1 = (JSONObject) jo.get("body");
-        //System.out.println("body 뽑아내기 : " + jo1);
-        
-        // body에서 JSONArray로 items 뽑아내기
-        JSONArray ja = new JSONArray();
-        ja = (JSONArray) jo1.get("items");
-        //System.out.println("items 뽑아내기 : " + ja);
-        return ja;
-    }
-    
-    @RequestMapping("dataget2") // 업체명
-    public Object dataget2(String item) throws Exception {
-    	Object obj = dapi2.dataapi2(item);
-        System.out.println("result 값 : " + obj);
-        
-        // Object를 JSONObject으로 변환
-        JSONObject jo = (JSONObject) JSONValue.parse(obj.toString());
-        //System.out.println("JSONObject로 변환 : " + jo);
-        
-        // jo에서 JSONObject으로 body 뽑아내기
-        JSONObject jo1 = new  JSONObject();
-        jo1 = (JSONObject) jo.get("body");
-        //System.out.println("body 뽑아내기 : " + jo1);
-        
-        // body에서 JSONArray로 items 뽑아내기
-        JSONArray ja = new JSONArray();
-        ja = (JSONArray) jo1.get("items");
-        //System.out.println("items 뽑아내기 : " + ja);
-        return ja;
-    }
-    
-    @RequestMapping("dataget3") // 효능
-    public Object dataget3(String item) throws Exception {
-    	Object obj = dapi3.dataapi3(item);
-        System.out.println("result 값 : " + obj);
-        
-        // Object를 JSONObject으로 변환
-        JSONObject jo = (JSONObject) JSONValue.parse(obj.toString());
-        //System.out.println("JSONObject로 변환 : " + jo);
-        
-        // jo에서 JSONObject으로 body 뽑아내기
-        JSONObject jo1 = new  JSONObject();
-        jo1 = (JSONObject) jo.get("body");
-        //System.out.println("body 뽑아내기 : " + jo1);
-        
-        // body에서 JSONArray로 items 뽑아내기
-        JSONArray ja = new JSONArray();
-        ja = (JSONArray) jo1.get("items");
-        //System.out.println("items 뽑아내기 : " + ja);
-        return ja;
-    } 
 	
 	/**
 	 * mymedi에 약을 추가한다.
@@ -275,6 +187,7 @@ public class AJAXController {
 		return btaid;
 	}
 	
+	
 	// ID 중복 확인
 	@RequestMapping("/checkid")
 	public String checkid(String id) {
@@ -296,6 +209,7 @@ public class AJAXController {
 		}
 		return result;
 	}
+	
 	
 	// 요일별 스캔 횟수 차트
 	@RequestMapping("/chart1")
@@ -352,6 +266,7 @@ public class AJAXController {
         return gage;
     }
 	
+	
 	/**
 	 * 전달받은 처방내역 정보 및 처방약 정보를 DB:plist,pmedi에 저장한다.
 	 * @param hospital 병원명
@@ -397,73 +312,5 @@ public class AJAXController {
     	return "ok"; 
     }
 
-		/**
-		 * 주의사항 경고에 정규표현식으로 강조한다.
-		 * @param atpnwarn
-		 * @return text
-		 */
-		@RequestMapping("atpnwarn")
-		public String atpnwarn(String atpnwarn) {
-			String text = atpnwarn.replace("복용하지 마십시오.", "<span class='text-danger text-normal'>복용하지 마십시오.</span>")
-					.replace("사용하지 마십시오.", "<span class='text-danger text-normal'>사용하지 마십시오.</span>")
-					.replace("즉시", "<b><span class='text-danger'>즉시</span></b>")
-					.replace("복용을 중단", "<b><span class='text-danger'>복용을 중단</span></b>")
-					.replace("이 약을 복용하기 전", "<b>이 약을 복용하기 전</b>")
-					.replace("이 약을 복용하는 동안", "<b>이 약을 복용하는 동안</b>")
-					.replace("복용 중", "<b>복용 중</b>")
-					.replace("복용 후", "<b>복용 후</b>")
-					.replace("이 약 복용 후", "<b>이 약 복용 후</b>");
-			return text;
-		}
 		
-		/**
-		 * 주의사항에 정규표현식으로 강조한다.
-		 * @param atpn
-		 * @return text
-		 */
-		@RequestMapping("qesitm")
-		public String qesitm(String atpn) {
-			String text = atpn.replace("복용하지 마십시오.", "<span class='text-danger text-normal'>복용하지 마십시오.</span>")
-					.replace("사용하지 마십시오.", "<span class='text-danger text-normal'>사용하지 마십시오.</span>")
-					.replace("즉시", "<b><span class='text-danger'>즉시</span></b>")
-					.replace("복용을 중단", "<b><span class='text-danger'>복용을 중단</span></b>")
-					.replace("이 약을 복용하기 전", "<b>이 약을 복용하기 전</b>")
-					.replace("이 약을 복용하는 동안", "<b>이 약을 복용하는 동안</b>")
-					.replace("복용 중", "<b>복용 중</b>")
-					.replace("복용 후", "<b>복용 후</b>")
-					.replace("이 약 복용 후", "<b>이 약 복용 후</b>");
-			return text;
-		}
-		
-		/**
-		 * 상호작용에 정규표현식으로 강조한다.
-		 * @param intrc
-		 * @return text
-		 */
-		@RequestMapping("intrc")
-		public String intrc(String intrc) {
-			String text = intrc.replace("복용하지 마십시오.", "<span class='text-danger text-normal'>복용하지 마십시오.</span>")
-					.replace("사용하지 마십시오.", "<span class='text-danger text-normal'>사용하지 마십시오.</span>")
-					.replace("즉시", "<b><span class='text-danger'>즉시</span></b>")
-					.replace("복용을 중단", "<b><span class='text-danger'>복용을 중단</span></b>")
-					.replace("이 약을 복용하기 전", "<b>이 약을 복용하기 전</b>")
-					.replace("이 약을 복용하는 동안", "<b>이 약을 복용하는 동안</b>")
-					.replace("복용 중", "<b>복용 중</b>")
-					.replace("복용 후", "<b>복용 후</b>")
-					.replace("이 약 복용 후", "<b>이 약 복용 후</b>");
-			return text;
-		}
-		
-		/**
-		 * 부작용에 정규표현식으로 강조한다.
-		 * @param se
-		 * @return text
-		 */
-		@RequestMapping("se")
-		public String se(String se) {
-			String text = se.replace("복용을 즉각 중지", "<b><span class='text-danger'>복용을 즉각 중지</span></b>")
-					.replace("즉시 복용을 중지", "<b><span class='text-danger'>즉시 복용을 중지</span></b>")
-					.replace("즉각 복용을 중지", "<b><span class='text-danger'>즉각 복용을 중지</span></b>");
-			return text;
-		}
 }

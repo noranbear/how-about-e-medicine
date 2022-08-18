@@ -11,7 +11,7 @@ import lombok.ToString;
 /**
  * @author najune
  * @date 2022. 7. 11.
- * @version 2.2
+ * @version 3.0
  * @description
  *
  *
@@ -28,8 +28,11 @@ import lombok.ToString;
  *
  *	2022. 8. 15.							  gage 생성
  *
+ *	2022. 8. 17.		noranbear			   age 추가
+ *
  * ===========================================================
  */
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
@@ -48,8 +51,10 @@ public class UsersVo {
 	private int status;		// 회원상태: 가입 1, 탈퇴 2
 	private Date qdate;		// 탈퇴날짜: Null 가능
 	
-	private double mgrowth;		// 전월 대비 증감
+	private double mgrowth;	// 전월 대비 증감
 	private double gage;	// 순응도
+	private String age;		// 나이
+	
 	
 	/**
 	 * Constructor for insert
@@ -83,9 +88,5 @@ public class UsersVo {
 		
 	}
 	
-	
-
-	
-
 
 }

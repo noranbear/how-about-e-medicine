@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 2.1 -->
+<!-- Version: 2.2 -->
 <!-- Description: 메인페이지
 
 -------------------------------------------------------------------------
@@ -23,9 +23,9 @@
 
 					qwaszx357					  code 정리
 					
-2022. 7. 16			qwaszx357					로그인 기능 구현
+2022. 7. 16										로그인 기능 구현
 
-2022. 7. 23.								   헤더 변경 및 링크 연결
+2022. 7. 23.								  헤더 변경 및 링크 연결
 					
 -------------------------------------------------------------------------
 -->
@@ -33,7 +33,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>로그인</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <!-- 2. Bootstrap import 시작 -->
@@ -66,14 +66,14 @@ $(document).ready(function(){
 	$('#id').blur(function(){
 		var id = $(this).val();
 		if (id == ''){
-			$('#signin_msg').text("아이디를 입력해주세요.");
+			$('#signin_msg').text("* 아이디를 입력해주세요.");
 		};
 	});
 
 	$('#pwd').blur(function(){
 		var pwd = $(this).val();
 		if (pwd == ''){
-			$('#signin_msg').text("비밀번호를 입력해주세요.");
+			$('#signin_msg').text("* 비밀번호를 입력해주세요.");
 		};
 	});
 	
@@ -187,7 +187,7 @@ $(document).ready(function(){
 									</div>
 									<!-- 로그인 오류 메세지 -->
 									<div id="mdiv">
-										<span class="text-xs" id="signin_msg" th:text="${msg}"></span>
+										<span class="text-xs text-primary" id="signin_msg" th:text="${msg}"></span>
 									</div>
 									<div class="form-check form-switch d-flex align-items-center mt-4 mb-3">
 										<input class="form-check-input" type="checkbox" id="rememberMe" checked>
