@@ -31,7 +31,7 @@ import com.multi.vo.UsersVo;
 /**
  * @author noranbear
  * @date 2022. 7. 6.
- * @version 17.0
+ * @version 17.1
  * @description
  *
  *
@@ -375,6 +375,7 @@ public class MainController {
 	 */
 	@RequestMapping("/signupimpl")
 	public String signupimpl(Model m, UsersVo users, HttpSession session) {
+		UsersVo user = null;
 		
 		if (users.getId().equals("") || users.getId() == null) {
 			return "redirect:/signup?msg=id";
@@ -392,7 +393,8 @@ public class MainController {
 			// 유저 정보 등록
 			ubiz.register(users);
 			// 자동로그인
-			session.setAttribute("signinusers", users);
+			user = ubiz.get(users.getId());
+			session.setAttribute("signinusers", user);
 			
 		} catch (Exception e) {
 			return "redirect:/signup";

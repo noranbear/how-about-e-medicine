@@ -13,7 +13,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-<!-- Version: 6.1 -->
+<!-- Version: 6.2 -->
 <!-- Description: 약 디테일 페이지
 
 -----------------------------------------------------------------------------
@@ -129,10 +129,10 @@ $(document).ready(function(){
 			url:'/addmymedi',
 			data:{'uid':uid,'usedate':usedate,'name':name,'image':image},
 			success:function(data){
-				$('.modal-body').text('내 약 리스트에 추가 되었습니다.');
+				$('.modal-body').text('보관함에 추가 되었습니다.');
 				var footer = '';
-				footer += "<a href='#' onclick='mymedi(uid)' type='button' class='btn bg-gradient-primary'>내 약 리스트로 이동</a>";
-				footer += "<button type='button' class='btn btn-link  ml-auto' data-bs-dismiss='modal'>Close</button>";
+				footer += "<a href='#' onclick='mymedi(uid)' type='button' class='btn bg-gradient-primary'>보관함으로 이동</a>";
+				footer += "<button type='button' class='btn btn-link  ml-auto' data-bs-dismiss='modal'>닫기</button>";
 				$('.modal-footer').html(footer);
 			}
 		});
@@ -170,7 +170,7 @@ $(document).ready(function(){
 						<div class="col-6 text-end">
 							<button id="scan_bt" class="btn bg-gradient-primary w-100 mb-0 toast-btn" type="button" 
 								data-target="warningToast" data-bs-toggle="modal" data-bs-target="#modal-default">
-								내 약 리스트에 담기
+								내 약 보관함에 담기
 							</button>
 						   	<div th:unless="${session.signinusers == null}">
 							    <!-- Modal 창 -->

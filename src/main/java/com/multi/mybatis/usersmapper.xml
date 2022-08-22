@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 
 	<!-- 이용중인 유저만 조회 -->
 	<select id="selectusers" resultType="usersVo">
-		SELECT * FROM users WHERE UTYPE=20 AND STATUS=1
+		SELECT * FROM users WHERE UTYPE=20 AND STATUS=1 LIMIT 6
 	</select>
 	
 	<!-- 전월 가입 회원 수 -->
